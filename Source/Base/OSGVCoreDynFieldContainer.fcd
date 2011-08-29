@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="VCoreDynFieldContainer"
+   parent="AttachmentContainer"
+   library="VCoreBase"
+   mixinparent="VCoreDynFieldContainerParent"
+   structure="abstract"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpVCoreBase"
+   >
+  <Field
+     name="preDFMixinTestField"
+     type="Int32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="5"
+     >
+  </Field>
+</FieldContainer>
