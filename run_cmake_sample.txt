@@ -1,0 +1,1 @@
+cmake -DOpenSG_DIR:PATH=/home/gerrit/Projects/OpenSG/svn/OpenSG.install -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE -DOSG_USE_OSGSUPPORT_LIBS:BOOL=TRUE -DOSG_SUPPORT_ROOT:PATH=/home/gerrit/Projects/OpenSG/svn/OpenSG.Support.install /home/gerrit/Projects/OpenSG/git/VCore
