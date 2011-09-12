@@ -47,7 +47,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32)
-#   ifdef OSG_COMPILESVCOREBASELIB
+#   ifdef OSG_COMPILEVCOREBASELIB
 #       define OSG_VCOREBASE_DLLMAPPING     __declspec(dllexport)
 #       define OSG_VCOREBASE_DLLTMPLMAPPING __declspec(dllexport)
 #   else
