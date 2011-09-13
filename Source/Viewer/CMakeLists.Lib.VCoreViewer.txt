@@ -11,9 +11,9 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem OSGUtil)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase OSGSystem OSGUtil)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase OSGSystem OSGUtil)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreViewer OSGSystem OSGUtil)
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
@@ -29,7 +29,7 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase OSGSystem OSGUtil)
 
 OSG_ADD_GLUTPACKAGE(TRUE)
 
-SET(${PROJECT_NAME}_NO_LIB TRUE)
+#SET(${PROJECT_NAME}_NO_LIB TRUE)
 SET(${PROJECT_NAME}_NO_DOC TRUE)
 
 OSG_STORE_PROJECT_DEPENDENCIES()
