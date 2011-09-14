@@ -240,6 +240,11 @@ void VCGLUTViewer::setStage(StageUnrecPtr stage)
     OSG::dynamic_pointer_cast<OSG::StagedViewport>(_viewport)->setStage(_stage);
 }
 
+void VCGLUTViewer::setKeyCallback(KeyCallback kc)
+{
+    _keyCallback = kc;
+}
+
 void VCGLUTViewer::changed(ConstFieldMaskArg whichField, 
                             UInt32            origin,
                             BitVector         details)
@@ -278,6 +283,8 @@ void VCGLUTViewer::glutKeyHandler(UChar8 key,
         break;
 
     default:
+        if(the()->_keyCallback)
+            the()->_keyCallback(key, x, y);
         //ComplexSceneManager::the()->key(x, 
         //    y, 
         //    CSMKeyData::ButtonDown, 

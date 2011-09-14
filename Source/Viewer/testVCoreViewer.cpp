@@ -47,6 +47,8 @@ OSG::SimpleSceneManager      *mgr(NULL);
 OSG::GroupNodeRefPtr          planeRoot;
 OSG::GroupNodeRefPtr          animRoot;
 
+OSG::SimpleStageNodeRefPtr          stage;
+
 OSG::Vec3f                     sceneTrans;
 OSG::TransformNodeRefPtr       cam_transScene;  // Transofrmation of cam/light/stage
 OSG::TransformNodeRefPtr       sceneXform;      // Rotation of model we are viewing
@@ -279,6 +281,20 @@ void key(unsigned char key, int x, int y)
             pFBO->setPostProcessOnDeactivate(false);
         }
 
+    case '1':
+        {
+            OSG::VCGLUTViewer::the()->setStage(stage.core());
+            OSG::commitChanges();
+        }
+        break;
+
+    case '2':
+        {
+            OSG::VCGLUTViewer::the()->setStage(NULL);
+            OSG::commitChanges();
+        }
+        break;
+
     }
 }
 
@@ -510,10 +526,10 @@ int doMain (int argc, char **argv)
     initAnimSetup(argc, argv);
     initPlaneSetup();
 
-    OSG::VCGLUTViewer::the()->setRoot(animRoot);
+    stage = OSG::SimpleStageNodeRefPtr::create();
 
-    OSG::SimpleStageUnrecPtr stage = OSG::SimpleStage::create();
-    OSG::VCGLUTViewer::the()->setStage(stage);
+    OSG::VCGLUTViewer::the()->setRoot(animRoot);
+    OSG::VCGLUTViewer::the()->setKeyCallback(key);
 
     OSG::commitChanges();
 

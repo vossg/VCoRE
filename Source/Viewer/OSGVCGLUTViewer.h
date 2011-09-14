@@ -66,11 +66,14 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     typedef VCGLUTViewerBase Inherited;
     typedef VCGLUTViewer     Self;
 
+    typedef boost::function<void (unsigned char, int, int)> KeyCallback;
+
     static VCGLUTViewer* the();
 
     virtual bool init(void);
     void setRoot(Node* root);
     void setStage(StageUnrecPtr stage);
+    void setKeyCallback(KeyCallback kc);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -137,6 +140,7 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     StageUnrecPtr _stage;
     SimpleSceneManager      *_sceneMgr;
 
+    KeyCallback _keyCallback;
 
     static void glutKeyHandler        (UChar8 key, 
         Int32, 
