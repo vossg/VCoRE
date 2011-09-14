@@ -81,10 +81,6 @@ OSG_BEGIN_NAMESPACE
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var Int32           VCGLUTViewerBase::_sfPostDFMixinTestField
-    
-*/
-
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -110,20 +106,6 @@ OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
 
 void VCGLUTViewerBase::classDescInserter(TypeObject &oType)
 {
-    FieldDescriptionBase *pDesc = NULL;
-
-
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "postDFMixinTestField",
-        "",
-        PostDFMixinTestFieldFieldId, PostDFMixinTestFieldFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&VCGLUTViewer::editHandlePostDFMixinTestField),
-        static_cast<FieldGetMethodSig >(&VCGLUTViewer::getHandlePostDFMixinTestField));
-
-    oType.addInitialDesc(pDesc);
 }
 
 
@@ -153,15 +135,6 @@ VCGLUTViewerBase::TypeObject VCGLUTViewerBase::_type(
     "   typeDescAddable=\"true\"\n"
     "   dynFCDerived=\"true\"\n"
     "   >\n"
-    "  <Field\n"
-    "     name=\"postDFMixinTestField\"\n"
-    "     type=\"Int32\"\n"
-    "     cardinality=\"single\"\n"
-    "     visibility=\"external\"\n"
-    "     access=\"public\"\n"
-    "     defaultValue=\"10\"\n"
-    "     >\n"
-    "  </Field>\n"
     "</FieldContainer>\n",
     ""
     );
@@ -196,19 +169,6 @@ const VCGLUTViewerBase::TypeObject &VCGLUTViewerBase::getFinalType(void) const
 /*------------------------- decorator get ------------------------------*/
 
 
-SFInt32 *VCGLUTViewerBase::editSFPostDFMixinTestField(void)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return &_sfPostDFMixinTestField;
-}
-
-const SFInt32 *VCGLUTViewerBase::getSFPostDFMixinTestField(void) const
-{
-    return &_sfPostDFMixinTestField;
-}
-
-
 
 
 
@@ -219,10 +179,6 @@ UInt32 VCGLUTViewerBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        returnValue += _sfPostDFMixinTestField.getBinSize();
-    }
 
     return returnValue;
 }
@@ -232,10 +188,6 @@ void VCGLUTViewerBase::copyToBin(BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        _sfPostDFMixinTestField.copyToBin(pMem);
-    }
 }
 
 void VCGLUTViewerBase::copyFromBin(BinaryDataHandler &pMem,
@@ -243,11 +195,6 @@ void VCGLUTViewerBase::copyFromBin(BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        editSField(PostDFMixinTestFieldFieldMask);
-        _sfPostDFMixinTestField.copyFromBin(pMem);
-    }
 }
 
 //! create a new instance of the class
@@ -372,14 +319,12 @@ FieldContainerTransitPtr VCGLUTViewerBase::shallowCopy(void) const
 /*------------------------- constructors ----------------------------------*/
 
 VCGLUTViewerBase::VCGLUTViewerBase(void) :
-    Inherited(),
-    _sfPostDFMixinTestField   (Int32(10))
+    Inherited()
 {
 }
 
 VCGLUTViewerBase::VCGLUTViewerBase(const VCGLUTViewerBase &source) :
-    Inherited(source),
-    _sfPostDFMixinTestField   (source._sfPostDFMixinTestField   )
+    Inherited(source)
 {
 }
 
@@ -390,31 +335,6 @@ VCGLUTViewerBase::~VCGLUTViewerBase(void)
 {
 }
 
-
-GetFieldHandlePtr VCGLUTViewerBase::getHandlePostDFMixinTestField (void) const
-{
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
-             const_cast<VCGLUTViewerBase *>(this)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr VCGLUTViewerBase::editHandlePostDFMixinTestField(void)
-{
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
-             this));
-
-
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return returnValue;
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

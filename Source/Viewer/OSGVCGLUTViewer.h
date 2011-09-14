@@ -64,7 +64,10 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     typedef VCGLUTViewerBase Inherited;
     typedef VCGLUTViewer     Self;
 
+    static VCGLUTViewer* the();
+
     virtual bool init(void);
+    void setRoot(Node* root);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -123,10 +126,12 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
 
 
     static bool           _bGLUTInitialized;
-//    static CSMGLUTWindow *_pGLUTWindow;
+    static VCGLUTViewer  *_the;
 
     Int32          _iGlutWinId;
     WindowRecPtr   _pWindow;
+    OSG::SimpleSceneManager      *_sceneMgr;
+
 
     static void glutKeyHandler        (UChar8 key, 
         Int32, 

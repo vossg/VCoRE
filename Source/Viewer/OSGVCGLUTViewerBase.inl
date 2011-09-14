@@ -73,31 +73,6 @@ OSG::UInt16 VCGLUTViewerBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCGLUTViewer::_sfPostDFMixinTestField field.
-
-inline
-Int32 &VCGLUTViewerBase::editPostDFMixinTestField(void)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Get the value of the VCGLUTViewer::_sfPostDFMixinTestField field.
-inline
-      Int32  VCGLUTViewerBase::getPostDFMixinTestField(void) const
-{
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Set the value of the VCGLUTViewer::_sfPostDFMixinTestField field.
-inline
-void VCGLUTViewerBase::setPostDFMixinTestField(const Int32 value)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    _sfPostDFMixinTestField.setValue(value);
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -109,9 +84,6 @@ void VCGLUTViewerBase::execSync (      VCGLUTViewerBase *pFrom,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
-
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
 }
 #endif
 

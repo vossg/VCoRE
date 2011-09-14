@@ -40,4 +40,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+VCGLUTViewer* VCGLUTViewer::the()
+{
+    if(!_the)
+    {
+        _the = new VCGLUTViewer;
+        _the->init();
+    }
+    return _the;
+}
+
 OSG_END_NAMESPACE

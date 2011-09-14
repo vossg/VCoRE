@@ -13,13 +13,4 @@
    typeDescAddable="true"
    dynFCDerived="true"
    >
-  <Field
-     name="postDFMixinTestField"
-     type="Int32"
-     cardinality="single"
-     visibility="external"
-     access="public"
-     defaultValue="10"
-     >
-  </Field>
 </FieldContainer>

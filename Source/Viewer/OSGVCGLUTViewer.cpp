@@ -60,7 +60,7 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 bool           VCGLUTViewer::_bGLUTInitialized = false;
-//CSMGLUTWindow *VCGLUTViewer::_pGLUTWindow      = NULL;
+VCGLUTViewer  *VCGLUTViewer::_the = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -89,14 +89,16 @@ void VCGLUTViewer::initMethod(InitPhase ePhase)
 VCGLUTViewer::VCGLUTViewer(void) :
     Inherited(),
     _iGlutWinId(-1),
-    _pWindow(NULL)
+    _pWindow(NULL),
+    _sceneMgr(NULL)
 {
 }
 
 VCGLUTViewer::VCGLUTViewer(const VCGLUTViewer &source) :
     Inherited(source),
     _iGlutWinId(-1),
-    _pWindow(NULL)
+    _pWindow(NULL),
+    _sceneMgr(NULL)
 {
 }
 
@@ -111,7 +113,7 @@ bool VCGLUTViewer::init(void)
     if(_bGLUTInitialized == false)
     {
         Int32  argc   = 1;
-        const Char8 *argv[] = { "testCSM" };
+        const Char8 *argv[] = { "Fuck you!" };
 
         glutInit(&argc, const_cast<Char8 **>(argv));
     }
@@ -135,6 +137,7 @@ bool VCGLUTViewer::init(void)
         return false;
 
     glutInitDisplayMode(uiDisplayMode);
+    glutInitWindowSize(768,768);
 
     //if(this->getXPos() > 0.f && this->getYPos() > 0.f)
     //{
@@ -194,12 +197,23 @@ bool VCGLUTViewer::init(void)
 
     pGLUTWindow->init();
 
+    _sceneMgr = new SimpleSceneManager;
+    _sceneMgr->setWindow(_pWindow);
+    _sceneMgr->setUseTraversalAction(true);
+
+    _the = this;
 
 //    Inherited::init();
 
     //    pGLUTWindow->deactivate();
 
     return true;
+}
+
+void VCGLUTViewer::setRoot(Node* root)
+{
+    _sceneMgr->setRoot(root);
+    _sceneMgr->showAll();
 }
 
 void VCGLUTViewer::changed(ConstFieldMaskArg whichField, 
@@ -252,19 +266,21 @@ void VCGLUTViewer::glutReshapeHandler(Int32 w,
                                           Int32 h)
 {
 //    _pGLUTWindow->reshape(w, h);
-
+    the()->_sceneMgr->resize(w,h);
     glutPostRedisplay();
 }
 
 void VCGLUTViewer::glutFrameHandler(void)
 {
 //    ComplexSceneManager::the()->frame();
+    the()->_sceneMgr->redraw();
+    glutSwapBuffers();
 
     Thread::getCurrentChangeList()->commitChangesAndClear();
 }
 
-void VCGLUTViewer::glutMouseHandler(Int32 iButton, 
-                                        Int32 iState,
+void VCGLUTViewer::glutMouseHandler(Int32 button, 
+                                        Int32 state,
                                         Int32 x,       
                                         Int32 y      )
 {
@@ -273,12 +289,20 @@ void VCGLUTViewer::glutMouseHandler(Int32 iButton,
     //    glutGetModifiers(), 
     //    x, 
     //    y);
+    if (state)
+        the()->_sceneMgr->mouseButtonRelease(button, x, y);
+    else
+        the()->_sceneMgr->mouseButtonPress(button, x, y);
+
+    glutPostRedisplay();
 }
 
 void VCGLUTViewer::glutMouseMotionHandler(Int32 x, 
                                               Int32 y)
 {
 //    _pGLUTWindow->motion(x, y);
+    the()->_sceneMgr->mouseMove(x, y);
+    glutPostRedisplay();
 }
 
 

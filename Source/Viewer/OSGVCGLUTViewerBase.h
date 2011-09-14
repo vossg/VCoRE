@@ -65,7 +65,6 @@
 
 #include "OSGVCoreItem.h" // Parent
 
-#include "OSGSysFields.h"               // PostDFMixinTestField type
 
 #include "OSGVCGLUTViewerFields.h"
 
@@ -91,18 +90,6 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewerBase : public VCoreItem
 
   public:
 
-    enum
-    {
-        PostDFMixinTestFieldFieldId = Inherited::NextFieldId,
-        NextFieldId = PostDFMixinTestFieldFieldId + 1
-    };
-
-    static const OSG::BitVector PostDFMixinTestFieldFieldMask =
-        (TypeTraits<BitVector>::One << PostDFMixinTestFieldFieldId);
-    static const OSG::BitVector NextFieldMask =
-        (TypeTraits<BitVector>::One << NextFieldId);
-        
-    typedef SFInt32           SFPostDFMixinTestFieldType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -121,31 +108,6 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewerBase : public VCoreItem
     virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-
-                  SFInt32             *editSFPostDFMixinTestField(void);
-            const SFInt32             *getSFPostDFMixinTestField (void) const;
-
-
-                  Int32               &editPostDFMixinTestField(void);
-                  Int32                getPostDFMixinTestField (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-            void setPostDFMixinTestField(const Int32 value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -197,13 +159,6 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewerBase : public VCoreItem
     static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    SFInt32           _sfPostDFMixinTestField;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -236,8 +191,6 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewerBase : public VCoreItem
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandlePostDFMixinTestField (void) const;
-    EditFieldHandlePtr editHandlePostDFMixinTestField(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
