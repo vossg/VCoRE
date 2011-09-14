@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="StagedViewport"
+   parent="StereoBufferViewport"
+   library="VCoreGreatestHacks"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpVCoreGreatestHacks"
+   typeDescAddable="false"
+   dynFCDerived="false"
+   >
+  <Field
+     name="stage"
+     type="StagePtr"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="NULL"
+     >
+  </Field>
+</FieldContainer>
