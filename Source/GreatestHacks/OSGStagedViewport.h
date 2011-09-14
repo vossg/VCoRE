@@ -43,6 +43,7 @@
 #endif
 
 #include "OSGStagedViewportBase.h"
+#include "OSGStage.h"
 
 OSG_BEGIN_NAMESPACE
 
