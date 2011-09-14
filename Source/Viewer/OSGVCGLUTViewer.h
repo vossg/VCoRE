@@ -44,6 +44,9 @@
 
 #include "OSGVCGLUTViewerBase.h"
 
+#include "OSGWindow.h"
+#include "OSGSimpleSceneManager.h"
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief VCGLUTViewer class. See \ref
@@ -60,6 +63,8 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
 
     typedef VCGLUTViewerBase Inherited;
     typedef VCGLUTViewer     Self;
+
+    virtual bool init(void);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -115,6 +120,31 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const VCGLUTViewer &source);
+
+
+    static bool           _bGLUTInitialized;
+//    static CSMGLUTWindow *_pGLUTWindow;
+
+    Int32          _iGlutWinId;
+    WindowRecPtr   _pWindow;
+
+    static void glutKeyHandler        (UChar8 key, 
+        Int32, 
+        Int32       );
+
+    static void glutReshapeHandler    (Int32 w, 
+        Int32 h     );
+
+    static void glutFrameHandler      (void           );
+
+    static void glutMouseHandler      (Int32 iButton, 
+        Int32 iState,
+        Int32 x,       
+        Int32 y      );
+
+    static void glutMouseMotionHandler(Int32 x, 
+        Int32 y      );
+
 };
 
 typedef VCGLUTViewer *VCGLUTViewerP;
