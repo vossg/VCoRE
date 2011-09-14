@@ -85,11 +85,23 @@ void StagedViewport::initMethod(InitPhase ePhase)
 StagedViewport::StagedViewport(void) :
     Inherited()
 {
+    _visitSubtreeNode = OSG::VisitSubTreeNodeRefPtr::create();
+    _visitSubtreeNode->setSubTreeRoot(NULL);
+
+    _stageNode = OSG::StageNodeRefPtr(NodeRefPtr(Node::create()));//::create();
+    _stageNode.node()->addChild(_visitSubtreeNode);
 }
 
 StagedViewport::StagedViewport(const StagedViewport &source) :
     Inherited(source)
 {
+//    assert(false);
+    _visitSubtreeNode = OSG::VisitSubTreeNodeRefPtr::create();
+    _visitSubtreeNode->setSubTreeRoot(source._visitSubtreeNode->getSubTreeRoot());
+
+    _stageNode = OSG::StageNodeRefPtr(source._stageNode.core());//::create();
+//    _stageNode.setCore(source._stageNode.core());
+    _stageNode.node()->addChild(_visitSubtreeNode);
 }
 
 StagedViewport::~StagedViewport(void)
@@ -102,6 +114,18 @@ void StagedViewport::changed(ConstFieldMaskArg whichField,
                             UInt32            origin,
                             BitVector         details)
 {
+    if(whichField & StageFieldMask)
+    {
+        FNOTICE(("Stage changed.\n"));
+        _stageNode.node()->setCore(getStage());
+    }
+    if(whichField & RootFieldMask)
+    {
+        FNOTICE(("root changed.\n"));
+        _visitSubtreeNode->setSubTreeRoot(getRoot());
+    }
+
+
     Inherited::changed(whichField, origin, details);
 }
 
@@ -109,6 +133,54 @@ void StagedViewport::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump StagedViewport NI" << std::endl;
+}
+
+
+void StagedViewport::render(RenderActionBase *action)
+{
+//#ifndef OSG_OGL_ES2
+//        if(getLeftBuffer())
+//        {
+//            if(getRightBuffer())
+//            {
+//                glDrawBuffer(GL_BACK);
+//                glReadBuffer(GL_BACK);
+//            }
+//            else
+//            {
+//                glDrawBuffer(GL_BACK_LEFT);
+//                glReadBuffer(GL_BACK_LEFT);
+//            }
+//        }
+//        else
+//        {
+//            if(getRightBuffer())
+//            {
+//                glDrawBuffer(GL_BACK_RIGHT);
+//                glReadBuffer(GL_BACK_RIGHT);
+//            }
+//            else
+//            {
+//                glDrawBuffer(GL_NONE);
+//                glReadBuffer(GL_NONE);
+//            }
+//        }
+//#endif
+
+    if(!getStage())
+    {
+        FNOTICE((">>> NO stage\n"));
+        Inherited::render(action);
+    }
+    else
+    {
+        FNOTICE((">>> With stage\n"));
+    }
+
+//#ifndef OSG_OGL_ES2
+//        glDrawBuffer(GL_BACK);
+//        glReadBuffer(GL_BACK);
+//#endif
 }
 
 OSG_END_NAMESPACE

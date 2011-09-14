@@ -44,6 +44,7 @@
 
 #include "OSGStagedViewportBase.h"
 #include "OSGStage.h"
+#include "OSGVisitSubtree.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -79,11 +80,16 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBa
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+
+    virtual void render(RenderActionBase *action);
+
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
     // Variables should all be in StagedViewportBase.
+    StageNodeRefPtr _stageNode;
+    VisitSubTreeNodeRefPtr _visitSubtreeNode;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

@@ -488,6 +488,7 @@ void initPlaneSetup(void)
 int doMain (int argc, char **argv)
 {
     OSG::osgInit(argc,argv);
+    OSG::osgLog().setLogLevel(OSG::LOG_NOTICE);
 
     // GLUT init
 
@@ -511,6 +512,10 @@ int doMain (int argc, char **argv)
 
     OSG::VCGLUTViewer::the()->setRoot(animRoot);
 
+    OSG::SimpleStageUnrecPtr stage = OSG::SimpleStage::create();
+    OSG::VCGLUTViewer::the()->setStage(stage);
+
+    OSG::commitChanges();
 
     //OSG::PassiveWindowUnrecPtr pwin(OSG::PassiveWindow::create());
     //pwin->init();

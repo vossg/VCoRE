@@ -94,6 +94,7 @@ VCGLUTViewer::VCGLUTViewer(void) :
     _iGlutWinId(-1),
     _pWindow(NULL),
     _viewport(NULL),
+    _stage(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -103,6 +104,7 @@ VCGLUTViewer::VCGLUTViewer(const VCGLUTViewer &source) :
     _iGlutWinId(-1),
     _pWindow(NULL),
     _viewport(NULL),
+    _stage(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -231,6 +233,11 @@ void VCGLUTViewer::setRoot(Node* root)
     _viewport->setRoot(_sceneMgr->getRoot());
 //    _viewport->setBackground(_sceneMgr->getBackground());
 //    _viewport->setForeground(_sceneMgr->getForeground());
+}
+void VCGLUTViewer::setStage(StageUnrecPtr stage)
+{
+    _stage = stage;
+    OSG::dynamic_pointer_cast<OSG::StagedViewport>(_viewport)->setStage(_stage);
 }
 
 void VCGLUTViewer::changed(ConstFieldMaskArg whichField, 

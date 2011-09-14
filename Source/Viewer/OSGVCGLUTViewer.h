@@ -47,6 +47,7 @@
 #include "OSGWindow.h"
 #include "OSGViewport.h"
 #include "OSGSimpleSceneManager.h"
+#include "OSGStage.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,6 +70,7 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
 
     virtual bool init(void);
     void setRoot(Node* root);
+    void setStage(StageUnrecPtr stage);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -132,7 +134,8 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     Int32          _iGlutWinId;
     WindowRecPtr   _pWindow;
     ViewportUnrecPtr _viewport;
-    OSG::SimpleSceneManager      *_sceneMgr;
+    StageUnrecPtr _stage;
+    SimpleSceneManager      *_sceneMgr;
 
 
     static void glutKeyHandler        (UChar8 key, 
