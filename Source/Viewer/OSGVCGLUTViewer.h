@@ -45,6 +45,7 @@
 #include "OSGVCGLUTViewerBase.h"
 
 #include "OSGWindow.h"
+#include "OSGViewport.h"
 #include "OSGSimpleSceneManager.h"
 
 OSG_BEGIN_NAMESPACE
@@ -130,6 +131,7 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
 
     Int32          _iGlutWinId;
     WindowRecPtr   _pWindow;
+    ViewportUnrecPtr _viewport;
     OSG::SimpleSceneManager      *_sceneMgr;
 
 

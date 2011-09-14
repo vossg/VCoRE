@@ -49,6 +49,9 @@
 #include "OSGGLUT.h"
 #include "OSGGLUTWindow.h"
 
+#include "OSGStagedViewport.h"
+#include "OSGSolidBackground.h"
+
 OSG_BEGIN_NAMESPACE
 
 // Documentation for this class is emitted in the
@@ -90,6 +93,7 @@ VCGLUTViewer::VCGLUTViewer(void) :
     Inherited(),
     _iGlutWinId(-1),
     _pWindow(NULL),
+    _viewport(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -98,6 +102,7 @@ VCGLUTViewer::VCGLUTViewer(const VCGLUTViewer &source) :
     Inherited(source),
     _iGlutWinId(-1),
     _pWindow(NULL),
+    _viewport(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -131,7 +136,7 @@ bool VCGLUTViewer::init(void)
     }
 #endif
 
-    OSG::GLUTWindowUnrecPtr pGLUTWindow = OSG::GLUTWindow::create();
+    GLUTWindowUnrecPtr pGLUTWindow = GLUTWindow::create();
 
     if(pGLUTWindow == NULL)
         return false;
@@ -195,7 +200,14 @@ bool VCGLUTViewer::init(void)
         glutIdleFunc      (glutFrameHandler      );  
     }
 
-    pGLUTWindow->init();
+    _viewport = StagedViewport::create();
+    _viewport->setSize      (0,0, 1,1);
+    SolidBackgroundUnrecPtr bg = SolidBackground::create();
+    bg->setColor(Color3f(0.2f, 0.2f, 0.2f));
+    _viewport->setBackground(bg);
+
+    _pWindow->init();
+    _pWindow->addPort(_viewport);
 
     _sceneMgr = new SimpleSceneManager;
     _sceneMgr->setWindow(_pWindow);
@@ -214,6 +226,11 @@ void VCGLUTViewer::setRoot(Node* root)
 {
     _sceneMgr->setRoot(root);
     _sceneMgr->showAll();
+
+    _viewport->setCamera(_sceneMgr->getCamera());
+    _viewport->setRoot(_sceneMgr->getRoot());
+//    _viewport->setBackground(_sceneMgr->getBackground());
+//    _viewport->setForeground(_sceneMgr->getForeground());
 }
 
 void VCGLUTViewer::changed(ConstFieldMaskArg whichField, 
