@@ -11,9 +11,9 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase VCoreGreatestHacks OSGSystem OSGUtil OSGWindowGLUT)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase VCoreGreatestHacks OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks VCoreViewer OSGSystem OSGUtil OSGWindowGLUT)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks VCoreViewer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups)
 
 # dependencies - External
 SET(${PROJECT_NAME}_DEP_LIB OSG_GLUT_LIBRARIES)

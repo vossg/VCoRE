@@ -32,6 +32,9 @@
 #include "OSGTextureEnvChunk.h"
 #include "OSGSimpleMaterial.h"
 #include "OSGSimpleStage.h"
+#include "OSGDeferredShadingStage.h"
+#include "OSGHDRStage.h"
+#include "OSGVCTestStage.h"
 #include "OSGVisitSubTree.h"
 
 
@@ -47,7 +50,7 @@ OSG::SimpleSceneManager      *mgr(NULL);
 OSG::GroupNodeRefPtr          planeRoot;
 OSG::GroupNodeRefPtr          animRoot;
 
-OSG::SimpleStageNodeRefPtr          stage;
+OSG::VCTestStageNodeRefPtr          stage;
 
 OSG::Vec3f                     sceneTrans;
 OSG::TransformNodeRefPtr       cam_transScene;  // Transofrmation of cam/light/stage
@@ -427,7 +430,7 @@ void initAnimSetup(int argc, char **argv)
     pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
 
     // Stage core setup
-    stage    = OSG::SimpleStageNodeRefPtr::create();
+    stage = OSG::VCTestStageNodeRefPtr::create();
     stage->setRenderTarget(pFBO );
 //    stage->setCamera      (stage_cam  );
     stage->setBackground  (bkgnd);

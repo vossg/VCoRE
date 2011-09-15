@@ -48,7 +48,6 @@
 #include "OSGStagedViewport.h"
 #include "OSGTextureBuffer.h"
 #include "OSGTextureObjChunk.h"
-#include "OSGSimpleStage.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,16 +126,16 @@ void StagedViewport::changed(ConstFieldMaskArg whichField,
         FNOTICE(("root changed.\n"));
         _visitSubtreeNode->setSubTreeRoot(getRoot());
     }
-    if( (whichField & CameraFieldMask) 
-        || (whichField & StageFieldMask) )
-    {
-        FNOTICE(("cam changed.\n"));
-        SimpleStage* ss = dynamic_cast<SimpleStage*>(getStage());
-        if(ss)
-        {
-            ss->setCamera(getCamera());
-        }
-    }
+    //if( (whichField & CameraFieldMask) 
+    //    || (whichField & StageFieldMask) )
+    //{
+    //    FNOTICE(("cam changed.\n"));
+    //    SimpleStage* ss = dynamic_cast<SimpleStage*>(getStage());
+    //    if(ss)
+    //    {
+    //        ss->setCamera(getCamera());
+    //    }
+    //}
 
 
     Inherited::changed(whichField, origin, details);
@@ -302,20 +301,17 @@ void StagedViewport::stretchStageRenderTargetToFrameBuffer(RenderActionBase *act
         //oEnv.setDrawerId  (action->getDrawerId  ());
         //oEnv.setDrawableId(action->getDrawableId());
 
-        FrameBufferAttachment* fba = getStage()->getRenderTarget()->getColorAttachments(0);
-        dynamic_cast<TextureBuffer*>(fba)->getTexture()->activate(&oEnv,0);
-
         // Not strictly necessary
         glClearColor(0.0, 1.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        FrameBufferAttachment* fba = getStage()->getRenderTarget()->getColorAttachments(0);
+        TextureObjChunk* texObj = dynamic_cast<TextureBuffer*>(fba)->getTexture();
+        if( texObj )
         {
-
+            texObj->activate(&oEnv,0);
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
-            // THINKABOUTME: verschieben??
-            //{
-            //    // Initialize state
             glMatrixMode(GL_PROJECTION);
             glPushMatrix();
             glLoadIdentity();
@@ -323,14 +319,6 @@ void StagedViewport::stretchStageRenderTargetToFrameBuffer(RenderActionBase *act
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glLoadIdentity();
-            //glMatrixMode(GL_TEXTURE);
-            //glLoadIdentity();
-            //        glViewport(0, 0, 512, 512);
-
-            //}
-
-            //glDisable(GL_LIGHTING);
-            //glDisable(GL_COLOR_MATERIAL);
 
             float u = 0.0f;
             float v = 0.0f;
@@ -374,46 +362,15 @@ void StagedViewport::stretchStageRenderTargetToFrameBuffer(RenderActionBase *act
             glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
 
-            //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            //glDisable(GL_TEXTURE_2D);
-            //glBindTexture( GL_TEXTURE_2D, 0 );
-
-            //if (_use_sRGB && _sRGB_supported) {
-            //    glDisable(GL_FRAMEBUFFER_SRGB_EXT);
-            //}
-
+            texObj->deactivate(&oEnv,0);
         }
-
-        dynamic_cast<TextureBuffer*>(fba)->getTexture()->deactivate(&oEnv,0);
-
-        //for(UInt16 i=0; i < getMFForegrounds()->size(); i++)
-        //{
-        //    Foreground        *pForeground = getForegrounds(i);
-        //    FrameBufferObject *pTarget     = this->getTarget();
-
-        //    if(pTarget != NULL)
-        //    {
-        //        pTarget->activate(&oEnv);
-        //    }
-
-        //    pForeground->draw(&oEnv, this);
-
-        //    if(pTarget != NULL)
-        //    {
-        //        pTarget->deactivate(&oEnv);
-        //    }
-        //}
     }
-    //else
-    //{
-    //    if(_pForegroundTask == NULL)
-    //    {
-    //        _pForegroundTask = 
-    //            new ViewportDrawTask(this, ViewportDrawTask::Foregrounds);
-    //    }
+    else
+    {
+        // TODO: ???
+        OSG_ASSERT(false);
+    }
 
-    //    pWin->queueTaskFromDrawer(_pForegroundTask);
-    //}
 }
 
 OSG_END_NAMESPACE
