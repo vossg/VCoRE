@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="VCTestStage"
+   parent="Stage"
+   library="VCoreGreatestHacks"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpVCoreGreatestHacks"
+   typeDescAddable="false"
+   dynFCDerived="false"
+   >
+  <Field
+     name="camera"
+     type="CameraPtr"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="NULL"
+     >
+  </Field>
+  <Field
+     name="background"
+     type="BackgroundPtr"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="NULL"
+     >
+  </Field>
+</FieldContainer>
