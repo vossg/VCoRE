@@ -82,13 +82,15 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBa
     /*! \}                                                                 */
 
     virtual void render(RenderActionBase *action);
-
-    /*=========================  PROTECTED  ===============================*/
+    void renderWithStage(RenderActionBase *action);
+    void stretchStageRenderTargetToFrameBuffer(RenderActionBase *action);
+    
+        /*=========================  PROTECTED  ===============================*/
 
   protected:
 
     // Variables should all be in StagedViewportBase.
-    StageNodeRefPtr _stageNode;
+    NodeMTRecPtr _stageNode;
     VisitSubTreeNodeRefPtr _visitSubtreeNode;
 
     /*---------------------------------------------------------------------*/

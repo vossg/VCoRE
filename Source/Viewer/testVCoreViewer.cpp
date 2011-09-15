@@ -352,58 +352,85 @@ void initAnimSetup(int argc, char **argv)
     sceneXform = OSG::TransformNodeRefPtr::create();
     sceneXform.node()->addChild(file);
 
-    OSG::NodeUnrecPtr pBoxNode = OSG::makeBox(1, 1, 1, 5, 5, 5);
-
-    pBoxNode->setTravMask(pBoxNode->getTravMask() & 0x0001);
-
-    sceneXform.node()->addChild(pBoxNode);
+//    OSG::NodeUnrecPtr pBoxNode = OSG::makeBox(1, 1, 1, 5, 5, 5);
+//    pBoxNode->setTravMask(pBoxNode->getTravMask() & 0x0001);
+//    sceneXform.node()->addChild(pBoxNode);
 
     dlight.node()->addChild(sceneXform);
 
-//
-//    // ---- STAGE RENDERING SETUP --- //
-//    // Camera: setup camera to point from beacon (light pos)
-//    //   with a 90deg FOV to render the scene
-//    OSG::PerspectiveCameraUnrecPtr stage_cam = OSG::PerspectiveCamera::create();
-//
-//    stage_cam->setBeacon(beacon);
-//    stage_cam->setFov   (OSG::osgDegree2Rad(90));
-//    stage_cam->setNear  (0.1f);
-//    stage_cam->setFar   (100000);
-//
-//
-//    // Background
-//    OSG::SolidBackgroundUnrecPtr bkgnd = OSG::SolidBackground::create();
-//    bkgnd->setColor(OSG::Color3f(0,1,0));
-//
-//    // FBO setup
-//    pFBO         = OSG::FrameBufferObject::create();
-//    pTexBuffer   = OSG::TextureBuffer::create();
-//
-//#ifdef USE_DEPTH_TEXTURE
-//    OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
-//    pDepthBuffer->setTexture(txDepth);
-//#else
-//    OSG::RenderBufferUnrecPtr      pDepthBuffer = OSG::RenderBuffer ::create();
-//    pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
-//#endif
-//
-//
-//    pTexBuffer->setTexture (tx1o);
-//    pTexBuffer->setReadBack(true);
-//
-//    pFBO->setSize(512, 512);
-//    pFBO->setColorAttachment(pTexBuffer, 0);
-//    pFBO->setDepthAttachment(pDepthBuffer );
-//
-//    pFBO->editMFDrawBuffers()->clear();
-//    pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
-//
-//    // Stage core setup
-//    OSG::SimpleStageNodeRefPtr pStage    = OSG::SimpleStageNodeRefPtr::create();
-//    pStage->setRenderTarget(pFBO );
-//    pStage->setCamera      (stage_cam  );
-//    pStage->setBackground  (bkgnd);
+
+    // ---- STAGE RENDERING SETUP --- //
+    // Camera: setup camera to point from beacon (light pos)
+    //   with a 90deg FOV to render the scene
+    OSG::PerspectiveCameraUnrecPtr stage_cam = OSG::PerspectiveCamera::create();
+
+    stage_cam->setBeacon(beacon);
+    stage_cam->setFov   (OSG::osgDegree2Rad(90));
+    stage_cam->setNear  (0.1f);
+    stage_cam->setFar   (100000);
+
+
+    // Background
+    OSG::SolidBackgroundUnrecPtr bkgnd = OSG::SolidBackground::create();
+    bkgnd->setColor(OSG::Color3f(1,0,1));
+
+    // FBO setup
+    tx1o = OSG::TextureObjChunk::create();
+    tx1e = OSG::TextureEnvChunk::create();
+
+    // Setup the shared texture and texture environment
+    // - Create an empty image so texture can allocate size and memory
+    OSG::ImageUnrecPtr pImg = OSG::Image::create();
+    pImg->set(OSG::Image::OSG_RGB_PF, 512, 512, 1,
+        1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+
+    tx1o->setImage    (pImg      );
+    tx1o->setMinFilter(GL_LINEAR );
+    tx1o->setMagFilter(GL_LINEAR );
+    tx1o->setWrapS    (GL_REPEAT );
+    tx1o->setWrapT    (GL_REPEAT );
+
+    tx1e->setEnvMode (GL_REPLACE);
+
+#ifdef USE_DEPTH_TEXTURE
+    OSG::ImageUnrecPtr dImg = OSG::Image::create();
+    dImg->set(Image::OSG_L_PF, 512, 512);
+
+    txDepth->setImage (dImg);
+    txDepth->setMinFilter(GL_NEAREST );
+    txDepth->setMagFilter(GL_LINEAR );
+    txDepth->setWrapS    (GL_CLAMP_TO_EDGE );
+    txDepth->setWrapT    (GL_CLAMP_TO_EDGE );
+    txDepth->setExternalFormat(GL_DEPTH_COMPONENT);
+    txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
+#endif
+
+    pFBO         = OSG::FrameBufferObject::create();
+    pTexBuffer   = OSG::TextureBuffer::create();
+
+#ifdef USE_DEPTH_TEXTURE
+    OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
+    pDepthBuffer->setTexture(txDepth);
+#else
+    OSG::RenderBufferUnrecPtr      pDepthBuffer = OSG::RenderBuffer ::create();
+    pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
+#endif
+
+    pTexBuffer->setTexture (tx1o);
+    pTexBuffer->setReadBack(false);
+
+    pFBO->setSize(512, 512);
+    pFBO->setColorAttachment(pTexBuffer, 0);
+    pFBO->setDepthAttachment(pDepthBuffer );
+
+    pFBO->editMFDrawBuffers()->clear();
+    pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
+
+    // Stage core setup
+    stage    = OSG::SimpleStageNodeRefPtr::create();
+    stage->setRenderTarget(pFBO );
+//    stage->setCamera      (stage_cam  );
+    stage->setBackground  (bkgnd);
 //
 //    pStage->addPreRenderFunctor (&testPreRenderCB, "" );
 //    pStage->addPostRenderFunctor(&testPostRenderCB, "");
@@ -526,7 +553,7 @@ int doMain (int argc, char **argv)
     initAnimSetup(argc, argv);
     initPlaneSetup();
 
-    stage = OSG::SimpleStageNodeRefPtr::create();
+//    stage = OSG::SimpleStageNodeRefPtr::create();
 
     OSG::VCGLUTViewer::the()->setRoot(animRoot);
     OSG::VCGLUTViewer::the()->setKeyCallback(key);
