@@ -59,13 +59,13 @@
 
 
 #include "OSGConfig.h"
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoreRendererDef.h"
 
 //#include "OSGBaseTypes.h"
 
 #include "OSGAttachmentContainer.h" // Parent
 
-#include "OSGViewportFields.h"          // Viewport type
+#include "OSGViewport.h"                // Viewport type
 #include "OSGSysFields.h"               // Done type
 
 #include "OSGVCRenderTaskFields.h"
@@ -76,7 +76,7 @@ class VCRenderTask;
 
 //! \brief VCRenderTask Base Class.
 
-class OSG_VCOREVIEWER_DLLMAPPING VCRenderTaskBase : public AttachmentContainer
+class OSG_VCORERENDERER_DLLMAPPING VCRenderTaskBase : public AttachmentContainer
 {
   public:
 

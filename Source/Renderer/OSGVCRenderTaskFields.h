@@ -55,7 +55,7 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoreRendererDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -69,7 +69,7 @@ class VCRenderTask;
 OSG_GEN_CONTAINERPTR(VCRenderTask);
 
 /*! \ingroup GrpVCoreRendererFieldTraits
-    \ingroup GrpLibOSGVCoreViewer
+    \ingroup GrpLibOSGVCoreRenderer
  */
 template <>
 struct FieldTraits<VCRenderTask *> :
@@ -85,7 +85,7 @@ struct FieldTraits<VCRenderTask *> :
 
     enum                        { Convertible = NotConvertible };
 
-    static OSG_VCOREVIEWER_DLLMAPPING DataType &getType(void);
+    static OSG_VCORERENDERER_DLLMAPPING DataType &getType(void);
 
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
@@ -179,37 +179,37 @@ typedef PointerMField<VCRenderTask *,
 
 #else // these are the doxygen hacks
 
-/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreRenderer */
 struct SFRecVCRenderTaskPtr : 
     public PointerSField<VCRenderTask *,
                          RecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreRenderer */
 struct SFUnrecVCRenderTaskPtr : 
     public PointerSField<VCRenderTask *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreRenderer */
 struct SFWeakVCRenderTaskPtr :
     public PointerSField<VCRenderTask *,
                          WeakRefCountPolicy> {};
-/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldSFields \ingroup GrpLibOSGVCoreRenderer */
 struct SFUncountedVCRenderTaskPtr :
     public PointerSField<VCRenderTask *,
                          NoRefCountPolicy> {};
 
 
-/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreRenderer */
 struct MFRecVCRenderTaskPtr :
     public PointerMField<VCRenderTask *,
                          RecordedRefCountPolicy  > {};
-/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreRenderer */
 struct MFUnrecVCRenderTaskPtr :
     public PointerMField<VCRenderTask *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreRenderer */
 struct MFWeakVCRenderTaskPtr :
     public PointerMField<VCRenderTask *,
                          WeakRefCountPolicy      > {};
-/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreViewer */
+/*! \ingroup GrpVCoreRendererFieldMFields \ingroup GrpLibOSGVCoreRenderer */
 struct MFUncountedVCRenderTaskPtr :
     public PointerMField<VCRenderTask *,
                          NoRefCountPolicy        > {};

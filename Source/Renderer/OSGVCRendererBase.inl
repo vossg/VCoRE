@@ -74,11 +74,18 @@ OSG::UInt16 VCRendererBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the VCRenderer::_mfTasks field.
+//! Get the value of the \a index element the VCRenderer::_mfWindows field.
 inline
-RenderTask * VCRendererBase::getTasks(const UInt32 index) const
+Window * VCRendererBase::getWindows(const UInt32 index) const
 {
-    return _mfTasks[index];
+    return _mfWindows[index];
+}
+
+//! Get the value of the \a index element the VCRenderer::_mfRenderTasks field.
+inline
+VCRenderTask * VCRendererBase::getRenderTasks(const UInt32 index) const
+{
+    return _mfRenderTasks[index];
 }
 
 
@@ -92,8 +99,14 @@ void VCRendererBase::execSync (      VCRendererBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (TasksFieldMask & whichField))
-        _mfTasks.syncWith(pFrom->_mfTasks,
+    if(FieldBits::NoField != (WindowsFieldMask & whichField))
+        _mfWindows.syncWith(pFrom->_mfWindows,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
+
+    if(FieldBits::NoField != (RenderTasksFieldMask & whichField))
+        _mfRenderTasks.syncWith(pFrom->_mfRenderTasks,
                                 syncMode,
                                 uiSyncInfo,
                                 oOffsets);

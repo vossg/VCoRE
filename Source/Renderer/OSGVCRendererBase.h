@@ -65,7 +65,8 @@
 
 #include "OSGVCoreItem.h" // Parent
 
-#include "OSGRenderTaskFields.h"        // Tasks type
+#include "OSGWindow.h"                  // Windows type
+#include "OSGVCRenderTask.h"            // RenderTasks type
 
 #include "OSGVCRendererFields.h"
 
@@ -93,16 +94,20 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public VCoreItem
 
     enum
     {
-        TasksFieldId = Inherited::NextFieldId,
-        NextFieldId = TasksFieldId + 1
+        WindowsFieldId = Inherited::NextFieldId,
+        RenderTasksFieldId = WindowsFieldId + 1,
+        NextFieldId = RenderTasksFieldId + 1
     };
 
-    static const OSG::BitVector TasksFieldMask =
-        (TypeTraits<BitVector>::One << TasksFieldId);
+    static const OSG::BitVector WindowsFieldMask =
+        (TypeTraits<BitVector>::One << WindowsFieldId);
+    static const OSG::BitVector RenderTasksFieldMask =
+        (TypeTraits<BitVector>::One << RenderTasksFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef MFUnrecRenderTaskPtr MFTasksType;
+    typedef MFUnrecWindowPtr  MFWindowsType;
+    typedef MFUnrecVCRenderTaskPtr MFRenderTasksType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -127,11 +132,13 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public VCoreItem
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const MFUnrecRenderTaskPtr *getMFTasks          (void) const;
-                  MFUnrecRenderTaskPtr *editMFTasks          (void);
+            const MFUnrecWindowPtr    *getMFWindows        (void) const;
+            const MFUnrecVCRenderTaskPtr *getMFRenderTasks    (void) const;
 
 
-                  RenderTask * getTasks          (const UInt32 index) const;
+                  Window * getWindows        (const UInt32 index) const;
+
+                  VCRenderTask * getRenderTasks    (const UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -149,11 +156,29 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public VCoreItem
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
 
-    void pushToTasks               (RenderTask * const value   );
-    void assignTasks              (const MFUnrecRenderTaskPtr &value);
-    void removeFromTasks (UInt32               uiIndex );
-    void removeObjFromTasks(RenderTask * const value   );
-    void clearTasks                 (void                         );
+    void addWindow                 (Window * const value   );
+    void assignWindows            (const MFUnrecWindowPtr  &value);
+    void clearWindows               (void                         );
+    void insertWindow         (UInt32               uiIndex,
+                                             Window * const value   );
+    void replaceWindow    (      UInt32         uiIndex,
+                                             Window * const value   );
+    void replaceWindowByObj (Window * const pOldElem,
+                                             Window * const pNewElem);
+    void subWindow       (UInt32               uiIndex );
+    void subWindowByObj (Window * const value   );
+
+    void addRenderTask             (VCRenderTask * const value   );
+    void assignRenderTasks          (const MFUnrecVCRenderTaskPtr &value);
+    void clearRenderTasks            (void                         );
+    void insertIntoRenderTasks      (UInt32               uiIndex,
+                                             VCRenderTask * const value   );
+    void replaceInRenderTasks  (      UInt32         uiIndex,
+                                             VCRenderTask * const value   );
+    void replaceObjInRenderTasks (VCRenderTask * const pOldElem,
+                                             VCRenderTask * const pNewElem);
+    void subRenderTask   (UInt32               uiIndex );
+    void removeObjFromRenderTasks(VCRenderTask * const value   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,7 +233,8 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public VCoreItem
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFUnrecRenderTaskPtr _mfTasks;
+    MFUnrecWindowPtr  _mfWindows;
+    MFUnrecVCRenderTaskPtr _mfRenderTasks;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,8 +271,10 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public VCoreItem
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleTasks           (void) const;
-    EditFieldHandlePtr editHandleTasks          (void);
+    GetFieldHandlePtr  getHandleWindows         (void) const;
+    EditFieldHandlePtr editHandleWindows        (void);
+    GetFieldHandlePtr  getHandleRenderTasks     (void) const;
+    EditFieldHandlePtr editHandleRenderTasks    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

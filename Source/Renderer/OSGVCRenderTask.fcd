@@ -3,7 +3,7 @@
 <FieldContainer
    name="VCRenderTask"
    parent="AttachmentContainer"
-   library="VCoreViewer"
+   library="VCoreRenderer"
    structure="concrete"
    pointerfieldtypes="both"
    systemcomponent="true"
@@ -20,6 +20,8 @@
      visibility="external"
      access="public"
      defaultValue="NULL"
+     fieldHeader="OSGViewport.h"
+     typeHeader="OSGViewport.h"
      >
    </Field>
    <Field

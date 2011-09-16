@@ -57,7 +57,8 @@
 
 
 
-#include "OSGRenderTask.h"              // Tasks Class
+#include "OSGWindow.h"                  // Windows Class
+#include "OSGVCRenderTask.h"            // RenderTasks Class
 
 #include "OSGVCRendererBase.h"
 #include "OSGVCRenderer.h"
@@ -82,7 +83,11 @@ OSG_BEGIN_NAMESPACE
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var RenderTask *    VCRendererBase::_mfTasks
+/*! \var Window *        VCRendererBase::_mfWindows
+    
+*/
+
+/*! \var VCRenderTask *  VCRendererBase::_mfRenderTasks
     
 */
 
@@ -114,15 +119,27 @@ void VCRendererBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new MFUnrecRenderTaskPtr::Description(
-        MFUnrecRenderTaskPtr::getClassType(),
-        "tasks",
+    pDesc = new MFUnrecWindowPtr::Description(
+        MFUnrecWindowPtr::getClassType(),
+        "windows",
         "",
-        TasksFieldId, TasksFieldMask,
+        WindowsFieldId, WindowsFieldMask,
         false,
-        (Field::MFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&VCRenderer::editHandleTasks),
-        static_cast<FieldGetMethodSig >(&VCRenderer::getHandleTasks));
+        (Field::MFDefaultFlags | Field::FNullCheckAccess),
+        static_cast<FieldEditMethodSig>(&VCRenderer::editHandleWindows),
+        static_cast<FieldGetMethodSig >(&VCRenderer::getHandleWindows));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new MFUnrecVCRenderTaskPtr::Description(
+        MFUnrecVCRenderTaskPtr::getClassType(),
+        "renderTasks",
+        "",
+        RenderTasksFieldId, RenderTasksFieldMask,
+        false,
+        (Field::MFDefaultFlags | Field::FNullCheckAccess),
+        static_cast<FieldEditMethodSig>(&VCRenderer::editHandleRenderTasks),
+        static_cast<FieldGetMethodSig >(&VCRenderer::getHandleRenderTasks));
 
     oType.addInitialDesc(pDesc);
 }
@@ -154,13 +171,38 @@ VCRendererBase::TypeObject VCRendererBase::_type(
     "   typeDescAddable=\"true\"\n"
     "   dynFCDerived=\"true\"\n"
     "   >\n"
+    "    <Field\n"
+    "        name=\"windows\"\n"
+    "        type=\"Window\"\n"
+    "        cardinality=\"multi\"\n"
+    "        visibility=\"external\"\n"
+    "        access=\"public\"\n"
+    "        category=\"pointer\"\n"
+    "        pushToFieldAs=\"addWindow\"\n"
+    "        insertIntoMFieldAs=\"insertWindow\"\n"
+    "        replaceInMFieldIndexAs=\"replaceWindow\"\n"
+    "        replaceInMFieldObjectAs=\"replaceWindowByObj\"\n"
+    "        removeFromMFieldIndexAs=\"subWindow\"\n"
+    "        removeFromMFieldObjectAs=\"subWindowByObj\"\n"
+    "        clearFieldAs=\"clearWindows\"        \n"
+    "        ptrFieldAccess = \"nullCheck\"\n"
+    "        fieldHeader=\"OSGWindow.h\"\n"
+    "        typeHeader=\"OSGWindow.h\"\n"
+    "    >\n"
+    "    </Field>\n"
     "   <Field\n"
-    "     name=\"tasks\"\n"
-    "     type=\"RenderTaskPtr\"\n"
-    "     cardinality=\"multi\"\n"
-    "     visibility=\"external\"\n"
-    "     access=\"public\"\n"
-    "     defaultValue=\"\"\n"
+    "        name=\"renderTasks\"\n"
+    "        type=\"VCRenderTask\"\n"
+    "        cardinality=\"multi\"\n"
+    "        visibility=\"external\"\n"
+    "        access=\"public\"\n"
+    "        pushToFieldAs=\"addRenderTask\"\n"
+    "        removeFromMFieldIndexAs=\"subRenderTask\"\n"
+    "        clearFieldAs=\"clearRenderTasks\"        \n"
+    "        category=\"pointer\"\n"
+    "        ptrFieldAccess = \"nullCheck\"\n"
+    "        fieldHeader=\"OSGVCRenderTask.h\"\n"
+    "        typeHeader=\"OSGVCRenderTask.h\"\n"
     "     >\n"
     "  </Field>\n"
     "\n"
@@ -198,72 +240,220 @@ const VCRendererBase::TypeObject &VCRendererBase::getFinalType(void) const
 /*------------------------- decorator get ------------------------------*/
 
 
-//! Get the VCRenderer::_mfTasks field.
-const MFUnrecRenderTaskPtr *VCRendererBase::getMFTasks(void) const
+//! Get the VCRenderer::_mfWindows field.
+const MFUnrecWindowPtr *VCRendererBase::getMFWindows(void) const
 {
-    return &_mfTasks;
+    return &_mfWindows;
 }
 
-MFUnrecRenderTaskPtr *VCRendererBase::editMFTasks          (void)
+//! Get the VCRenderer::_mfRenderTasks field.
+const MFUnrecVCRenderTaskPtr *VCRendererBase::getMFRenderTasks(void) const
 {
-    editMField(TasksFieldMask, _mfTasks);
-
-    return &_mfTasks;
+    return &_mfRenderTasks;
 }
 
 
 
-void VCRendererBase::pushToTasks(RenderTask * const value)
+void VCRendererBase::addWindow(Window * const value)
 {
-    editMField(TasksFieldMask, _mfTasks);
+    if(value == NULL)
+        return;
 
-    _mfTasks.push_back(value);
+    editMField(WindowsFieldMask, _mfWindows);
+
+    _mfWindows.push_back(value);
 }
 
-void VCRendererBase::assignTasks    (const MFUnrecRenderTaskPtr &value)
+void VCRendererBase::assignWindows  (const MFUnrecWindowPtr  &value)
 {
-    MFUnrecRenderTaskPtr::const_iterator elemIt  =
+    MFUnrecWindowPtr ::const_iterator elemIt  =
         value.begin();
-    MFUnrecRenderTaskPtr::const_iterator elemEnd =
+    MFUnrecWindowPtr ::const_iterator elemEnd =
         value.end  ();
 
-    static_cast<VCRenderer *>(this)->clearTasks();
+    static_cast<VCRenderer *>(this)->clearWindows();
 
     while(elemIt != elemEnd)
     {
-        this->pushToTasks(*elemIt);
+        this->addWindow(*elemIt);
 
         ++elemIt;
     }
 }
 
-void VCRendererBase::removeFromTasks(UInt32 uiIndex)
+void VCRendererBase::insertWindow(UInt32               uiIndex,
+                                                   Window * const value   )
 {
-    if(uiIndex < _mfTasks.size())
-    {
-        editMField(TasksFieldMask, _mfTasks);
+    if(value == NULL)
+        return;
 
-        _mfTasks.erase(uiIndex);
+    editMField(WindowsFieldMask, _mfWindows);
+
+    MFUnrecWindowPtr::iterator fieldIt = _mfWindows.begin_nc();
+
+    fieldIt += uiIndex;
+
+    _mfWindows.insert(fieldIt, value);
+}
+
+void VCRendererBase::replaceWindow(UInt32               uiIndex,
+                                                       Window * const value   )
+{
+    if(value == NULL)
+        return;
+
+    if(uiIndex >= _mfWindows.size())
+        return;
+
+    editMField(WindowsFieldMask, _mfWindows);
+
+    _mfWindows.replace(uiIndex, value);
+}
+
+void VCRendererBase::replaceWindowByObj(Window * const pOldElem,
+                                                        Window * const pNewElem)
+{
+    if(pNewElem == NULL)
+        return;
+
+    Int32  elemIdx = _mfWindows.findIndex(pOldElem);
+
+    if(elemIdx != -1)
+    {
+        editMField(WindowsFieldMask, _mfWindows);
+
+        _mfWindows.replace(elemIdx, pNewElem);
     }
 }
 
-void VCRendererBase::removeObjFromTasks(RenderTask * const value)
+void VCRendererBase::subWindow(UInt32 uiIndex)
 {
-    Int32 iElemIdx = _mfTasks.findIndex(value);
+    if(uiIndex < _mfWindows.size())
+    {
+        editMField(WindowsFieldMask, _mfWindows);
+
+        _mfWindows.erase(uiIndex);
+    }
+}
+
+void VCRendererBase::subWindowByObj(Window * const value)
+{
+    Int32 iElemIdx = _mfWindows.findIndex(value);
 
     if(iElemIdx != -1)
     {
-        editMField(TasksFieldMask, _mfTasks);
+        editMField(WindowsFieldMask, _mfWindows);
 
-        _mfTasks.erase(iElemIdx);
+        _mfWindows.erase(iElemIdx);
     }
 }
-void VCRendererBase::clearTasks(void)
+void VCRendererBase::clearWindows(void)
 {
-    editMField(TasksFieldMask, _mfTasks);
+    editMField(WindowsFieldMask, _mfWindows);
 
 
-    _mfTasks.clear();
+    _mfWindows.clear();
+}
+
+void VCRendererBase::addRenderTask(VCRenderTask * const value)
+{
+    if(value == NULL)
+        return;
+
+    editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+    _mfRenderTasks.push_back(value);
+}
+
+void VCRendererBase::assignRenderTasks(const MFUnrecVCRenderTaskPtr &value)
+{
+    MFUnrecVCRenderTaskPtr::const_iterator elemIt  =
+        value.begin();
+    MFUnrecVCRenderTaskPtr::const_iterator elemEnd =
+        value.end  ();
+
+    static_cast<VCRenderer *>(this)->clearRenderTasks();
+
+    while(elemIt != elemEnd)
+    {
+        this->addRenderTask(*elemIt);
+
+        ++elemIt;
+    }
+}
+
+void VCRendererBase::insertIntoRenderTasks(UInt32               uiIndex,
+                                                   VCRenderTask * const value   )
+{
+    if(value == NULL)
+        return;
+
+    editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+    MFUnrecVCRenderTaskPtr::iterator fieldIt = _mfRenderTasks.begin_nc();
+
+    fieldIt += uiIndex;
+
+    _mfRenderTasks.insert(fieldIt, value);
+}
+
+void VCRendererBase::replaceInRenderTasks(UInt32               uiIndex,
+                                                       VCRenderTask * const value   )
+{
+    if(value == NULL)
+        return;
+
+    if(uiIndex >= _mfRenderTasks.size())
+        return;
+
+    editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+    _mfRenderTasks.replace(uiIndex, value);
+}
+
+void VCRendererBase::replaceObjInRenderTasks(VCRenderTask * const pOldElem,
+                                                        VCRenderTask * const pNewElem)
+{
+    if(pNewElem == NULL)
+        return;
+
+    Int32  elemIdx = _mfRenderTasks.findIndex(pOldElem);
+
+    if(elemIdx != -1)
+    {
+        editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+        _mfRenderTasks.replace(elemIdx, pNewElem);
+    }
+}
+
+void VCRendererBase::subRenderTask(UInt32 uiIndex)
+{
+    if(uiIndex < _mfRenderTasks.size())
+    {
+        editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+        _mfRenderTasks.erase(uiIndex);
+    }
+}
+
+void VCRendererBase::removeObjFromRenderTasks(VCRenderTask * const value)
+{
+    Int32 iElemIdx = _mfRenderTasks.findIndex(value);
+
+    if(iElemIdx != -1)
+    {
+        editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+        _mfRenderTasks.erase(iElemIdx);
+    }
+}
+void VCRendererBase::clearRenderTasks(void)
+{
+    editMField(RenderTasksFieldMask, _mfRenderTasks);
+
+
+    _mfRenderTasks.clear();
 }
 
 
@@ -274,9 +464,13 @@ UInt32 VCRendererBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (TasksFieldMask & whichField))
+    if(FieldBits::NoField != (WindowsFieldMask & whichField))
     {
-        returnValue += _mfTasks.getBinSize();
+        returnValue += _mfWindows.getBinSize();
+    }
+    if(FieldBits::NoField != (RenderTasksFieldMask & whichField))
+    {
+        returnValue += _mfRenderTasks.getBinSize();
     }
 
     return returnValue;
@@ -287,9 +481,13 @@ void VCRendererBase::copyToBin(BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (TasksFieldMask & whichField))
+    if(FieldBits::NoField != (WindowsFieldMask & whichField))
     {
-        _mfTasks.copyToBin(pMem);
+        _mfWindows.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (RenderTasksFieldMask & whichField))
+    {
+        _mfRenderTasks.copyToBin(pMem);
     }
 }
 
@@ -298,10 +496,15 @@ void VCRendererBase::copyFromBin(BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (TasksFieldMask & whichField))
+    if(FieldBits::NoField != (WindowsFieldMask & whichField))
     {
-        editMField(TasksFieldMask, _mfTasks);
-        _mfTasks.copyFromBin(pMem);
+        editMField(WindowsFieldMask, _mfWindows);
+        _mfWindows.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (RenderTasksFieldMask & whichField))
+    {
+        editMField(RenderTasksFieldMask, _mfRenderTasks);
+        _mfRenderTasks.copyFromBin(pMem);
     }
 }
 
@@ -428,13 +631,15 @@ FieldContainerTransitPtr VCRendererBase::shallowCopy(void) const
 
 VCRendererBase::VCRendererBase(void) :
     Inherited(),
-    _mfTasks                  ()
+    _mfWindows                (),
+    _mfRenderTasks            ()
 {
 }
 
 VCRendererBase::VCRendererBase(const VCRendererBase &source) :
     Inherited(source),
-    _mfTasks                  ()
+    _mfWindows                (),
+    _mfRenderTasks            ()
 {
 }
 
@@ -453,53 +658,120 @@ void VCRendererBase::onCreate(const VCRenderer *source)
     {
         VCRenderer *pThis = static_cast<VCRenderer *>(this);
 
-        MFUnrecRenderTaskPtr::const_iterator TasksIt  =
-            source->_mfTasks.begin();
-        MFUnrecRenderTaskPtr::const_iterator TasksEnd =
-            source->_mfTasks.end  ();
+        MFUnrecWindowPtr::const_iterator WindowsIt  =
+            source->_mfWindows.begin();
+        MFUnrecWindowPtr::const_iterator WindowsEnd =
+            source->_mfWindows.end  ();
 
-        while(TasksIt != TasksEnd)
+        while(WindowsIt != WindowsEnd)
         {
-            pThis->pushToTasks(*TasksIt);
+            pThis->addWindow(*WindowsIt);
 
-            ++TasksIt;
+            ++WindowsIt;
+        }
+
+        MFUnrecVCRenderTaskPtr::const_iterator RenderTasksIt  =
+            source->_mfRenderTasks.begin();
+        MFUnrecVCRenderTaskPtr::const_iterator RenderTasksEnd =
+            source->_mfRenderTasks.end  ();
+
+        while(RenderTasksIt != RenderTasksEnd)
+        {
+            pThis->addRenderTask(*RenderTasksIt);
+
+            ++RenderTasksIt;
         }
     }
 }
 
-GetFieldHandlePtr VCRendererBase::getHandleTasks           (void) const
+GetFieldHandlePtr VCRendererBase::getHandleWindows         (void) const
 {
-    MFUnrecRenderTaskPtr::GetHandlePtr returnValue(
-        new  MFUnrecRenderTaskPtr::GetHandle(
-             &_mfTasks,
-             this->getType().getFieldDesc(TasksFieldId),
+    MFUnrecWindowPtr::GetHandlePtr returnValue(
+        new  MFUnrecWindowPtr::GetHandle(
+             &_mfWindows,
+             this->getType().getFieldDesc(WindowsFieldId),
              const_cast<VCRendererBase *>(this)));
 
     return returnValue;
 }
 
-EditFieldHandlePtr VCRendererBase::editHandleTasks          (void)
+EditFieldHandlePtr VCRendererBase::editHandleWindows        (void)
 {
-    MFUnrecRenderTaskPtr::EditHandlePtr returnValue(
-        new  MFUnrecRenderTaskPtr::EditHandle(
-             &_mfTasks,
-             this->getType().getFieldDesc(TasksFieldId),
+    MFUnrecWindowPtr::EditHandlePtr returnValue(
+        new  MFUnrecWindowPtr::EditHandle(
+             &_mfWindows,
+             this->getType().getFieldDesc(WindowsFieldId),
              this));
 
     returnValue->setAddMethod(
-        boost::bind(&VCRenderer::pushToTasks,
+        boost::bind(&VCRenderer::addWindow,
                     static_cast<VCRenderer *>(this), _1));
+    returnValue->setInsertMethod(
+        boost::bind(&VCRenderer::insertWindow,
+                    static_cast<VCRenderer *>(this), _1, _2));
+    returnValue->setReplaceMethod(
+        boost::bind(&VCRenderer::replaceWindow,
+                    static_cast<VCRenderer *>(this), _1, _2));
+    returnValue->setReplaceObjMethod(
+        boost::bind(&VCRenderer::replaceWindowByObj,
+                    static_cast<VCRenderer *>(this), _1, _2));
     returnValue->setRemoveMethod(
-        boost::bind(&VCRenderer::removeFromTasks,
+        boost::bind(&VCRenderer::subWindow,
                     static_cast<VCRenderer *>(this), _1));
     returnValue->setRemoveObjMethod(
-        boost::bind(&VCRenderer::removeObjFromTasks,
+        boost::bind(&VCRenderer::subWindowByObj,
                     static_cast<VCRenderer *>(this), _1));
     returnValue->setClearMethod(
-        boost::bind(&VCRenderer::clearTasks,
+        boost::bind(&VCRenderer::clearWindows,
                     static_cast<VCRenderer *>(this)));
 
-    editMField(TasksFieldMask, _mfTasks);
+    editMField(WindowsFieldMask, _mfWindows);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr VCRendererBase::getHandleRenderTasks     (void) const
+{
+    MFUnrecVCRenderTaskPtr::GetHandlePtr returnValue(
+        new  MFUnrecVCRenderTaskPtr::GetHandle(
+             &_mfRenderTasks,
+             this->getType().getFieldDesc(RenderTasksFieldId),
+             const_cast<VCRendererBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr VCRendererBase::editHandleRenderTasks    (void)
+{
+    MFUnrecVCRenderTaskPtr::EditHandlePtr returnValue(
+        new  MFUnrecVCRenderTaskPtr::EditHandle(
+             &_mfRenderTasks,
+             this->getType().getFieldDesc(RenderTasksFieldId),
+             this));
+
+    returnValue->setAddMethod(
+        boost::bind(&VCRenderer::addRenderTask,
+                    static_cast<VCRenderer *>(this), _1));
+    returnValue->setInsertMethod(
+        boost::bind(&VCRenderer::insertIntoRenderTasks,
+                    static_cast<VCRenderer *>(this), _1, _2));
+    returnValue->setReplaceMethod(
+        boost::bind(&VCRenderer::replaceInRenderTasks,
+                    static_cast<VCRenderer *>(this), _1, _2));
+    returnValue->setReplaceObjMethod(
+        boost::bind(&VCRenderer::replaceObjInRenderTasks,
+                    static_cast<VCRenderer *>(this), _1, _2));
+    returnValue->setRemoveMethod(
+        boost::bind(&VCRenderer::subRenderTask,
+                    static_cast<VCRenderer *>(this), _1));
+    returnValue->setRemoveObjMethod(
+        boost::bind(&VCRenderer::removeObjFromRenderTasks,
+                    static_cast<VCRenderer *>(this), _1));
+    returnValue->setClearMethod(
+        boost::bind(&VCRenderer::clearRenderTasks,
+                    static_cast<VCRenderer *>(this)));
+
+    editMField(RenderTasksFieldMask, _mfRenderTasks);
 
     return returnValue;
 }
@@ -541,7 +813,9 @@ void VCRendererBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<VCRenderer *>(this)->clearTasks();
+    static_cast<VCRenderer *>(this)->clearWindows();
+
+    static_cast<VCRenderer *>(this)->clearRenderTasks();
 
 
 }

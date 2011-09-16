@@ -47,10 +47,10 @@
 OSG_BEGIN_NAMESPACE
 
 /*! \brief VCRenderTask class. See \ref
-           PageVCoreViewerVCRenderTask for a description.
+           PageVCoreRendererVCRenderTask for a description.
 */
 
-class OSG_VCOREVIEWER_DLLMAPPING VCRenderTask : public VCRenderTaskBase
+class OSG_VCORERENDERER_DLLMAPPING VCRenderTask : public VCRenderTaskBase
 {
   protected:
 

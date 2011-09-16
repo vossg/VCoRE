@@ -95,6 +95,7 @@ VCGLUTViewer::VCGLUTViewer(void) :
     _pWindow(NULL),
     _viewport(NULL),
     _stage(NULL),
+    _renderer(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -105,6 +106,7 @@ VCGLUTViewer::VCGLUTViewer(const VCGLUTViewer &source) :
     _pWindow(NULL),
     _viewport(NULL),
     _stage(NULL),
+    _renderer(NULL),
     _sceneMgr(NULL)
 {
 }
@@ -210,6 +212,8 @@ bool VCGLUTViewer::init(void)
 
     _pWindow->init();
     _pWindow->addPort(_viewport);
+
+    _renderer = VCRenderer::create();
 
     _sceneMgr = new SimpleSceneManager;
     _sceneMgr->setWindow(_pWindow);

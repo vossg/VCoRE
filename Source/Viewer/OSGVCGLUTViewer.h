@@ -49,6 +49,8 @@
 #include "OSGSimpleSceneManager.h"
 #include "OSGStage.h"
 
+#include "OSGVCRenderer.h"
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief VCGLUTViewer class. See \ref
@@ -138,6 +140,7 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     WindowRecPtr   _pWindow;
     ViewportUnrecPtr _viewport;
     StageUnrecPtr _stage;
+    VCRendererUnrecPtr _renderer;
     SimpleSceneManager      *_sceneMgr;
 
     KeyCallback _keyCallback;
