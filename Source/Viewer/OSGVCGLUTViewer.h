@@ -76,6 +76,7 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     void setRoot(Node* root);
     void setStage(StageUnrecPtr stage);
     void setKeyCallback(KeyCallback kc);
+    VCRenderer* getRenderer();
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */

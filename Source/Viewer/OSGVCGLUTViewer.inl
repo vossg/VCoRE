@@ -51,4 +51,10 @@ VCGLUTViewer* VCGLUTViewer::the()
     return _the;
 }
 
+inline
+VCRenderer* VCGLUTViewer::getRenderer()
+{
+    return _renderer;
+}
+
 OSG_END_NAMESPACE

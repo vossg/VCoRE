@@ -121,7 +121,39 @@ void VCRenderer::init()
 
 void VCRenderer::update()
 {
-    getWindows(0)->render(_renderAction);
+    if(_mfWindows.empty())
+        return;
+
+    Window* win = getWindows(0);
+
+    if(_mfRenderTasks.empty() == false)
+    {
+        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
+        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
+
+        for(; tIt != tEnd; ++tIt)
+        {
+            if((*tIt)->getDone() == false)
+                win->addPort((*tIt)->getViewport());
+        }
+    }
+
+    win->render(_renderAction);
+
+    if(_mfRenderTasks.empty() == false)
+    {
+        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
+        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
+
+        for(; tIt != tEnd; ++tIt)
+        {
+            if((*tIt)->getDone() == false)
+            {
+                win->subPortByObj((*tIt)->getViewport());
+                (*tIt)->setDone(true);
+            }
+        }
+    }
 }
 
 

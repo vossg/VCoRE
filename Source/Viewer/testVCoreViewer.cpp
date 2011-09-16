@@ -11,7 +11,7 @@
 #include "OSGNode.h"
 #include "OSGGroup.h"
 #include "OSGThread.h"
-#include "OSGTransform.h"
+#include "OSGComponentTransform.h"
 #include "OSGAction.h"
 #include "OSGRenderAction.h"
 #include "OSGSimpleGeometry.h"
@@ -19,7 +19,7 @@
 
 #include "OSGDirectionalLight.h"
 
-#include "OSGFBOViewport.h"
+#include "OSGStagedViewport.h"
 #include "OSGFrameBufferObject.h"
 #include "OSGRenderBuffer.h"
 #include "OSGTextureBuffer.h"
@@ -42,6 +42,7 @@
 #include "OSGPassiveWindow.h"
 
 #include "OSGVCGLUTViewer.h"
+#include "OSGVCRenderTask.h"
 
 //#define USE_DEPTH_TEXTURE 1
 
@@ -51,9 +52,11 @@ OSG::GroupNodeRefPtr          planeRoot;
 OSG::GroupNodeRefPtr          animRoot;
 
 OSG::VCTestStageNodeRefPtr          stage;
+OSG::PerspectiveCameraUnrecPtr stage_cam;
+OSG::SolidBackgroundUnrecPtr bkgnd;
 
 OSG::Vec3f                     sceneTrans;
-OSG::TransformNodeRefPtr       cam_transScene;  // Transofrmation of cam/light/stage
+OSG::ComponentTransformNodeRefPtr       cam_transScene;  // Transofrmation of cam/light/stage
 OSG::TransformNodeRefPtr       sceneXform;      // Rotation of model we are viewing
 
 //OSG::TextureObjChunkUnrecPtr   tx1o;       // Texture object to shared
@@ -70,6 +73,8 @@ OSG::VisitSubTreeNodeRefPtr  pVisit;
 
 bool                      bReadBack = false;
 bool                      bBoxActive = true;
+
+OSG::VCRenderTaskRefPtr renderTask;
 
 // ----- Scene structure --- //
 /*
@@ -118,12 +123,14 @@ namespace OSG {
 
         FBOComplex(Int32 w, Int32 h)
         {
+            bool readBack = true;
+
             _texObj = OSG::TextureObjChunk::create();
             _texEnv = OSG::TextureEnvChunk::create();
 
             _texImg = OSG::Image::create();
             _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
-                1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+                1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, readBack);
 
             _texObj->setImage    (_texImg      );
             _texObj->setMinFilter(GL_LINEAR );
@@ -153,7 +160,7 @@ namespace OSG {
             _depthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
 
             _texBuffer->setTexture (_texObj);
-            _texBuffer->setReadBack(false);
+            _texBuffer->setReadBack(readBack);
 
             _fbo->setSize(w, h);
             _fbo->setColorAttachment(_texBuffer, 0);
@@ -185,6 +192,39 @@ void testPreRenderCB(OSG::DrawEnv *)
 void testPostRenderCB(OSG::DrawEnv *)
 {
     //    fprintf(stderr, "PostRender\n");
+}
+
+void testRenderTask()
+{
+    if(!renderTask)
+    {
+        FNOTICE(("CREATE\n"));
+        renderTask = OSG::VCRenderTask::create();
+
+        OSG::StagedViewportUnrecPtr vp = OSG::StagedViewport::create();
+        vp->setStage(stage);
+        vp->setFrameBufferObject(fboComplex->_fbo);
+        vp->setCamera      (stage_cam  );
+        vp->setBackground  (bkgnd);
+
+        renderTask->setViewport(vp);
+        renderTask->setDone(false);
+    }
+
+    if(renderTask->getDone())
+    {
+        FNOTICE(("RESULT\n"));
+        OSG::VCGLUTViewer::the()->getRenderer()->subRenderTask(0);
+        fboComplex->_texImg->write("c:/work/tmp/fuck.png");
+        renderTask->setDone(false);
+    }
+    else
+    {
+        OSG::VCGLUTViewer::the()->getRenderer()->addRenderTask(renderTask);
+        FNOTICE(("QUEUED\n"));
+    }
+
+
 }
 
 //void display(void)
@@ -387,7 +427,7 @@ void key(unsigned char key, int x, int y)
         break;
     case '5':
         {
-//            testRenderJob();
+            testRenderTask();
             FNOTICE(("RenderJob queued"));
         }
         break;
@@ -407,7 +447,8 @@ void initAnimSetup(int argc, char **argv)
     OSG::GroupNodeRefPtr beacon = OSG::GroupNodeRefPtr::create();
 
     // transformation for beacon
-    cam_transScene   = OSG::TransformNodeRefPtr::create();
+    cam_transScene   = OSG::ComponentTransformNodeRefPtr::create();
+    cam_transScene->setTranslation(OSG::Vec3f(0.f,0.f,10.f));
     cam_transScene.node()->addChild(beacon);
 
     // light
@@ -461,16 +502,16 @@ void initAnimSetup(int argc, char **argv)
     // ---- STAGE RENDERING SETUP --- //
     // Camera: setup camera to point from beacon (light pos)
     //   with a 90deg FOV to render the scene
-    //OSG::PerspectiveCameraUnrecPtr stage_cam = OSG::PerspectiveCamera::create();
+    stage_cam = OSG::PerspectiveCamera::create();
 
-    //stage_cam->setBeacon(beacon);
-    //stage_cam->setFov   (OSG::osgDegree2Rad(90));
-    //stage_cam->setNear  (0.1f);
-    //stage_cam->setFar   (100000);
+    stage_cam->setBeacon(beacon);
+    stage_cam->setFov   (OSG::osgDegree2Rad(90));
+    stage_cam->setNear  (0.1f);
+    stage_cam->setFar   (100000);
 
 
     // Background
-    OSG::SolidBackgroundUnrecPtr bkgnd = OSG::SolidBackground::create();
+    bkgnd = OSG::SolidBackground::create();
     bkgnd->setColor(OSG::Color3f(1,0,1));
 
 //    // FBO setup
@@ -526,11 +567,11 @@ void initAnimSetup(int argc, char **argv)
 //    pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
 
     // Stage core setup
-//    fboComplex = new OSG::FBOComplex(128,128);
+    fboComplex = new OSG::FBOComplex(128,128);
     stage = OSG::VCTestStageNodeRefPtr::create();
-//    stage->setRenderTarget(fboComplex->_fbo);
-//    stage->setCamera      (stage_cam  );
-//    stage->setBackground  (bkgnd);
+    //stage->setRenderTarget(fboComplex->_fbo);
+    //stage->setCamera      (stage_cam  );
+    //stage->setBackground  (bkgnd);
 //
 //    pStage->addPreRenderFunctor (&testPreRenderCB, "" );
 //    pStage->addPostRenderFunctor(&testPostRenderCB, "");
