@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="VCRenderTask"
+   parent="AttachmentContainer"
+   library="VCoreViewer"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="false"
+   docGroupBase="GrpVCoreRenderer"
+   typeDescAddable="false"
+   dynFCDerived="false"
+   >
+   <Field
+     name="viewport"
+     type="ViewportPtr"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="NULL"
+     >
+   </Field>
+   <Field
+     name="done"
+     type="bool"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="false"
+     >
+  </Field>
+
+</FieldContainer>
