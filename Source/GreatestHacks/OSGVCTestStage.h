@@ -120,6 +120,24 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING VCTestStage : public VCTestStageBase
         Background        *pBack,
         Viewport          *pViewport );
 
+
+
+    //class FBOComplex
+    //{
+    //public:
+    //    OSG::FrameBufferObjectUnrecPtr _fbo;
+    //    OSG::TextureBufferUnrecPtr     _texBuffer;
+    //    OSG::ImageUnrecPtr _texImg;
+    //    OSG::TextureObjChunkUnrecPtr   _texObj;
+    //    OSG::TextureEnvChunkUnrecPtr   _texEnv;
+    //    //    OSG::TextureObjChunkUnrecPtr   _depthTexObj;
+    //    OSG::RenderBufferUnrecPtr      _depthBuffer;
+
+    //    FBOComplex(Int32 w, Int32 h);
+    //    void resize(Int32 w, Int32 h);
+    //};
+    //FBOComplex _fboComplex;
+
     /*==========================  PRIVATE  ================================*/
 
   private:

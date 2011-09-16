@@ -56,15 +56,15 @@ OSG::Vec3f                     sceneTrans;
 OSG::TransformNodeRefPtr       cam_transScene;  // Transofrmation of cam/light/stage
 OSG::TransformNodeRefPtr       sceneXform;      // Rotation of model we are viewing
 
-OSG::TextureObjChunkUnrecPtr   tx1o;       // Texture object to shared
-OSG::TextureEnvChunkUnrecPtr   tx1e;       // Texture environment to share
-
-#ifdef USE_DEPTH_TEXTURE
-OSG::TextureObjChunkUnrecPtr   txDepth;    // Depth texture
-#endif
-
-OSG::FrameBufferObjectUnrecPtr pFBO;
-OSG::TextureBufferUnrecPtr     pTexBuffer;
+//OSG::TextureObjChunkUnrecPtr   tx1o;       // Texture object to shared
+//OSG::TextureEnvChunkUnrecPtr   tx1e;       // Texture environment to share
+//
+//#ifdef USE_DEPTH_TEXTURE
+//OSG::TextureObjChunkUnrecPtr   txDepth;    // Depth texture
+//#endif
+//
+//OSG::FrameBufferObjectUnrecPtr pFBO;
+//OSG::TextureBufferUnrecPtr     pTexBuffer;
 
 OSG::VisitSubTreeNodeRefPtr  pVisit;
 
@@ -103,6 +103,80 @@ TextureBuffer: pTexBuffer  --> tx1o
 RenderBuffer: pDepthBuffer
 */
 
+
+namespace OSG {
+    class FBOComplex
+    {
+    public:
+        OSG::FrameBufferObjectUnrecPtr _fbo;
+        OSG::TextureBufferUnrecPtr     _texBuffer;
+        OSG::ImageUnrecPtr _texImg;
+        OSG::TextureObjChunkUnrecPtr   _texObj;
+        OSG::TextureEnvChunkUnrecPtr   _texEnv;
+        //    OSG::TextureObjChunkUnrecPtr   _depthTexObj;
+        OSG::RenderBufferUnrecPtr      _depthBuffer;
+
+        FBOComplex(Int32 w, Int32 h)
+        {
+            _texObj = OSG::TextureObjChunk::create();
+            _texEnv = OSG::TextureEnvChunk::create();
+
+            _texImg = OSG::Image::create();
+            _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
+                1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+
+            _texObj->setImage    (_texImg      );
+            _texObj->setMinFilter(GL_LINEAR );
+            _texObj->setMagFilter(GL_LINEAR );
+            _texObj->setWrapS    (GL_REPEAT );
+            _texObj->setWrapT    (GL_REPEAT );
+
+            _texEnv->setEnvMode (GL_REPLACE);
+
+            //OSG::ImageUnrecPtr dImg = OSG::Image::create();
+            //dImg->set(Image::OSG_L_PF, 512, 512);
+
+            //txDepth->setImage (dImg);
+            //txDepth->setMinFilter(GL_NEAREST );
+            //txDepth->setMagFilter(GL_LINEAR );
+            //txDepth->setWrapS    (GL_CLAMP_TO_EDGE );
+            //txDepth->setWrapT    (GL_CLAMP_TO_EDGE );
+            //txDepth->setExternalFormat(GL_DEPTH_COMPONENT);
+            //txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
+
+            _fbo         = OSG::FrameBufferObject::create();
+            _texBuffer   = OSG::TextureBuffer::create();
+
+            //OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
+            //pDepthBuffer->setTexture(txDepth);
+            _depthBuffer = OSG::RenderBuffer ::create();
+            _depthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
+
+            _texBuffer->setTexture (_texObj);
+            _texBuffer->setReadBack(false);
+
+            _fbo->setSize(w, h);
+            _fbo->setColorAttachment(_texBuffer, 0);
+            _fbo->setDepthAttachment(_depthBuffer );
+
+            _fbo->editMFDrawBuffers()->clear();
+            _fbo->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
+
+//            commitChanges();
+        }
+
+        void resize(Int32 w, Int32 h)
+        {
+            _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
+                1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+            _fbo->setSize(w, h);
+//            commitChanges();
+        }
+    };
+}
+
+OSG::FBOComplex* fboComplex = NULL;
+
 void testPreRenderCB(OSG::DrawEnv *)
 {
     //    fprintf(stderr, "PreRender\n");
@@ -113,37 +187,37 @@ void testPostRenderCB(OSG::DrawEnv *)
     //    fprintf(stderr, "PostRender\n");
 }
 
-void display(void)
-{
-    OSG::Matrix m1;
-
-    // Anim
-    OSG::Real32 t = glutGet(GLUT_ELAPSED_TIME);
-    m1.setTransform(-sceneTrans, OSG::Quaternion(OSG::Vec3f(0,1,0), 
-        t / 1000.f));
-    sceneXform->setMatrix(m1);
-
-    OSG::commitChanges();
-
-    mgr->redraw();
-
-    // all done, swap
-    glutSwapBuffers();
-
-    if(bReadBack == true)
-    {
-        OSG::Image *pImg = tx1o->getImage();
-
-        pImg->write("/tmp/foo.png");
-    }
-}
-
-void reshape(int w, int h)
-{
-    std::cerr << "Reshape: " << w << "," << h << std::endl;
-    mgr->resize(w,h);
-    glutPostRedisplay();
-}
+//void display(void)
+//{
+//    OSG::Matrix m1;
+//
+//    // Anim
+//    OSG::Real32 t = glutGet(GLUT_ELAPSED_TIME);
+//    m1.setTransform(-sceneTrans, OSG::Quaternion(OSG::Vec3f(0,1,0), 
+//        t / 1000.f));
+//    sceneXform->setMatrix(m1);
+//
+//    OSG::commitChanges();
+//
+//    mgr->redraw();
+//
+//    // all done, swap
+//    glutSwapBuffers();
+//
+//    if(bReadBack == true)
+//    {
+//        OSG::Image *pImg = tx1o->getImage();
+//
+//        pImg->write("/tmp/foo.png");
+//    }
+//}
+//
+//void reshape(int w, int h)
+//{
+//    std::cerr << "Reshape: " << w << "," << h << std::endl;
+//    mgr->resize(w,h);
+//    glutPostRedisplay();
+//}
 
 
 void animate(void)
@@ -174,30 +248,30 @@ void key(unsigned char key, int x, int y)
 {
     switch(key)
     {
-    case 27:
-
-        planeRoot      = static_cast<OSG::Node *>(NULL);
-        animRoot       = static_cast<OSG::Node *>(NULL);
-
-        cam_transScene = static_cast<OSG::Node *>(NULL);
-        sceneXform     = static_cast<OSG::Node *>(NULL);
-
-        tx1o           = NULL;
-        tx1e           = NULL;
-
-#ifdef USE_DEPTH_TEXTURE
-        txDepth        = NULL;
-#endif
-
-        pFBO           = NULL;
-        pTexBuffer     = NULL;
-
-        pVisit         = static_cast<OSG::Node *>(NULL);
-
-        delete mgr;
-
-        OSG::osgExit();
-        exit(0);
+//    case 27:
+//
+//        planeRoot      = static_cast<OSG::Node *>(NULL);
+//        animRoot       = static_cast<OSG::Node *>(NULL);
+//
+//        cam_transScene = static_cast<OSG::Node *>(NULL);
+//        sceneXform     = static_cast<OSG::Node *>(NULL);
+//
+//        tx1o           = NULL;
+//        tx1e           = NULL;
+//
+//#ifdef USE_DEPTH_TEXTURE
+//        txDepth        = NULL;
+//#endif
+//
+//        pFBO           = NULL;
+//        pTexBuffer     = NULL;
+//
+//        pVisit         = static_cast<OSG::Node *>(NULL);
+//
+//        delete mgr;
+//
+//        OSG::osgExit();
+//        exit(0);
 
     case 'a':
         glDisable( GL_LIGHTING );
@@ -237,56 +311,57 @@ void key(unsigned char key, int x, int y)
         }
         break;
 
-    case 'B':
-        {
-            OSG::ImageRefPtr pImg = tx1o->getImage();
+    //case 'B':
+    //    {
+    //        OSG::ImageRefPtr pImg = tx1o->getImage();
 
-            pImg->set(OSG::Image::OSG_RGB_PF, 512, 512);
+    //        pImg->set(OSG::Image::OSG_RGB_PF, 512, 512);
 
-            //            tx1o->imageContentChanged();
+    //        //            tx1o->imageContentChanged();
 
-            //            Window::reinitializeGLObject(tx1o->getGLId());
+    //        //            Window::reinitializeGLObject(tx1o->getGLId());
 
-            pFBO->setSize(512, 512);
-        }
-        break;
+    //        pFBO->setSize(512, 512);
+    //    }
+    //    break;
 
-    case 'S':
-        {
-            OSG::ImageRefPtr pImg = tx1o->getImage();
+    //case 'S':
+    //    {
+    //        OSG::ImageRefPtr pImg = tx1o->getImage();
 
-            pImg->set(OSG::Image::OSG_RGB_PF, 256, 256);
+    //        pImg->set(OSG::Image::OSG_RGB_PF, 256, 256);
 
-            //            tx1o->imageContentChanged();
+    //        //            tx1o->imageContentChanged();
 
-            //            Window::reinitializeGLObject(tx1o->getGLId());
+    //        //            Window::reinitializeGLObject(tx1o->getGLId());
 
-            pFBO->setSize(256, 256);
-        }
-        break;
+    //        pFBO->setSize(256, 256);
+    //    }
+    //    break;
 
-    case 'r':
-        {
-            fprintf(stderr, "enable readback\n");
+    //case 'r':
+    //    {
+    //        fprintf(stderr, "enable readback\n");
 
-            bReadBack = true;
+    //        bReadBack = true;
 
-            pFBO->setPostProcessOnDeactivate(true);
-        }
-        break;
+    //        pFBO->setPostProcessOnDeactivate(true);
+    //    }
+    //    break;
 
-    case 'R':
-        {
-            fprintf(stderr, "disable readback\n");
+    //case 'R':
+    //    {
+    //        fprintf(stderr, "disable readback\n");
 
-            bReadBack = false;
+    //        bReadBack = false;
 
-            pFBO->setPostProcessOnDeactivate(false);
-        }
+    //        pFBO->setPostProcessOnDeactivate(false);
+    //    }
 
     case '1':
         {
             OSG::VCGLUTViewer::the()->setStage(stage.core());
+            FNOTICE(("setting stage.\n"));
             OSG::commitChanges();
         }
         break;
@@ -294,12 +369,27 @@ void key(unsigned char key, int x, int y)
     case '2':
         {
             OSG::VCGLUTViewer::the()->setStage(NULL);
+            FNOTICE(("UNsetting stage.\n"));
+            OSG::commitChanges();
+        }
+        break;
+    case '3':
+        {
+            fboComplex->resize(512,512);
+            OSG::commitChanges();
+        }
+        break;
+    case '4':
+        {
+            fboComplex->resize(128,128);
             OSG::commitChanges();
         }
         break;
 
     }
 }
+
+
 
 // Setup the part of the scene rooted at animRoot
 // This includes a file to animate, a beacon for a light,
@@ -365,75 +455,76 @@ void initAnimSetup(int argc, char **argv)
     // ---- STAGE RENDERING SETUP --- //
     // Camera: setup camera to point from beacon (light pos)
     //   with a 90deg FOV to render the scene
-    OSG::PerspectiveCameraUnrecPtr stage_cam = OSG::PerspectiveCamera::create();
+    //OSG::PerspectiveCameraUnrecPtr stage_cam = OSG::PerspectiveCamera::create();
 
-    stage_cam->setBeacon(beacon);
-    stage_cam->setFov   (OSG::osgDegree2Rad(90));
-    stage_cam->setNear  (0.1f);
-    stage_cam->setFar   (100000);
+    //stage_cam->setBeacon(beacon);
+    //stage_cam->setFov   (OSG::osgDegree2Rad(90));
+    //stage_cam->setNear  (0.1f);
+    //stage_cam->setFar   (100000);
 
 
     // Background
     OSG::SolidBackgroundUnrecPtr bkgnd = OSG::SolidBackground::create();
     bkgnd->setColor(OSG::Color3f(1,0,1));
 
-    // FBO setup
-    tx1o = OSG::TextureObjChunk::create();
-    tx1e = OSG::TextureEnvChunk::create();
-
-    // Setup the shared texture and texture environment
-    // - Create an empty image so texture can allocate size and memory
-    OSG::ImageUnrecPtr pImg = OSG::Image::create();
-    pImg->set(OSG::Image::OSG_RGB_PF, 512, 512, 1,
-        1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
-
-    tx1o->setImage    (pImg      );
-    tx1o->setMinFilter(GL_LINEAR );
-    tx1o->setMagFilter(GL_LINEAR );
-    tx1o->setWrapS    (GL_REPEAT );
-    tx1o->setWrapT    (GL_REPEAT );
-
-    tx1e->setEnvMode (GL_REPLACE);
-
-#ifdef USE_DEPTH_TEXTURE
-    OSG::ImageUnrecPtr dImg = OSG::Image::create();
-    dImg->set(Image::OSG_L_PF, 512, 512);
-
-    txDepth->setImage (dImg);
-    txDepth->setMinFilter(GL_NEAREST );
-    txDepth->setMagFilter(GL_LINEAR );
-    txDepth->setWrapS    (GL_CLAMP_TO_EDGE );
-    txDepth->setWrapT    (GL_CLAMP_TO_EDGE );
-    txDepth->setExternalFormat(GL_DEPTH_COMPONENT);
-    txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
-#endif
-
-    pFBO         = OSG::FrameBufferObject::create();
-    pTexBuffer   = OSG::TextureBuffer::create();
-
-#ifdef USE_DEPTH_TEXTURE
-    OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
-    pDepthBuffer->setTexture(txDepth);
-#else
-    OSG::RenderBufferUnrecPtr      pDepthBuffer = OSG::RenderBuffer ::create();
-    pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
-#endif
-
-    pTexBuffer->setTexture (tx1o);
-    pTexBuffer->setReadBack(false);
-
-    pFBO->setSize(512, 512);
-    pFBO->setColorAttachment(pTexBuffer, 0);
-    pFBO->setDepthAttachment(pDepthBuffer );
-
-    pFBO->editMFDrawBuffers()->clear();
-    pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
+//    // FBO setup
+//    tx1o = OSG::TextureObjChunk::create();
+//    tx1e = OSG::TextureEnvChunk::create();
+//
+//    // Setup the shared texture and texture environment
+//    // - Create an empty image so texture can allocate size and memory
+//    OSG::ImageUnrecPtr pImg = OSG::Image::create();
+//    pImg->set(OSG::Image::OSG_RGB_PF, 512, 512, 1,
+//        1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+//
+//    tx1o->setImage    (pImg      );
+//    tx1o->setMinFilter(GL_LINEAR );
+//    tx1o->setMagFilter(GL_LINEAR );
+//    tx1o->setWrapS    (GL_REPEAT );
+//    tx1o->setWrapT    (GL_REPEAT );
+//
+//    tx1e->setEnvMode (GL_REPLACE);
+//
+//#ifdef USE_DEPTH_TEXTURE
+//    OSG::ImageUnrecPtr dImg = OSG::Image::create();
+//    dImg->set(Image::OSG_L_PF, 512, 512);
+//
+//    txDepth->setImage (dImg);
+//    txDepth->setMinFilter(GL_NEAREST );
+//    txDepth->setMagFilter(GL_LINEAR );
+//    txDepth->setWrapS    (GL_CLAMP_TO_EDGE );
+//    txDepth->setWrapT    (GL_CLAMP_TO_EDGE );
+//    txDepth->setExternalFormat(GL_DEPTH_COMPONENT);
+//    txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
+//#endif
+//
+//    pFBO         = OSG::FrameBufferObject::create();
+//    pTexBuffer   = OSG::TextureBuffer::create();
+//
+//#ifdef USE_DEPTH_TEXTURE
+//    OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
+//    pDepthBuffer->setTexture(txDepth);
+//#else
+//    OSG::RenderBufferUnrecPtr      pDepthBuffer = OSG::RenderBuffer ::create();
+//    pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
+//#endif
+//
+//    pTexBuffer->setTexture (tx1o);
+//    pTexBuffer->setReadBack(false);
+//
+//    pFBO->setSize(512, 512);
+//    pFBO->setColorAttachment(pTexBuffer, 0);
+//    pFBO->setDepthAttachment(pDepthBuffer );
+//
+//    pFBO->editMFDrawBuffers()->clear();
+//    pFBO->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
 
     // Stage core setup
+//    fboComplex = new OSG::FBOComplex(128,128);
     stage = OSG::VCTestStageNodeRefPtr::create();
-    stage->setRenderTarget(pFBO );
+//    stage->setRenderTarget(fboComplex->_fbo);
 //    stage->setCamera      (stage_cam  );
-    stage->setBackground  (bkgnd);
+//    stage->setBackground  (bkgnd);
 //
 //    pStage->addPreRenderFunctor (&testPreRenderCB, "" );
 //    pStage->addPostRenderFunctor(&testPostRenderCB, "");

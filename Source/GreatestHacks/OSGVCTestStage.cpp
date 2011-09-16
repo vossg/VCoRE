@@ -111,6 +111,28 @@ void VCTestStage::changed(ConstFieldMaskArg whichField,
                           UInt32            origin,
                           BitVector         details)
 {
+    if(whichField & RenderTargetFieldMask)
+    {
+        //FrameBufferObjectUnrecPtr rt = getRenderTarget();
+        //if(_fboComplex==NULL && rt==NULL)
+        //{   // => generate private rt and set
+        //    _fboComplex = new FBOComplex(1,1);
+        //    setRenderTarget(_fboComplex->_fbo);
+        //}
+        //else if(_fboComplex==NULL && rt!=NULL)
+        //{   // => rt explicitely set, do nothing
+
+        //}
+        //else if(_fboComplex!=NULL && rt==NULL)
+        //{   // => rt set to null, keep private rt
+        //    setRenderTarget(_fboComplex->_fbo);
+        //}
+        //else if(_fboComplex!=NULL && rt!=NULL)
+        //{   // => rt explicitely set, do nothing
+        //    _fboComplex->_fbo
+        //}
+    }
+
     Inherited::changed(whichField, origin, details);
 }
 
@@ -255,5 +277,65 @@ void VCTestStage::setupPartition(
     pPart->setBackground(pBack);
 }
 
+
+
+//
+//
+//VCTestStage::FBOComplex::FBOComplex(Int32 w, Int32 h)
+//{
+//    _texObj = OSG::TextureObjChunk::create();
+//    _texEnv = OSG::TextureEnvChunk::create();
+//
+//    _texImg = OSG::Image::create();
+//    _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
+//        1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+//
+//    _texObj->setImage    (_texImg      );
+//    _texObj->setMinFilter(GL_LINEAR );
+//    _texObj->setMagFilter(GL_LINEAR );
+//    _texObj->setWrapS    (GL_REPEAT );
+//    _texObj->setWrapT    (GL_REPEAT );
+//
+//    _texEnv->setEnvMode (GL_REPLACE);
+//
+//    //OSG::ImageUnrecPtr dImg = OSG::Image::create();
+//    //dImg->set(Image::OSG_L_PF, 512, 512);
+//
+//    //txDepth->setImage (dImg);
+//    //txDepth->setMinFilter(GL_NEAREST );
+//    //txDepth->setMagFilter(GL_LINEAR );
+//    //txDepth->setWrapS    (GL_CLAMP_TO_EDGE );
+//    //txDepth->setWrapT    (GL_CLAMP_TO_EDGE );
+//    //txDepth->setExternalFormat(GL_DEPTH_COMPONENT);
+//    //txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
+//
+//    _fbo         = OSG::FrameBufferObject::create();
+//    _texBuffer   = OSG::TextureBuffer::create();
+//
+//    //OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
+//    //pDepthBuffer->setTexture(txDepth);
+//    _depthBuffer = OSG::RenderBuffer ::create();
+//    _depthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
+//
+//    _texBuffer->setTexture (_texObj);
+//    _texBuffer->setReadBack(false);
+//
+//    _fbo->setSize(w, h);
+//    _fbo->setColorAttachment(_texBuffer, 0);
+//    _fbo->setDepthAttachment(_depthBuffer );
+//
+//    _fbo->editMFDrawBuffers()->clear();
+//    _fbo->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
+//
+//    //            commitChanges();
+//}
+//
+//void VCTestStage::FBOComplex::resize(Int32 w, Int32 h)
+//{
+//    _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
+//        1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, false);
+//    _fbo->setSize(w, h);
+//    //            commitChanges();
+//}
 
 OSG_END_NAMESPACE

@@ -118,25 +118,14 @@ void StagedViewport::changed(ConstFieldMaskArg whichField,
 {
     if(whichField & StageFieldMask)
     {
-        FNOTICE(("Stage changed.\n"));
+//        FNOTICE(("Stage changed.\n"));
         _stageNode->setCore(getStage());
     }
     if(whichField & RootFieldMask)
     {
-        FNOTICE(("root changed.\n"));
+//        FNOTICE(("root changed.\n"));
         _visitSubtreeNode->setSubTreeRoot(getRoot());
     }
-    //if( (whichField & CameraFieldMask) 
-    //    || (whichField & StageFieldMask) )
-    //{
-    //    FNOTICE(("cam changed.\n"));
-    //    SimpleStage* ss = dynamic_cast<SimpleStage*>(getStage());
-    //    if(ss)
-    //    {
-    //        ss->setCamera(getCamera());
-    //    }
-    //}
-
 
     Inherited::changed(whichField, origin, details);
 }
@@ -181,12 +170,12 @@ void StagedViewport::render(RenderActionBase *action)
 
     if(!getStage())
     {
-        FNOTICE((">>> NO stage\n"));
+//        FNOTICE((">>> NO stage\n"));
         Inherited::render(action);
     }
     else
     {
-        FNOTICE((">>> With stage\n"));
+//        FNOTICE((">>> With stage\n"));
         renderWithStage(action);
     }
 
@@ -231,7 +220,18 @@ void StagedViewport::renderWithStage(RenderActionBase *action)
 
     action->apply(_stageNode);
 
-    stretchStageRenderTargetToFrameBuffer(action);
+    // Blit the result
+    // myTarget && stageTarget => assume stage renders into stageTarget, blit this into myTarget (TODO)
+    // !myTarget && stageTarget => assume stage renders into stageTarget, blit this into back buffer
+    // !myTarget && !stageTarget => assume stage renders into back buffer, no blitting
+    // myTarget && !stageTarget => assume stage renders into myTarget, no blitting
+    StageUnrecPtr stage = getStage();
+    FrameBufferObjectUnrecPtr myTarget = this->getTarget();
+    FrameBufferObjectUnrecPtr stageTarget = stage->getRenderTarget();
+    FrameBufferObjectUnrecPtr theTarget = stageTarget ? stageTarget : myTarget;
+    if( theTarget )
+        stretchTargetToFrameBuffer(action, theTarget);
+
 
     //Window  *pWin = action->getWindow();
 
@@ -283,7 +283,7 @@ void StagedViewport::renderWithStage(RenderActionBase *action)
 }
 
 
-void StagedViewport::stretchStageRenderTargetToFrameBuffer(RenderActionBase *action)
+void StagedViewport::stretchTargetToFrameBuffer(RenderActionBase *action, FrameBufferObject *target)
 {
 
     Window  *pWin = action->getWindow();
@@ -298,14 +298,14 @@ void StagedViewport::stretchStageRenderTargetToFrameBuffer(RenderActionBase *act
         //oEnv.setTileFullSize(getCamera()->tileGetFullSize());
         //oEnv.setTileRegion  (getCamera()->tileGetRegion  ());
 
+        // THINKABOUTME KS:
         //oEnv.setDrawerId  (action->getDrawerId  ());
         //oEnv.setDrawableId(action->getDrawableId());
 
-        // Not strictly necessary
         glClearColor(0.0, 1.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        FrameBufferAttachment* fba = getStage()->getRenderTarget()->getColorAttachments(0);
+        FrameBufferAttachment* fba = target->getColorAttachments(0);
         TextureObjChunk* texObj = dynamic_cast<TextureBuffer*>(fba)->getTexture();
         if( texObj )
         {

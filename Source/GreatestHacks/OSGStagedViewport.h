@@ -83,9 +83,10 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBa
 
     virtual void render(RenderActionBase *action);
     void renderWithStage(RenderActionBase *action);
-    void stretchStageRenderTargetToFrameBuffer(RenderActionBase *action);
+    void stretchTargetToFrameBuffer(
+        RenderActionBase *action, FrameBufferObject *target);
     
-        /*=========================  PROTECTED  ===============================*/
+    /*=========================  PROTECTED  ===============================*/
 
   protected:
 
