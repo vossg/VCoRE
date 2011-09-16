@@ -164,6 +164,10 @@ ActionBase::ResultE VCTestStage::renderEnter(Action *action)
     {
         pTarget = pParentPart->getRenderTarget();
     }
+    if(!pTarget && pView)
+    {
+        pTarget = pView->getTarget();
+    }
     if(!pCam)
     {
         pCam = a->getCamera();

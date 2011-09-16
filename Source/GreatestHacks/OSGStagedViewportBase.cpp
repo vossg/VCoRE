@@ -92,7 +92,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<StagedViewport *>::_type("StagedViewportPtr", "StereoBufferViewportPtr");
+DataType FieldTraits<StagedViewport *>::_type("StagedViewportPtr", "FBOViewportPtr");
 #endif
 
 OSG_FIELDTRAITS_GETTYPE(StagedViewport *)
@@ -143,7 +143,7 @@ StagedViewportBase::TypeObject StagedViewportBase::_type(
     "\n"
     "<FieldContainer\n"
     "   name=\"StagedViewport\"\n"
-    "   parent=\"StereoBufferViewport\"\n"
+    "   parent=\"FBOViewport\"\n"
     "   library=\"VCoreGreatestHacks\"\n"
     "   structure=\"concrete\"\n"
     "   pointerfieldtypes=\"both\"\n"

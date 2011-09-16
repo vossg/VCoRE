@@ -80,6 +80,16 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBa
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sizes                                   */
+    /*! \{                                                                 */
+
+    virtual Int32 getPixelLeft  (void) const;
+    virtual Int32 getPixelRight (void) const;
+    virtual Int32 getPixelBottom(void) const;
+    virtual Int32 getPixelTop   (void) const;
+    virtual bool  isFullWindow  (void) const;
+    /*! \}                                                                 */
 
     virtual void render(RenderActionBase *action);
     void renderWithStage(RenderActionBase *action);

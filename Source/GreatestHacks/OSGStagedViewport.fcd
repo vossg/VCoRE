@@ -2,7 +2,7 @@
 
 <FieldContainer
    name="StagedViewport"
-   parent="StereoBufferViewport"
+   parent="FBOViewport"
    library="VCoreGreatestHacks"
    structure="concrete"
    pointerfieldtypes="both"

@@ -63,7 +63,7 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGStereoBufferViewport.h" // Parent
+#include "OSGFBOViewport.h" // Parent
 
 #include "OSGStageFields.h"             // Stage type
 
@@ -75,12 +75,12 @@ class StagedViewport;
 
 //! \brief StagedViewport Base Class.
 
-class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewportBase : public StereoBufferViewport
+class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewportBase : public FBOViewport
 {
   public:
 
-    typedef StereoBufferViewport Inherited;
-    typedef StereoBufferViewport ParentContainer;
+    typedef FBOViewport Inherited;
+    typedef FBOViewport ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;

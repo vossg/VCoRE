@@ -137,6 +137,81 @@ void StagedViewport::dump(      UInt32    ,
 }
 
 
+Int32 StagedViewport::getPixelLeft(void) const
+{
+    if(!getFrameBufferObject())
+    {   // => behave like normal viewport
+        return Viewport::getPixelLeft();
+    }
+    else
+    {   // => behave like FBOViewport
+        if(getLeft() > 1)
+            return Int32(getLeft());
+
+        return Int32(getFrameBufferObject()->getWidth() * getLeft());
+    }
+}
+
+Int32 StagedViewport::getPixelRight(void) const
+{
+    if(!getFrameBufferObject())
+    {   // => behave like normal viewport
+        return Viewport::getPixelRight();
+    }
+    else
+    {   // => behave like FBOViewport
+        if(getRight() > 1)
+            return Int32(getRight());
+
+        // <=1: partial screen, use 1 less to not overlap other windows
+        return Int32(getFrameBufferObject()->getWidth() * getRight() - 1);
+    }
+}
+
+Int32 StagedViewport::getPixelBottom(void) const
+{
+    if(!getFrameBufferObject())
+    {   // => behave like normal viewport
+        return Viewport::getPixelBottom();
+    }
+    else
+    {   // => behave like FBOViewport
+        if(getBottom() > 1)
+            return Int32(getBottom());
+
+        return Int32(getFrameBufferObject()->getHeight() * getBottom());
+    }
+}
+
+Int32 StagedViewport::getPixelTop(void) const
+{
+    if(!getFrameBufferObject())
+    {   // => behave like normal viewport
+        return Viewport::getPixelTop();
+    }
+    else
+    {   // => behave like FBOViewport
+        if(getTop() > 1)
+            return Int32(getTop());
+
+        // <=1: partial screen, use 1 less to not overlap other windows
+        return Int32(getFrameBufferObject()->getHeight() * getTop() - 1);
+    }
+}
+
+bool StagedViewport::isFullWindow(void) const
+{
+    if(getFrameBufferObject() == NULL)
+        return Viewport::isFullWindow();
+    else
+        return  
+            getPixelBottom() == 0 &&
+            getPixelLeft()   == 0 &&
+            getPixelTop()    == getFrameBufferObject()->getHeight() - 1 &&
+            getPixelRight()  == getFrameBufferObject()->getWidth () - 1;
+}
+
+
 void StagedViewport::render(RenderActionBase *action)
 {
 //#ifndef OSG_OGL_ES2

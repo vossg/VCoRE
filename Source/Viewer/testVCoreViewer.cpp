@@ -385,6 +385,12 @@ void key(unsigned char key, int x, int y)
             OSG::commitChanges();
         }
         break;
+    case '5':
+        {
+//            testRenderJob();
+            FNOTICE(("RenderJob queued"));
+        }
+        break;
 
     }
 }
