@@ -83,12 +83,14 @@ void VCRenderer::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 VCRenderer::VCRenderer(void) :
-    Inherited()
+    Inherited(),
+    _renderAction(NULL)
 {
 }
 
 VCRenderer::VCRenderer(const VCRenderer &source) :
-    Inherited(source)
+    Inherited(source),
+    _renderAction(source._renderAction)
 {
 }
 
@@ -110,5 +112,17 @@ void VCRenderer::dump(      UInt32    ,
 {
     SLOG << "Dump VCRenderer NI" << std::endl;
 }
+
+
+void VCRenderer::init()
+{
+    _renderAction = RenderAction::create();
+}
+
+void VCRenderer::update()
+{
+    getWindows(0)->render(_renderAction);
+}
+
 
 OSG_END_NAMESPACE

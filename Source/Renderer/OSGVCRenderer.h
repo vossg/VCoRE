@@ -44,6 +44,8 @@
 
 #include "OSGVCRendererBase.h"
 
+#include "OSGRenderAction.h"
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief VCRenderer class. See \ref
@@ -78,6 +80,11 @@ class OSG_VCORERENDERER_DLLMAPPING VCRenderer : public VCRendererBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+
+    virtual void init();
+    virtual void update();
+
+
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -105,7 +112,10 @@ class OSG_VCORERENDERER_DLLMAPPING VCRenderer : public VCRendererBase
 
     static void initMethod(InitPhase ePhase);
 
-    /*! \}                                                                 */
+    /*! \}    */
+
+    RenderAction* _renderAction;
+
     /*==========================  PRIVATE  ================================*/
 
   private:

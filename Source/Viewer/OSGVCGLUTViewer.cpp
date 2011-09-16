@@ -214,6 +214,8 @@ bool VCGLUTViewer::init(void)
     _pWindow->addPort(_viewport);
 
     _renderer = VCRenderer::create();
+    _renderer->init();
+    _renderer->addWindow(_pWindow);
 
     _sceneMgr = new SimpleSceneManager;
     _sceneMgr->setWindow(_pWindow);
@@ -308,7 +310,8 @@ void VCGLUTViewer::glutReshapeHandler(Int32 w,
 void VCGLUTViewer::glutFrameHandler(void)
 {
 //    ComplexSceneManager::the()->frame();
-    the()->_sceneMgr->redraw();
+    the()->_sceneMgr->update();
+    the()->_renderer->update();
     glutSwapBuffers();
 
     Thread::getCurrentChangeList()->commitChangesAndClear();
