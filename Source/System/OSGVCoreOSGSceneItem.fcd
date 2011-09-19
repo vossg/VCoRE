@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="VCoreOSGSceneItem"
+    parent="VCoreItem"
+    library="VCoreSystem"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="true"
+    docGroupBase="GrpVCoreSystem"
+    >
+  <Field
+      name="url"
+      type="std::string"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+</FieldContainer>

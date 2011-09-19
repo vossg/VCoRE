@@ -1,0 +1,77 @@
+#OSG V1.0 
+
+## Hack as OSG does not load multiple toplevel container
+ContainerCollection
+{
+  containers
+  [
+    DEF Repo VCoreRepository
+    {
+    }
+
+    DEF RenderArena VCoreArena
+    {
+      items
+      [
+        DEF Viewer VCGLUTViewer
+        {
+        }
+
+        DEF AppRenderer VCoreRendererItem
+        {
+          rootRef   "AppOpenSG.root"
+          cameraRef "AppOpenSG.camera"
+        }
+
+        DEF UIRenderer VCoreRendererItem
+        {
+          rootRef   "UIOpenSG.root"
+          cameraRef "UIOpenSG.camera"
+        }
+      ]
+    }
+
+    DEF SimulatorArena VCoreArena
+    {
+      worker
+      [
+        DEF AppWorker VCoreWorker
+        {
+          items
+          [
+            DEF AppOpenSG VCoreOSGSceneItem
+            {
+              url ["tie.osg"]
+            }
+          ]
+        }
+
+        DEF UIWorker VCoreWorker
+        {
+          items
+          [
+            DEF UIOpenSG VCoreItem
+            {
+            }
+          ]
+        }
+      ]
+    }
+
+    DEF VisionArena VCoreArena
+    {
+      worker
+      [
+        DEF VisionWorker VCoreWorker
+        {
+          items
+          [
+            DEF VisionItem VCoreItem
+            {
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

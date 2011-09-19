@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem!
+ **     class VCoreRendererItem!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,56 +53,81 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreRendererItemBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreRendererItemBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreRendererItemBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
+//! Get the value of the VCoreRendererItem::_sfRootRef field.
 
 inline
-Int32 &VCoreItemBase::editPostDFMixinTestField(void)
+std::string &VCoreRendererItemBase::editRootRef(void)
 {
-    editSField(PostDFMixinTestFieldFieldMask);
+    editSField(RootRefFieldMask);
 
-    return _sfPostDFMixinTestField.getValue();
+    return _sfRootRef.getValue();
 }
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
+//! Get the value of the VCoreRendererItem::_sfRootRef field.
 inline
-      Int32  VCoreItemBase::getPostDFMixinTestField(void) const
+const std::string &VCoreRendererItemBase::getRootRef(void) const
 {
-    return _sfPostDFMixinTestField.getValue();
+    return _sfRootRef.getValue();
 }
 
-//! Set the value of the VCoreItem::_sfPostDFMixinTestField field.
+//! Set the value of the VCoreRendererItem::_sfRootRef field.
 inline
-void VCoreItemBase::setPostDFMixinTestField(const Int32 value)
+void VCoreRendererItemBase::setRootRef(const std::string &value)
 {
-    editSField(PostDFMixinTestFieldFieldMask);
+    editSField(RootRefFieldMask);
 
-    _sfPostDFMixinTestField.setValue(value);
+    _sfRootRef.setValue(value);
+}
+//! Get the value of the VCoreRendererItem::_sfCameraRef field.
+
+inline
+std::string &VCoreRendererItemBase::editCameraRef(void)
+{
+    editSField(CameraRefFieldMask);
+
+    return _sfCameraRef.getValue();
+}
+
+//! Get the value of the VCoreRendererItem::_sfCameraRef field.
+inline
+const std::string &VCoreRendererItemBase::getCameraRef(void) const
+{
+    return _sfCameraRef.getValue();
+}
+
+//! Set the value of the VCoreRendererItem::_sfCameraRef field.
+inline
+void VCoreRendererItemBase::setCameraRef(const std::string &value)
+{
+    editSField(CameraRefFieldMask);
+
+    _sfCameraRef.setValue(value);
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
+void VCoreRendererItemBase::execSync (      VCoreRendererItemBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -110,21 +135,21 @@ void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (ParentFieldMask & whichField))
-        _sfParent.syncWith(pFrom->_sfParent);
+    if(FieldBits::NoField != (RootRefFieldMask & whichField))
+        _sfRootRef.syncWith(pFrom->_sfRootRef);
 
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
+    if(FieldBits::NoField != (CameraRefFieldMask & whichField))
+        _sfCameraRef.syncWith(pFrom->_sfCameraRef);
 }
 #endif
 
 
 inline
-const Char8 *VCoreItemBase::getClassname(void)
+const Char8 *VCoreRendererItemBase::getClassname(void)
 {
-    return "VCoreItem";
+    return "VCoreRendererItem";
 }
-OSG_GEN_CONTAINERPTR(VCoreItem);
+OSG_GEN_CONTAINERPTR(VCoreRendererItem);
 
 OSG_END_NAMESPACE
 

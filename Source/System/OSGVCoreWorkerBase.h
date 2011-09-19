@@ -45,48 +45,48 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem
+ **     class VCoreWorker
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGVCOREITEMBASE_H_
-#define _OSGVCOREITEMBASE_H_
+#ifndef _OSGVCOREWORKERBASE_H_
+#define _OSGVCOREWORKERBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 
 #include "OSGConfig.h"
-#include "OSGVCoreBaseDef.h"
+#include "OSGVCoreSystemDef.h"
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoreDynFieldContainer.h" // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include "OSGFieldContainerFields.h"    // Parent type
-#include "OSGSysFields.h"               // PostDFMixinTestField type
+#include "OSGVCoreArenaFields.h"        // Parent type
+#include "OSGVCoreItemFields.h"         // Items type
 
-#include "OSGVCoreItemFields.h"
+#include "OSGVCoreWorkerFields.h"
 
 OSG_BEGIN_NAMESPACE
 
-class VCoreItem;
+class VCoreWorker;
 
-//! \brief VCoreItem Base Class.
+//! \brief VCoreWorker Base Class.
 
-class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
+class OSG_VCORESYSTEM_DLLMAPPING VCoreWorkerBase : public AttachmentContainer
 {
   public:
 
-    typedef VCoreDynFieldContainer Inherited;
-    typedef VCoreDynFieldContainer ParentContainer;
+    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(VCoreItem);
+    OSG_GEN_INTERNALPTR(VCoreWorker);
 
     /*==========================  PUBLIC  =================================*/
 
@@ -95,19 +95,19 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
     enum
     {
         ParentFieldId = Inherited::NextFieldId,
-        PostDFMixinTestFieldFieldId = ParentFieldId + 1,
-        NextFieldId = PostDFMixinTestFieldFieldId + 1
+        ItemsFieldId = ParentFieldId + 1,
+        NextFieldId = ItemsFieldId + 1
     };
 
     static const OSG::BitVector ParentFieldMask =
         (TypeTraits<BitVector>::One << ParentFieldId);
-    static const OSG::BitVector PostDFMixinTestFieldFieldMask =
-        (TypeTraits<BitVector>::One << PostDFMixinTestFieldFieldId);
+    static const OSG::BitVector ItemsFieldMask =
+        (TypeTraits<BitVector>::One << ItemsFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef SFParentFieldContainerPtr SFParentType;
-    typedef SFInt32           SFPostDFMixinTestFieldType;
+    typedef SFParentVCoreArenaPtr SFParentType;
+    typedef MFUnrecVCoreItemPtr MFItemsType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -132,25 +132,33 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+            const MFUnrecVCoreItemPtr *getMFItems          (void) const;
+                  MFUnrecVCoreItemPtr *editMFItems          (void);
 
-                  SFInt32             *editSFPostDFMixinTestField(void);
-            const SFInt32             *getSFPostDFMixinTestField (void) const;
 
-
-                  Int32               &editPostDFMixinTestField(void);
-                  Int32                getPostDFMixinTestField (void) const;
+                  VCoreItem * getItems          (const UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setPostDFMixinTestField(const Int32 value);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Ptr Field Set                                 */
+    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
+    void pushToItems               (VCoreItem * const value   );
+    void assignItems              (const MFUnrecVCoreItemPtr &value);
+    void removeFromItems (UInt32               uiIndex );
+    void removeObjFromItems(VCoreItem * const value   );
+    void clearItems                 (void                         );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,16 +177,16 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  VCoreItemTransitPtr  create          (void);
-    static  VCoreItem           *createEmpty     (void);
+    static  VCoreWorkerTransitPtr  create          (void);
+    static  VCoreWorker           *createEmpty     (void);
 
-    static  VCoreItemTransitPtr  createLocal     (
+    static  VCoreWorkerTransitPtr  createLocal     (
                                                BitVector bFlags = FCLocal::All);
 
-    static  VCoreItem            *createEmptyLocal(
+    static  VCoreWorker            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
-    static  VCoreItemTransitPtr  createDependent  (BitVector bFlags);
+    static  VCoreWorkerTransitPtr  createDependent  (BitVector bFlags);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -205,37 +213,30 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFParentFieldContainerPtr _sfParent;
-    SFInt32           _sfPostDFMixinTestField;
+    SFParentVCoreArenaPtr _sfParent;
+    MFUnrecVCoreItemPtr _mfItems;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VCoreItemBase(void);
-    VCoreItemBase(const VCoreItemBase &source);
+    VCoreWorkerBase(void);
+    VCoreWorkerBase(const VCoreWorkerBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VCoreItemBase(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Type                                  */
-    /*! \{                                                                 */
-
-    virtual       TypeObject &getFinalType(void);
-    virtual const TypeObject &getFinalType(void) const;
+    virtual ~VCoreWorkerBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
+    void onCreate(const VCoreWorker *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -255,8 +256,8 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
 
     GetFieldHandlePtr  getHandleParent          (void) const;
     EditFieldHandlePtr editHandleParent         (void);
-    GetFieldHandlePtr  getHandlePostDFMixinTestField (void) const;
-    EditFieldHandlePtr editHandlePostDFMixinTestField(void);
+    GetFieldHandlePtr  getHandleItems           (void) const;
+    EditFieldHandlePtr editHandleItems          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -270,7 +271,7 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      VCoreItemBase *pFrom,
+            void execSync (      VCoreWorkerBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -310,14 +311,11 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItemBase : public VCoreDynFieldContainer
     /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const VCoreItemBase &source);
+    void operator =(const VCoreWorkerBase &source);
 };
 
-typedef VCoreItemBase *VCoreItemBaseP;
-
-typedef CoredNodeRefPtr  <VCoreItem> VCoreItemNodeRefPtr;
-typedef CoredNodeMTRefPtr<VCoreItem> VCoreItemNodeMTRefPtr;
+typedef VCoreWorkerBase *VCoreWorkerBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGVCOREITEMBASE_H_ */
+#endif /* _OSGVCOREWORKERBASE_H_ */

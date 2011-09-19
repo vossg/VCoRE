@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="VCoreRendererItem"
+    parent="VCoreItem"
+    library="VCoreSystem"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="true"
+    docGroupBase="GrpVCoreSystem"
+    >
+  <Field
+      name="rootRef"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+  <Field
+      name="cameraRef"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+</FieldContainer>

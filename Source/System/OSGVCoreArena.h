@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,94 +36,102 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSTAGEDVIEWPORT_H_
-#define _OSGSTAGEDVIEWPORT_H_
+#ifndef _OSGVCOREARENA_H_
+#define _OSGVCOREARENA_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGStagedViewportBase.h"
-#include "OSGStage.h"
-#include "OSGVisitSubTree.h"
+#include "OSGConfig.h"
+#include "OSGVCoreArenaBase.h"
+#include "OSGVCoreWorker.h"
+#include "OSGVCoreItem.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief StagedViewport class. See \ref
-           PageVCoreGreatestHacksStagedViewport for a description.
-*/
+/*! \brief VCoreArena is the basic NodeCore for inner nodes in the tree.
+    \ingroup GrpSystemNodeCoreGroupsCores
+    \ingroup GrpLibOSGSystem
+    \includebasedoc
+ */
 
-class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBase
+class OSG_VCORESYSTEM_DLLMAPPING VCoreArena : public VCoreArenaBase
 {
-  protected:
-
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    typedef StagedViewportBase Inherited;
-    typedef StagedViewport     Self;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     virtual void changed(ConstFieldMaskArg whichField,
                          UInt32            origin,
-                         BitVector         details    );
+                         BitVector         detail);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*! \name                        Type                                  */
     /*! \{                                                                 */
-
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sizes                                   */
+    /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    virtual Int32 getPixelLeft  (void) const;
-    virtual Int32 getPixelRight (void) const;
-    virtual Int32 getPixelBottom(void) const;
-    virtual Int32 getPixelTop   (void) const;
-    virtual bool  isFullWindow  (void) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
+
     /*! \}                                                                 */
 
-    virtual void render(RenderActionBase *action);
-    void renderWithStage(RenderActionBase *action);
-    void stretchTargetToFrameBuffer(
-        RenderActionBase *action, FrameBufferObject *target);
-    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Field Access                          */
+    /*! \{                                                                 */
+
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
-  protected:
+    protected:
 
-    // Variables should all be in StagedViewportBase.
-    NodeMTRecPtr _stageNode;
-    VisitSubTreeNodeRefPtr _visitSubtreeNode;
+    typedef VCoreArenaBase Inherited;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    StagedViewport(void);
-    StagedViewport(const StagedViewport &source);
+    VCoreArena(void);
+    VCoreArena(const VCoreArena &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~StagedViewport(void);
+    virtual ~VCoreArena(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
+    /*! \name                        Type                                  */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Init                                  */
     /*! \{                                                                 */
 
     static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Action Callbacks                       */
+    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -131,17 +139,29 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBa
   private:
 
     friend class FieldContainer;
-    friend class StagedViewportBase;
+    friend class VCoreArenaBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const StagedViewport &source);
+    void operator =(const VCoreArena &source);
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Python Related                         */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Python Related                         */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
-typedef StagedViewport *StagedViewportP;
+typedef VCoreArena *VCoreArenaP;
 
 OSG_END_NAMESPACE
 
-#include "OSGStagedViewportBase.inl"
-#include "OSGStagedViewport.inl"
+#include "OSGVCoreArenaBase.inl"
+#include "OSGVCoreArena.inl"
 
-#endif /* _OSGSTAGEDVIEWPORT_H_ */
+#endif /* _OSGVCOREARENA_H_ */

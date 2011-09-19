@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem!
+ **     class VCoreOSGSceneItem!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,56 +53,47 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreOSGSceneItemBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreOSGSceneItemBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreOSGSceneItemBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
 
+//! Get the value of the \a index element the VCoreOSGSceneItem::_mfUrl field.
 inline
-Int32 &VCoreItemBase::editPostDFMixinTestField(void)
+const std::string &VCoreOSGSceneItemBase::getUrl(const UInt32 index) const
 {
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return _sfPostDFMixinTestField.getValue();
+    return _mfUrl[index];
 }
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
 inline
-      Int32  VCoreItemBase::getPostDFMixinTestField(void) const
+std::string &VCoreOSGSceneItemBase::editUrl(const UInt32 index)
 {
-    return _sfPostDFMixinTestField.getValue();
+    editMField(UrlFieldMask, _mfUrl);
+
+    return _mfUrl[index];
 }
 
-//! Set the value of the VCoreItem::_sfPostDFMixinTestField field.
-inline
-void VCoreItemBase::setPostDFMixinTestField(const Int32 value)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    _sfPostDFMixinTestField.setValue(value);
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
+void VCoreOSGSceneItemBase::execSync (      VCoreOSGSceneItemBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -110,21 +101,21 @@ void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (ParentFieldMask & whichField))
-        _sfParent.syncWith(pFrom->_sfParent);
-
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+        _mfUrl.syncWith(pFrom->_mfUrl,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
 }
 #endif
 
 
 inline
-const Char8 *VCoreItemBase::getClassname(void)
+const Char8 *VCoreOSGSceneItemBase::getClassname(void)
 {
-    return "VCoreItem";
+    return "VCoreOSGSceneItem";
 }
-OSG_GEN_CONTAINERPTR(VCoreItem);
+OSG_GEN_CONTAINERPTR(VCoreOSGSceneItem);
 
 OSG_END_NAMESPACE
 

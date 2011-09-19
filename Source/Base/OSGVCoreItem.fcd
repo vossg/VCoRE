@@ -12,7 +12,17 @@
    docGroupBase="GrpVCoreBase"
    typeDescAddable="true"
    dynFCDerived="true"
+   childFields="both"
    >
+  <Field
+      name="parent"
+      type="FieldContainer"
+      cardinality="single"
+      visibility="internal"
+      access="none"
+      category="parentpointer"
+      >
+  </Field>
   <Field
      name="postDFMixinTestField"
      type="Int32"

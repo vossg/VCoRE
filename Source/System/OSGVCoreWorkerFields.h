@@ -48,14 +48,14 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGVCOREITEMFIELDS_H_
-#define _OSGVCOREITEMFIELDS_H_
+#ifndef _OSGVCOREWORKERFIELDS_H_
+#define _OSGVCOREWORKERFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoreBaseDef.h"
+#include "OSGVCoreSystemDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-class VCoreItem;
+class VCoreWorker;
 
-OSG_GEN_CONTAINERPTR(VCoreItem);
+OSG_GEN_CONTAINERPTR(VCoreWorker);
 
-/*! \ingroup GrpVCoreBaseFieldTraits
-    \ingroup GrpLibOSGVCoreBase
+/*! \ingroup GrpVCoreSystemFieldTraits
+    \ingroup GrpLibOSGVCoreSystem
  */
 template <>
-struct FieldTraits<VCoreItem *> :
-    public FieldTraitsFCPtrBase<VCoreItem *>
+struct FieldTraits<VCoreWorker *> :
+    public FieldTraitsFCPtrBase<VCoreWorker *>
 {
   private:
 
@@ -81,85 +81,85 @@ struct FieldTraits<VCoreItem *> :
 
   public:
 
-    typedef FieldTraits<VCoreItem *>  Self;
+    typedef FieldTraits<VCoreWorker *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
-    static OSG_VCOREBASE_DLLMAPPING DataType &getType(void);
+    static OSG_VCORESYSTEM_DLLMAPPING DataType &getType(void);
 
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFVCoreItemPtr"; }
+//    static const char *getSName(void) { return "SFVCoreWorkerPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFVCoreItemPtr"; }
+//    static const char *getMName(void) { return "MFVCoreWorkerPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
-    return "SFRecVCoreItemPtr"; 
+    return "SFRecVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
-    return "SFUnrecVCoreItemPtr"; 
+    return "SFUnrecVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getSName<WeakRefCountPolicy>(void)
 {
-    return "SFWeakVCoreItemPtr"; 
+    return "SFWeakVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getSName<NoRefCountPolicy>(void)
 {
-    return "SFUnrefdVCoreItemPtr"; 
+    return "SFUnrefdVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getMName<RecordedRefCountPolicy>(void)
 {
-    return "MFRecVCoreItemPtr"; 
+    return "MFRecVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getMName<UnrecordedRefCountPolicy>(void)
 {
-    return "MFUnrecVCoreItemPtr"; 
+    return "MFUnrecVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getMName<WeakRefCountPolicy>(void)
 {
-    return "MFWeakVCoreItemPtr"; 
+    return "MFWeakVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 0>::getMName<NoRefCountPolicy>(void)
 {
-    return "MFUnrefdVCoreItemPtr"; 
+    return "MFUnrefdVCoreWorkerPtr"; 
 }
 
 
-/*! \ingroup GrpVCoreBaseFieldTraits
+/*! \ingroup GrpVCoreSystemFieldTraits
  */
 template <>
-struct FieldTraits<VCoreItem *, 1> :
-    public FieldTraitsFCPtrBase<VCoreItem *, 1>
+struct FieldTraits<VCoreWorker *, 1> :
+    public FieldTraitsFCPtrBase<VCoreWorker *, 1>
 {
   private:
 
   public:
-    typedef FieldTraits<VCoreItem *, 1>  Self;
+    typedef FieldTraits<VCoreWorker *, 1>  Self;
 
     enum                        { Convertible = NotConvertible };
 
-    static OSG_VCOREBASE_DLLMAPPING DataType &getType(void);
+    static OSG_VCORESYSTEM_DLLMAPPING DataType &getType(void);
 
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
@@ -169,150 +169,150 @@ struct FieldTraits<VCoreItem *, 1> :
 };
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getSName<RecordedRefCountPolicy>(void)
 {
-    return "SFRecChildVCoreItemPtr"; 
+    return "SFRecChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getSName<UnrecordedRefCountPolicy>(void)
 {
-    return "SFUnrecChildVCoreItemPtr"; 
+    return "SFUnrecChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getSName<WeakRefCountPolicy>(void)
 {
-    return "SFWeakChildVCoreItemPtr"; 
+    return "SFWeakChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getSName<NoRefCountPolicy>(void)
 {
-    return "SFUnrefdChildVCoreItemPtr"; 
+    return "SFUnrefdChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getMName<RecordedRefCountPolicy>(void)
 {
-    return "MFRecChildVCoreItemPtr"; 
+    return "MFRecChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getMName<UnrecordedRefCountPolicy>(void)
 {
-    return "MFUnrecChildVCoreItemPtr"; 
+    return "MFUnrecChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getMName<WeakRefCountPolicy>(void)
 {
-    return "MFWeakChildVCoreItemPtr"; 
+    return "MFWeakChildVCoreWorkerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreWorker *, 1>::getMName<NoRefCountPolicy>(void)
 {
-    return "MFUnrefdChildVCoreItemPtr"; 
+    return "MFUnrefdChildVCoreWorkerPtr"; 
 }
 
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-/*! \ingroup GrpVCoreBaseFieldSFields */
-typedef PointerSField<VCoreItem *,
-                      RecordedRefCountPolicy  > SFRecVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldSFields */
-typedef PointerSField<VCoreItem *,
-                      UnrecordedRefCountPolicy> SFUnrecVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldSFields */
-typedef PointerSField<VCoreItem *,
-                      WeakRefCountPolicy      > SFWeakVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldSFields */
-typedef PointerSField<VCoreItem *,
-                      NoRefCountPolicy        > SFUncountedVCoreItemPtr;
+/*! \ingroup GrpVCoreSystemFieldSFields */
+typedef PointerSField<VCoreWorker *,
+                      RecordedRefCountPolicy  > SFRecVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldSFields */
+typedef PointerSField<VCoreWorker *,
+                      UnrecordedRefCountPolicy> SFUnrecVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldSFields */
+typedef PointerSField<VCoreWorker *,
+                      WeakRefCountPolicy      > SFWeakVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldSFields */
+typedef PointerSField<VCoreWorker *,
+                      NoRefCountPolicy        > SFUncountedVCoreWorkerPtr;
 
 
-/*! \ingroup GrpVCoreBaseFieldMFields */
-typedef PointerMField<VCoreItem *,
-                      RecordedRefCountPolicy  > MFRecVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldMFields */
-typedef PointerMField<VCoreItem *,
-                      UnrecordedRefCountPolicy> MFUnrecVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldMFields */
-typedef PointerMField<VCoreItem *,
-                      WeakRefCountPolicy      > MFWeakVCoreItemPtr;
-/*! \ingroup GrpVCoreBaseFieldMFields */
-typedef PointerMField<VCoreItem *,
-                      NoRefCountPolicy        > MFUncountedVCoreItemPtr;
+/*! \ingroup GrpVCoreSystemFieldMFields */
+typedef PointerMField<VCoreWorker *,
+                      RecordedRefCountPolicy  > MFRecVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldMFields */
+typedef PointerMField<VCoreWorker *,
+                      UnrecordedRefCountPolicy> MFUnrecVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldMFields */
+typedef PointerMField<VCoreWorker *,
+                      WeakRefCountPolicy      > MFWeakVCoreWorkerPtr;
+/*! \ingroup GrpVCoreSystemFieldMFields */
+typedef PointerMField<VCoreWorker *,
+                      NoRefCountPolicy        > MFUncountedVCoreWorkerPtr;
 
 
 
-/*! \ingroup GrpVCoreBaseFieldSFields */
+/*! \ingroup GrpVCoreSystemFieldSFields */
 typedef ChildPointerSField<
-          VCoreItem *, 
+          VCoreWorker *, 
           UnrecordedRefCountPolicy,
-          1             > SFUnrecChildVCoreItemPtr;
+          1             > SFUnrecChildVCoreWorkerPtr;
 
 
-/*! \ingroup GrpVCoreBaseFieldMFields */
+/*! \ingroup GrpVCoreSystemFieldMFields */
 typedef ChildPointerMField<
-          VCoreItem *, 
+          VCoreWorker *, 
           UnrecordedRefCountPolicy,
-          1             > MFUnrecChildVCoreItemPtr;
+          1             > MFUnrecChildVCoreWorkerPtr;
 
 
 
 #else // these are the doxygen hacks
 
-/*! \ingroup GrpVCoreBaseFieldSFields \ingroup GrpLibOSGVCoreBase */
-struct SFRecVCoreItemPtr : 
-    public PointerSField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldSFields \ingroup GrpLibOSGVCoreSystem */
+struct SFRecVCoreWorkerPtr : 
+    public PointerSField<VCoreWorker *,
                          RecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreBaseFieldSFields \ingroup GrpLibOSGVCoreBase */
-struct SFUnrecVCoreItemPtr : 
-    public PointerSField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldSFields \ingroup GrpLibOSGVCoreSystem */
+struct SFUnrecVCoreWorkerPtr : 
+    public PointerSField<VCoreWorker *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreBaseFieldSFields \ingroup GrpLibOSGVCoreBase */
-struct SFWeakVCoreItemPtr :
-    public PointerSField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldSFields \ingroup GrpLibOSGVCoreSystem */
+struct SFWeakVCoreWorkerPtr :
+    public PointerSField<VCoreWorker *,
                          WeakRefCountPolicy> {};
-/*! \ingroup GrpVCoreBaseFieldSFields \ingroup GrpLibOSGVCoreBase */
-struct SFUncountedVCoreItemPtr :
-    public PointerSField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldSFields \ingroup GrpLibOSGVCoreSystem */
+struct SFUncountedVCoreWorkerPtr :
+    public PointerSField<VCoreWorker *,
                          NoRefCountPolicy> {};
 
 
-/*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
-struct MFRecVCoreItemPtr :
-    public PointerMField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldMFields \ingroup GrpLibOSGVCoreSystem */
+struct MFRecVCoreWorkerPtr :
+    public PointerMField<VCoreWorker *,
                          RecordedRefCountPolicy  > {};
-/*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
-struct MFUnrecVCoreItemPtr :
-    public PointerMField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldMFields \ingroup GrpLibOSGVCoreSystem */
+struct MFUnrecVCoreWorkerPtr :
+    public PointerMField<VCoreWorker *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
-struct MFWeakVCoreItemPtr :
-    public PointerMField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldMFields \ingroup GrpLibOSGVCoreSystem */
+struct MFWeakVCoreWorkerPtr :
+    public PointerMField<VCoreWorker *,
                          WeakRefCountPolicy      > {};
-/*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
-struct MFUncountedVCoreItemPtr :
-    public PointerMField<VCoreItem *,
+/*! \ingroup GrpVCoreSystemFieldMFields \ingroup GrpLibOSGVCoreSystem */
+struct MFUncountedVCoreWorkerPtr :
+    public PointerMField<VCoreWorker *,
                          NoRefCountPolicy        > {};
 
 
 
-/*! \ingroup GrpVCoreBaseFieldSFields \ingroup GrpLibOSGVCoreBase */
-struct SFUnrecChildVCoreItemPtr :
+/*! \ingroup GrpVCoreSystemFieldSFields \ingroup GrpLibOSGVCoreSystem */
+struct SFUnrecChildVCoreWorkerPtr :
     public ChildPointerSField<
-        VCoreItem *, 
+        VCoreWorker *, 
         UnrecordedRefCountPolicy,
         1             > {};
 
 
-/*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
-struct MFUnrecChildVCoreItemPtr :
+/*! \ingroup GrpVCoreSystemFieldMFields \ingroup GrpLibOSGVCoreSystem */
+struct MFUnrecChildVCoreWorkerPtr :
     public ChildPointerMField<
-        VCoreItem *, 
+        VCoreWorker *, 
         UnrecordedRefCountPolicy,
         1             > {};
 
@@ -321,4 +321,4 @@ struct MFUnrecChildVCoreItemPtr :
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGVCOREITEMFIELDS_H_ */
+#endif /* _OSGVCOREWORKERFIELDS_H_ */
