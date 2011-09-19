@@ -24,6 +24,7 @@ int run(int argc, char **argv)
         pApp = NULL;
     }
 
+	return 0;
 }
 
 int main (int argc, char **argv)
