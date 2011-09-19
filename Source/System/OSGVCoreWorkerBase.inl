@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem!
+ **     class VCoreWorker!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,56 +53,38 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreWorkerBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreWorkerBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreWorkerBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
 
+//! Get the value of the \a index element the VCoreWorker::_mfItems field.
 inline
-Int32 &VCoreItemBase::editPostDFMixinTestField(void)
+VCoreItem * VCoreWorkerBase::getItems(const UInt32 index) const
 {
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
-inline
-      Int32  VCoreItemBase::getPostDFMixinTestField(void) const
-{
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Set the value of the VCoreItem::_sfPostDFMixinTestField field.
-inline
-void VCoreItemBase::setPostDFMixinTestField(const Int32 value)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    _sfPostDFMixinTestField.setValue(value);
+    return _mfItems[index];
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
+void VCoreWorkerBase::execSync (      VCoreWorkerBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -113,18 +95,21 @@ void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
     if(FieldBits::NoField != (ParentFieldMask & whichField))
         _sfParent.syncWith(pFrom->_sfParent);
 
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
+    if(FieldBits::NoField != (ItemsFieldMask & whichField))
+        _mfItems.syncWith(pFrom->_mfItems,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
 }
 #endif
 
 
 inline
-const Char8 *VCoreItemBase::getClassname(void)
+const Char8 *VCoreWorkerBase::getClassname(void)
 {
-    return "VCoreItem";
+    return "VCoreWorker";
 }
-OSG_GEN_CONTAINERPTR(VCoreItem);
+OSG_GEN_CONTAINERPTR(VCoreWorker);
 
 OSG_END_NAMESPACE
 

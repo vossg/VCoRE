@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem!
+ **     class VCoreRepository!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,78 +53,47 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreRepositoryBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreRepositoryBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreRepositoryBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
-
-inline
-Int32 &VCoreItemBase::editPostDFMixinTestField(void)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Get the value of the VCoreItem::_sfPostDFMixinTestField field.
-inline
-      Int32  VCoreItemBase::getPostDFMixinTestField(void) const
-{
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Set the value of the VCoreItem::_sfPostDFMixinTestField field.
-inline
-void VCoreItemBase::setPostDFMixinTestField(const Int32 value)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    _sfPostDFMixinTestField.setValue(value);
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreItemBase::execSync (      VCoreItemBase *pFrom,
+void VCoreRepositoryBase::execSync (      VCoreRepositoryBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
-
-    if(FieldBits::NoField != (ParentFieldMask & whichField))
-        _sfParent.syncWith(pFrom->_sfParent);
-
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
 }
 #endif
 
 
 inline
-const Char8 *VCoreItemBase::getClassname(void)
+const Char8 *VCoreRepositoryBase::getClassname(void)
 {
-    return "VCoreItem";
+    return "VCoreRepository";
 }
-OSG_GEN_CONTAINERPTR(VCoreItem);
+OSG_GEN_CONTAINERPTR(VCoreRepository);
 
 OSG_END_NAMESPACE
 

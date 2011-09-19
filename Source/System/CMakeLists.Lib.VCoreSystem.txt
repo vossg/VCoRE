@@ -3,7 +3,7 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreTest")
+OSG_ADD_PROJECT("VCoreSystem")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,10 +11,12 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase OSGSystem)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreSystem VCoreViewer 
-                                     OSGSystem)
+#SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup 
+#                                     OSGDynamics 
+#                                     OSGUtil 
+#                                     OSGWindowGLUT)
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
@@ -30,7 +32,6 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreSystem VCoreViewer
 
 OSG_ADD_GLUTPACKAGE(TRUE)
 
-SET(${PROJECT_NAME}_NO_LIB TRUE)
 SET(${PROJECT_NAME}_NO_DOC TRUE)
 
 OSG_STORE_PROJECT_DEPENDENCIES()
@@ -53,4 +54,4 @@ SET(${PROJECT_NAME}_NO_PYTHON TRUE)
 # setup build
 ##############################################################################
 
-OSG_SETUP_PROJECT("OSG_COMPILEVCORETESTLIB")
+OSG_SETUP_PROJECT("OSG_COMPILEVCORESYSTEMLIB")

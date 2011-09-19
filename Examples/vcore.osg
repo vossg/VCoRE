@@ -1,0 +1,8 @@
+#OSG V1.0 
+
+VCoreItem
+{
+  field SFUInt32 mSFTest1 1
+
+  field SFUnrecNodePtr  mSFTest2 Node {}
+}

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreItem!
+ **     class VCoreWorker!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -57,10 +57,11 @@
 
 
 
-#include "OSGFieldContainer.h"          // Parent Class
+#include "OSGVCoreArena.h"              // Parent Class
+#include "OSGVCoreItem.h"               // Items Class
 
-#include "OSGVCoreItemBase.h"
-#include "OSGVCoreItem.h"
+#include "OSGVCoreWorkerBase.h"
+#include "OSGVCoreWorker.h"
 
 #include <boost/bind.hpp>
 
@@ -74,7 +75,7 @@ OSG_BEGIN_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class OSG::VCoreItem
+/*! \class OSG::VCoreWorker
     
  */
 
@@ -82,11 +83,11 @@ OSG_BEGIN_NAMESPACE
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var FieldContainer * VCoreItemBase::_sfParent
+/*! \var VCoreArena *    VCoreWorkerBase::_sfParent
     
 */
 
-/*! \var Int32           VCoreItemBase::_sfPostDFMixinTestField
+/*! \var VCoreItem *     VCoreWorkerBase::_mfItems
     
 */
 
@@ -96,33 +97,33 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCoreItem *>::_type("VCoreItemPtr", "VCoreDynFieldContainerPtr");
+DataType FieldTraits<VCoreWorker *>::_type("VCoreWorkerPtr", "AttachmentContainerPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(VCoreItem *)
+OSG_FIELDTRAITS_GETTYPE(VCoreWorker *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           VCoreItem *,
+                           VCoreWorker *,
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           VCoreItem *,
+                           VCoreWorker *,
                            0);
 
-DataType &FieldTraits< VCoreItem *, 1 >::getType(void)
+DataType &FieldTraits< VCoreWorker *, 1 >::getType(void)
 {
-    return FieldTraits<VCoreItem *, 0>::getType();
+    return FieldTraits<VCoreWorker *, 0>::getType();
 }
 
 
 OSG_EXPORT_PTR_SFIELD(ChildPointerSField,
-                      VCoreItem *,
+                      VCoreWorker *,
                       UnrecordedRefCountPolicy,
                       1);
 
 
 OSG_EXPORT_PTR_MFIELD(ChildPointerMField,
-                      VCoreItem *,
+                      VCoreWorker *,
                       UnrecordedRefCountPolicy,
                       1);
 
@@ -131,67 +132,66 @@ OSG_EXPORT_PTR_MFIELD(ChildPointerMField,
  *                         Field Description                               *
 \***************************************************************************/
 
-void VCoreItemBase::classDescInserter(TypeObject &oType)
+void VCoreWorkerBase::classDescInserter(TypeObject &oType)
 {
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFParentFieldContainerPtr::Description(
-        SFParentFieldContainerPtr::getClassType(),
+    pDesc = new SFParentVCoreArenaPtr::Description(
+        SFParentVCoreArenaPtr::getClassType(),
         "parent",
         "",
         ParentFieldId, ParentFieldMask,
         true,
         (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast     <FieldEditMethodSig>(&VCoreItem::invalidEditField),
-        static_cast     <FieldGetMethodSig >(&VCoreItem::invalidGetField));
+        static_cast     <FieldEditMethodSig>(&VCoreWorker::invalidEditField),
+        static_cast     <FieldGetMethodSig >(&VCoreWorker::invalidGetField));
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "postDFMixinTestField",
+    pDesc = new MFUnrecVCoreItemPtr::Description(
+        MFUnrecVCoreItemPtr::getClassType(),
+        "items",
         "",
-        PostDFMixinTestFieldFieldId, PostDFMixinTestFieldFieldMask,
+        ItemsFieldId, ItemsFieldMask,
         false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&VCoreItem::editHandlePostDFMixinTestField),
-        static_cast<FieldGetMethodSig >(&VCoreItem::getHandlePostDFMixinTestField));
+        (Field::MFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&VCoreWorker::editHandleItems),
+        static_cast<FieldGetMethodSig >(&VCoreWorker::getHandleItems));
 
     oType.addInitialDesc(pDesc);
 }
 
 
-VCoreItemBase::TypeObject VCoreItemBase::_type(
-    VCoreItemBase::getClassname(),
+VCoreWorkerBase::TypeObject VCoreWorkerBase::_type(
+    VCoreWorkerBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
     0,
-    reinterpret_cast<PrototypeCreateF>(&VCoreItemBase::createEmptyLocal),
-    VCoreItem::initMethod,
-    VCoreItem::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&VCoreItem::classDescInserter),
-    true,
+    reinterpret_cast<PrototypeCreateF>(&VCoreWorkerBase::createEmptyLocal),
+    VCoreWorker::initMethod,
+    VCoreWorker::exitMethod,
+    reinterpret_cast<InitalInsertDescFunc>(&VCoreWorker::classDescInserter),
+    false,
     0,
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "   name=\"VCoreItem\"\n"
-    "   parent=\"VCoreDynFieldContainer\"\n"
-    "   library=\"VCoreBase\"\n"
-    "   structure=\"concrete\"\n"
-    "   pointerfieldtypes=\"both\"\n"
-    "   systemcomponent=\"true\"\n"
-    "   parentsystemcomponent=\"true\"\n"
-    "   isNodeCore=\"true\"\n"
-    "   docGroupBase=\"GrpVCoreBase\"\n"
-    "   typeDescAddable=\"true\"\n"
-    "   dynFCDerived=\"true\"\n"
-    "   childFields=\"both\"\n"
-    "   >\n"
+    "    name=\"VCoreWorker\"\n"
+    "    parent=\"AttachmentContainer\"\n"
+    "    library=\"VCoreSystem\"\n"
+    "    structure=\"concrete\"\n"
+    "    pointerfieldtypes=\"both\"\n"
+    "    systemcomponent=\"true\"\n"
+    "    parentsystemcomponent=\"true\"\n"
+    "    isNodeCore=\"false\"\n"
+    "    isBundle=\"true\"\n"
+    "    docGroupBase=\"GrpVCoreSystem\"\n"
+    "    childFields=\"both\"\n"
+    "    >\n"
     "  <Field\n"
     "      name=\"parent\"\n"
-    "      type=\"FieldContainer\"\n"
+    "      type=\"VCoreArena\"\n"
     "      cardinality=\"single\"\n"
     "      visibility=\"internal\"\n"
     "      access=\"none\"\n"
@@ -199,13 +199,13 @@ VCoreItemBase::TypeObject VCoreItemBase::_type(
     "      >\n"
     "  </Field>\n"
     "  <Field\n"
-    "     name=\"postDFMixinTestField\"\n"
-    "     type=\"Int32\"\n"
-    "     cardinality=\"single\"\n"
-    "     visibility=\"external\"\n"
-    "     access=\"public\"\n"
-    "     defaultValue=\"10\"\n"
-    "     >\n"
+    "      name=\"items\"\n"
+    "      type=\"VCoreItem\"\n"
+    "      cardinality=\"multi\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      category=\"pointer\"\n"
+    "      >\n"
     "  </Field>\n"
     "</FieldContainer>\n",
     ""
@@ -213,55 +213,98 @@ VCoreItemBase::TypeObject VCoreItemBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &VCoreItemBase::getType(void)
-{
-    return _localType;
-}
-
-const FieldContainerType &VCoreItemBase::getType(void) const
-{
-    return _localType;
-}
-
-UInt32 VCoreItemBase::getContainerSize(void) const
-{
-    return sizeof(VCoreItem);
-}
-
-VCoreItemBase::TypeObject &VCoreItemBase::getFinalType(void)
+FieldContainerType &VCoreWorkerBase::getType(void)
 {
     return _type;
 }
 
-const VCoreItemBase::TypeObject &VCoreItemBase::getFinalType(void) const
+const FieldContainerType &VCoreWorkerBase::getType(void) const
 {
     return _type;
+}
+
+UInt32 VCoreWorkerBase::getContainerSize(void) const
+{
+    return sizeof(VCoreWorker);
 }
 
 /*------------------------- decorator get ------------------------------*/
 
 
 
-SFInt32 *VCoreItemBase::editSFPostDFMixinTestField(void)
+//! Get the VCoreWorker::_mfItems field.
+const MFUnrecVCoreItemPtr *VCoreWorkerBase::getMFItems(void) const
 {
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return &_sfPostDFMixinTestField;
+    return &_mfItems;
 }
 
-const SFInt32 *VCoreItemBase::getSFPostDFMixinTestField(void) const
+MFUnrecVCoreItemPtr *VCoreWorkerBase::editMFItems          (void)
 {
-    return &_sfPostDFMixinTestField;
+    editMField(ItemsFieldMask, _mfItems);
+
+    return &_mfItems;
 }
 
 
 
+void VCoreWorkerBase::pushToItems(VCoreItem * const value)
+{
+    editMField(ItemsFieldMask, _mfItems);
+
+    _mfItems.push_back(value);
+}
+
+void VCoreWorkerBase::assignItems    (const MFUnrecVCoreItemPtr &value)
+{
+    MFUnrecVCoreItemPtr::const_iterator elemIt  =
+        value.begin();
+    MFUnrecVCoreItemPtr::const_iterator elemEnd =
+        value.end  ();
+
+    static_cast<VCoreWorker *>(this)->clearItems();
+
+    while(elemIt != elemEnd)
+    {
+        this->pushToItems(*elemIt);
+
+        ++elemIt;
+    }
+}
+
+void VCoreWorkerBase::removeFromItems(UInt32 uiIndex)
+{
+    if(uiIndex < _mfItems.size())
+    {
+        editMField(ItemsFieldMask, _mfItems);
+
+        _mfItems.erase(uiIndex);
+    }
+}
+
+void VCoreWorkerBase::removeObjFromItems(VCoreItem * const value)
+{
+    Int32 iElemIdx = _mfItems.findIndex(value);
+
+    if(iElemIdx != -1)
+    {
+        editMField(ItemsFieldMask, _mfItems);
+
+        _mfItems.erase(iElemIdx);
+    }
+}
+void VCoreWorkerBase::clearItems(void)
+{
+    editMField(ItemsFieldMask, _mfItems);
+
+
+    _mfItems.clear();
+}
 
 
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 VCoreItemBase::getBinSize(ConstFieldMaskArg whichField)
+UInt32 VCoreWorkerBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
@@ -269,15 +312,15 @@ UInt32 VCoreItemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfParent.getBinSize();
     }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
+    if(FieldBits::NoField != (ItemsFieldMask & whichField))
     {
-        returnValue += _sfPostDFMixinTestField.getBinSize();
+        returnValue += _mfItems.getBinSize();
     }
 
     return returnValue;
 }
 
-void VCoreItemBase::copyToBin(BinaryDataHandler &pMem,
+void VCoreWorkerBase::copyToBin(BinaryDataHandler &pMem,
                                   ConstFieldMaskArg  whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -286,13 +329,13 @@ void VCoreItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfParent.copyToBin(pMem);
     }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
+    if(FieldBits::NoField != (ItemsFieldMask & whichField))
     {
-        _sfPostDFMixinTestField.copyToBin(pMem);
+        _mfItems.copyToBin(pMem);
     }
 }
 
-void VCoreItemBase::copyFromBin(BinaryDataHandler &pMem,
+void VCoreWorkerBase::copyFromBin(BinaryDataHandler &pMem,
                                     ConstFieldMaskArg  whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -302,66 +345,56 @@ void VCoreItemBase::copyFromBin(BinaryDataHandler &pMem,
         editSField(ParentFieldMask);
         _sfParent.copyFromBin(pMem);
     }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
+    if(FieldBits::NoField != (ItemsFieldMask & whichField))
     {
-        editSField(PostDFMixinTestFieldFieldMask);
-        _sfPostDFMixinTestField.copyFromBin(pMem);
+        editMField(ItemsFieldMask, _mfItems);
+        _mfItems.copyFromBin(pMem);
     }
 }
 
 //! create a new instance of the class
-VCoreItemTransitPtr VCoreItemBase::createLocal(BitVector bFlags)
+VCoreWorkerTransitPtr VCoreWorkerBase::createLocal(BitVector bFlags)
 {
-    VCoreItemTransitPtr fc;
+    VCoreWorkerTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
 
-        fc = dynamic_pointer_cast<VCoreItem>(tmpPtr);
+        fc = dynamic_pointer_cast<VCoreWorker>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class, copy the container flags
-VCoreItemTransitPtr VCoreItemBase::createDependent(BitVector bFlags)
+VCoreWorkerTransitPtr VCoreWorkerBase::createDependent(BitVector bFlags)
 {
-    VCoreItemTransitPtr fc;
+    VCoreWorkerTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyDependent(bFlags);
 
-        fc = dynamic_pointer_cast<VCoreItem>(tmpPtr);
+        fc = dynamic_pointer_cast<VCoreWorker>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class
-VCoreItemTransitPtr VCoreItemBase::create(void)
+VCoreWorkerTransitPtr VCoreWorkerBase::create(void)
 {
-    VCoreItemTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<VCoreItem>(tmpPtr);
-    }
-
-    return fc;
+    return createLocal();
 }
 
-VCoreItem *VCoreItemBase::createEmptyLocal(BitVector bFlags)
+VCoreWorker *VCoreWorkerBase::createEmptyLocal(BitVector bFlags)
 {
-    VCoreItem *returnValue;
+    VCoreWorker *returnValue;
 
-    newPtr<VCoreItem>(returnValue, bFlags);
+    newPtr<VCoreWorker>(returnValue, bFlags);
 
     returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
@@ -369,25 +402,18 @@ VCoreItem *VCoreItemBase::createEmptyLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-VCoreItem *VCoreItemBase::createEmpty(void)
+VCoreWorker *VCoreWorkerBase::createEmpty(void)
 {
-    VCoreItem *returnValue;
-
-    newPtr<VCoreItem>(returnValue, Thread::getCurrentLocalFlags());
-
-    returnValue->_pFieldFlags->_bNamespaceMask &=
-        ~Thread::getCurrentLocalFlags();
-
-    return returnValue;
+    return createEmptyLocal();
 }
 
 
-FieldContainerTransitPtr VCoreItemBase::shallowCopyLocal(
+FieldContainerTransitPtr VCoreWorkerBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    VCoreItem *tmpPtr;
+    VCoreWorker *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const VCoreItem *>(this), bFlags);
+    newPtr(tmpPtr, dynamic_cast<const VCoreWorker *>(this), bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -396,12 +422,12 @@ FieldContainerTransitPtr VCoreItemBase::shallowCopyLocal(
     return returnValue;
 }
 
-FieldContainerTransitPtr VCoreItemBase::shallowCopyDependent(
+FieldContainerTransitPtr VCoreWorkerBase::shallowCopyDependent(
     BitVector bFlags) const
 {
-    VCoreItem *tmpPtr;
+    VCoreWorker *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const VCoreItem *>(this), ~bFlags);
+    newPtr(tmpPtr, dynamic_cast<const VCoreWorker *>(this), ~bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -410,19 +436,9 @@ FieldContainerTransitPtr VCoreItemBase::shallowCopyDependent(
     return returnValue;
 }
 
-FieldContainerTransitPtr VCoreItemBase::shallowCopy(void) const
+FieldContainerTransitPtr VCoreWorkerBase::shallowCopy(void) const
 {
-    VCoreItem *tmpPtr;
-
-    newPtr(tmpPtr,
-           dynamic_cast<const VCoreItem *>(this),
-           Thread::getCurrentLocalFlags());
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    return returnValue;
+    return shallowCopyLocal();
 }
 
 
@@ -430,38 +446,38 @@ FieldContainerTransitPtr VCoreItemBase::shallowCopy(void) const
 
 /*------------------------- constructors ----------------------------------*/
 
-VCoreItemBase::VCoreItemBase(void) :
+VCoreWorkerBase::VCoreWorkerBase(void) :
     Inherited(),
     _sfParent                 (NULL),
-    _sfPostDFMixinTestField   (Int32(10))
+    _mfItems                  ()
 {
 }
 
-VCoreItemBase::VCoreItemBase(const VCoreItemBase &source) :
+VCoreWorkerBase::VCoreWorkerBase(const VCoreWorkerBase &source) :
     Inherited(source),
     _sfParent                 (NULL),
-    _sfPostDFMixinTestField   (source._sfPostDFMixinTestField   )
+    _mfItems                  ()
 {
 }
 
 
 /*-------------------------- destructors ----------------------------------*/
 
-VCoreItemBase::~VCoreItemBase(void)
+VCoreWorkerBase::~VCoreWorkerBase(void)
 {
 }
 /*-------------------------------------------------------------------------*/
 /* Parent linking                                                          */
 
-bool VCoreItemBase::linkParent(
+bool VCoreWorkerBase::linkParent(
     FieldContainer * const pParent,
     UInt16           const childFieldId,
     UInt16           const parentFieldId )
 {
     if(parentFieldId == ParentFieldId)
     {
-        FieldContainer * pTypedParent =
-            dynamic_cast< FieldContainer * >(pParent);
+        VCoreArena * pTypedParent =
+            dynamic_cast< VCoreArena * >(pParent);
 
         if(pTypedParent != NULL)
         {
@@ -478,7 +494,7 @@ bool VCoreItemBase::linkParent(
 
             editSField(ParentFieldMask);
 
-            _sfParent.setValue(static_cast<FieldContainer *>(pParent), childFieldId);
+            _sfParent.setValue(static_cast<VCoreArena *>(pParent), childFieldId);
 
             return true;
         }
@@ -489,14 +505,14 @@ bool VCoreItemBase::linkParent(
     return Inherited::linkParent(pParent, childFieldId, parentFieldId);
 }
 
-bool VCoreItemBase::unlinkParent(
+bool VCoreWorkerBase::unlinkParent(
     FieldContainer * const pParent,
     UInt16           const parentFieldId)
 {
     if(parentFieldId == ParentFieldId)
     {
-        FieldContainer * pTypedParent =
-            dynamic_cast< FieldContainer * >(pParent);
+        VCoreArena * pTypedParent =
+            dynamic_cast< VCoreArena * >(pParent);
 
         if(pTypedParent != NULL)
         {
@@ -529,57 +545,90 @@ bool VCoreItemBase::unlinkParent(
 }
 
 
-
-GetFieldHandlePtr VCoreItemBase::getHandleParent          (void) const
+void VCoreWorkerBase::onCreate(const VCoreWorker *source)
 {
-    SFParentFieldContainerPtr::GetHandlePtr returnValue;
+    Inherited::onCreate(source);
+
+    if(source != NULL)
+    {
+        VCoreWorker *pThis = static_cast<VCoreWorker *>(this);
+
+        MFUnrecVCoreItemPtr::const_iterator ItemsIt  =
+            source->_mfItems.begin();
+        MFUnrecVCoreItemPtr::const_iterator ItemsEnd =
+            source->_mfItems.end  ();
+
+        while(ItemsIt != ItemsEnd)
+        {
+            pThis->pushToItems(*ItemsIt);
+
+            ++ItemsIt;
+        }
+    }
+}
+
+GetFieldHandlePtr VCoreWorkerBase::getHandleParent          (void) const
+{
+    SFParentVCoreArenaPtr::GetHandlePtr returnValue;
 
     return returnValue;
 }
 
-EditFieldHandlePtr VCoreItemBase::editHandleParent         (void)
+EditFieldHandlePtr VCoreWorkerBase::editHandleParent         (void)
 {
     EditFieldHandlePtr returnValue;
 
     return returnValue;
 }
 
-GetFieldHandlePtr VCoreItemBase::getHandlePostDFMixinTestField (void) const
+GetFieldHandlePtr VCoreWorkerBase::getHandleItems           (void) const
 {
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
-             const_cast<VCoreItemBase *>(this)));
+    MFUnrecVCoreItemPtr::GetHandlePtr returnValue(
+        new  MFUnrecVCoreItemPtr::GetHandle(
+             &_mfItems,
+             this->getType().getFieldDesc(ItemsFieldId),
+             const_cast<VCoreWorkerBase *>(this)));
 
     return returnValue;
 }
 
-EditFieldHandlePtr VCoreItemBase::editHandlePostDFMixinTestField(void)
+EditFieldHandlePtr VCoreWorkerBase::editHandleItems          (void)
 {
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
+    MFUnrecVCoreItemPtr::EditHandlePtr returnValue(
+        new  MFUnrecVCoreItemPtr::EditHandle(
+             &_mfItems,
+             this->getType().getFieldDesc(ItemsFieldId),
              this));
 
+    returnValue->setAddMethod(
+        boost::bind(&VCoreWorker::pushToItems,
+                    static_cast<VCoreWorker *>(this), _1));
+    returnValue->setRemoveMethod(
+        boost::bind(&VCoreWorker::removeFromItems,
+                    static_cast<VCoreWorker *>(this), _1));
+    returnValue->setRemoveObjMethod(
+        boost::bind(&VCoreWorker::removeObjFromItems,
+                    static_cast<VCoreWorker *>(this), _1));
+    returnValue->setClearMethod(
+        boost::bind(&VCoreWorker::clearItems,
+                    static_cast<VCoreWorker *>(this)));
 
-    editSField(PostDFMixinTestFieldFieldMask);
+    editMField(ItemsFieldMask, _mfItems);
 
     return returnValue;
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-void VCoreItemBase::execSyncV(      FieldContainer    &oFrom,
+void VCoreWorkerBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    VCoreItem *pThis = static_cast<VCoreItem *>(this);
+    VCoreWorker *pThis = static_cast<VCoreWorker *>(this);
 
-    pThis->execSync(static_cast<VCoreItem *>(&oFrom),
+    pThis->execSync(static_cast<VCoreWorker *>(&oFrom),
                     whichField,
                     oOffsets,
                     syncMode,
@@ -589,22 +638,24 @@ void VCoreItemBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *VCoreItemBase::createAspectCopy(
+FieldContainer *VCoreWorkerBase::createAspectCopy(
     const FieldContainer *pRefAspect) const
 {
-    VCoreItem *returnValue;
+    VCoreWorker *returnValue;
 
     newAspectCopy(returnValue,
-                  dynamic_cast<const VCoreItem *>(pRefAspect),
-                  dynamic_cast<const VCoreItem *>(this));
+                  dynamic_cast<const VCoreWorker *>(pRefAspect),
+                  dynamic_cast<const VCoreWorker *>(this));
 
     return returnValue;
 }
 #endif
 
-void VCoreItemBase::resolveLinks(void)
+void VCoreWorkerBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
+
+    static_cast<VCoreWorker *>(this)->clearItems();
 
 
 }
