@@ -304,7 +304,7 @@ void StagedViewport::renderWithStage(RenderActionBase *action)
     FrameBufferObjectUnrecPtr myTarget = this->getTarget();
     FrameBufferObjectUnrecPtr stageTarget = stage->getRenderTarget();
     FrameBufferObjectUnrecPtr theTarget = stageTarget ? stageTarget : myTarget;
-    if( theTarget )
+    if( !myTarget && stageTarget )
         stretchTargetToFrameBuffer(action, theTarget);
 
 

@@ -204,7 +204,7 @@ bool VCGLUTViewer::init(void)
         glutIdleFunc      (glutFrameHandler      );  
     }
 
-    _viewport = StagedViewport::create();
+    _viewport = /*Staged*/Viewport::create();
     _viewport->setSize      (0,0, 1,1);
     SolidBackgroundUnrecPtr bg = SolidBackground::create();
     bg->setColor(Color3f(0.2f, 0.2f, 0.2f));
@@ -243,7 +243,7 @@ void VCGLUTViewer::setRoot(Node* root)
 void VCGLUTViewer::setStage(StageUnrecPtr stage)
 {
     _stage = stage;
-    OSG::dynamic_pointer_cast<OSG::StagedViewport>(_viewport)->setStage(_stage);
+//    OSG::dynamic_pointer_cast<OSG::StagedViewport>(_viewport)->setStage(_stage);
 }
 
 void VCGLUTViewer::setKeyCallback(KeyCallback kc)

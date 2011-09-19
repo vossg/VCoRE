@@ -37,7 +37,6 @@
 #include "OSGVCTestStage.h"
 #include "OSGVisitSubTree.h"
 
-
 #include "OSGSimpleSceneManager.h"
 #include "OSGPassiveWindow.h"
 
@@ -114,7 +113,7 @@ namespace OSG {
     {
     public:
         OSG::FrameBufferObjectUnrecPtr _fbo;
-        OSG::TextureBufferUnrecPtr     _texBuffer;
+        OSG::RenderBufferUnrecPtr     _texBuffer;
         OSG::ImageUnrecPtr _texImg;
         OSG::TextureObjChunkUnrecPtr   _texObj;
         OSG::TextureEnvChunkUnrecPtr   _texEnv;
@@ -129,10 +128,10 @@ namespace OSG {
             _texEnv = OSG::TextureEnvChunk::create();
 
             _texImg = OSG::Image::create();
-            _texImg->set(OSG::Image::OSG_RGB_PF, w, h, 1,
-                1, 1, 0, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, readBack);
+            _texImg->set(OSG::Image::OSG_RGBA_PF, w, h, 1,
+                1, 1, 0.f, NULL, OSG::Image::OSG_UINT8_IMAGEDATA, readBack);
 
-            _texObj->setImage    (_texImg      );
+//            _texObj->setImage    (_texImg      );
             _texObj->setMinFilter(GL_LINEAR );
             _texObj->setMagFilter(GL_LINEAR );
             _texObj->setWrapS    (GL_REPEAT );
@@ -152,14 +151,16 @@ namespace OSG {
             //txDepth->setInternalFormat(GL_DEPTH_COMPONENT32);
 
             _fbo         = OSG::FrameBufferObject::create();
-            _texBuffer   = OSG::TextureBuffer::create();
+            _texBuffer   = OSG::RenderBuffer::create();
 
             //OSG::TextureBufferUnrecPtr     pDepthBuffer = OSG::TextureBuffer::create();
             //pDepthBuffer->setTexture(txDepth);
             _depthBuffer = OSG::RenderBuffer ::create();
             _depthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
 
-            _texBuffer->setTexture (_texObj);
+//            _texBuffer->setTexture (_texObj);
+            _texBuffer->setInternalFormat(GL_RGBA);
+            _texBuffer->setImage(_texImg);
             _texBuffer->setReadBack(readBack);
 
             _fbo->setSize(w, h);
@@ -169,6 +170,7 @@ namespace OSG {
             _fbo->editMFDrawBuffers()->clear();
             _fbo->editMFDrawBuffers()->push_back(GL_COLOR_ATTACHMENT0_EXT);
 
+            _fbo->setPostProcessOnDeactivate(readBack);
 //            commitChanges();
         }
 
@@ -201,22 +203,29 @@ void testRenderTask()
         FNOTICE(("CREATE\n"));
         renderTask = OSG::VCRenderTask::create();
 
+        stage->setInheritedTarget(false);
+
         OSG::StagedViewportUnrecPtr vp = OSG::StagedViewport::create();
         vp->setStage(stage);
+        //OSG::FBOViewportUnrecPtr vp = OSG::FBOViewport::create();
         vp->setFrameBufferObject(fboComplex->_fbo);
         vp->setCamera      (stage_cam  );
         vp->setBackground  (bkgnd);
+        vp->setRoot(animRoot);
 
         renderTask->setViewport(vp);
         renderTask->setDone(false);
+        OSG::commitChanges();
     }
 
     if(renderTask->getDone())
     {
         FNOTICE(("RESULT\n"));
         OSG::VCGLUTViewer::the()->getRenderer()->subRenderTask(0);
-        fboComplex->_texImg->write("c:/work/tmp/fuck.png");
+//        fboComplex->_texImg->write("c:/work/tmp/fuck.png");
+        fboComplex->_texBuffer->getImage()->write("c:/work/tmp/fuck.png");
         renderTask->setDone(false);
+        OSG::commitChanges();
     }
     else
     {
@@ -428,7 +437,6 @@ void key(unsigned char key, int x, int y)
     case '5':
         {
             testRenderTask();
-            FNOTICE(("RenderJob queued"));
         }
         break;
 
@@ -671,8 +679,12 @@ void initPlaneSetup(void)
 
 int doMain (int argc, char **argv)
 {
+#ifdef WIN32
+    OSG::preloadSharedObject("OSGImageFileIO");
+#endif
     OSG::osgInit(argc,argv);
     OSG::osgLog().setLogLevel(OSG::LOG_NOTICE);
+
 
     // GLUT init
 

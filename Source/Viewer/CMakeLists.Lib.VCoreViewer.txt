@@ -13,7 +13,7 @@ OSG_SELECT_PROJECT()
 # dependencies - OpenSG
 SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase VCoreGreatestHacks VCoreRenderer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks VCoreRenderer VCoreViewer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks VCoreRenderer VCoreViewer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups OSGImageFileIO)
 
 # dependencies - External
 SET(${PROJECT_NAME}_DEP_LIB OSG_GLUT_LIBRARIES)
