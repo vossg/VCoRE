@@ -41,22 +41,22 @@
 
 #include "OSGConfig.h"
 
-#include "OSGVCoreArena.h"
+#include "OSGVCoreWindow.h"
 #include "OSGNameAttachment.h"
 
 OSG_BEGIN_NAMESPACE
 
 // Documentation for this class is emited in the
-// OSGVCoreArenaBase.cpp file.
+// OSGVCoreWindowBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void VCoreArena::changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         details)
+void VCoreWindow::changed(ConstFieldMaskArg whichField,
+                          UInt32            origin,
+                          BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
 }
@@ -65,8 +65,8 @@ void VCoreArena::changed(ConstFieldMaskArg whichField,
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-void VCoreArena::dump(      UInt32    uiIndent,
-                      const BitVector bvFlags) const
+void VCoreWindow::dump(      UInt32    uiIndent,
+                       const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -74,12 +74,12 @@ void VCoreArena::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-VCoreArena::VCoreArena(void) :
+VCoreWindow::VCoreWindow(void) :
     Inherited()
 {
 }
 
-VCoreArena::VCoreArena(const VCoreArena &source) :
+VCoreWindow::VCoreWindow(const VCoreWindow &source) :
     Inherited(source)
 {
 }
@@ -87,7 +87,7 @@ VCoreArena::VCoreArena(const VCoreArena &source) :
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-VCoreArena::~VCoreArena(void)
+VCoreWindow::~VCoreWindow(void)
 {
 }
 
@@ -97,7 +97,7 @@ VCoreArena::~VCoreArena(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-void VCoreArena::initMethod(InitPhase ePhase)
+void VCoreWindow::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
@@ -106,70 +106,16 @@ void VCoreArena::initMethod(InitPhase ePhase)
     }
 }
 
-FieldContainer *VCoreArena::findNamedComponent(
-    const Char8 *szName) const
+bool VCoreWindow::init(UInt32 uiInitPhase, VCoreApp *pApp)
 {
-    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
-    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+    fprintf(stderr, "VCoreWindow::init %s (%d)\n", getName(this), uiInitPhase);
 
-    for(; wIt != wEnd; ++wIt)
+    MFViewsType::const_iterator vIt  = _mfViews.begin();
+    MFViewsType::const_iterator vEnd = _mfViews.end  ();
+
+    for(; vIt != vEnd; ++vIt)
     {
-        const Char8 *szTmpName = OSG::getName(*wIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-        {
-            return *wIt;
-        }
-
-        FieldContainer *tmpVal = (*wIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        const Char8 *szTmpName = OSG::getName(*iIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-        {
-            return *iIt;
-        }
-
-        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-    return NULL;
-}
-
-bool VCoreArena::init(UInt32 uiInitPhase, VCoreApp *pApp)
-{
-    fprintf(stderr, "VCoreArena::init %s (%x)\n",
-            getName(this),
-            uiInitPhase);
-
-    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
-    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
-
-    for(; wIt != wEnd; ++wIt)
-    {
-        (*wIt)->init(uiInitPhase, pApp);
-    }
-
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        (*iIt)->init(uiInitPhase, pApp);
+        (*vIt)->init(uiInitPhase, pApp);
     }
 
     return true;

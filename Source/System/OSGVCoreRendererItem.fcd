@@ -12,20 +12,4 @@
     isBundle="true"
     docGroupBase="GrpVCoreSystem"
     >
-  <Field
-      name="rootRef"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-  <Field
-      name="cameraRef"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
-  </Field>
 </FieldContainer>

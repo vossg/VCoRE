@@ -48,6 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class VCoreApp;
+
 /*! \brief VCoreWorker is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
@@ -78,6 +80,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreWorker : public VCoreWorkerBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
@@ -93,6 +97,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreWorker : public VCoreWorkerBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+    virtual bool init(UInt32    uiInitPhase, 
+                      VCoreApp *pApp       );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreRendererItem!
+ **     class VCoreViewarea!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,47 +53,169 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreRendererItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreViewareaBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreRendererItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreViewareaBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreRendererItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreViewareaBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the value of the VCoreViewarea::_sfRendererRef field.
+
+inline
+std::string &VCoreViewareaBase::editRendererRef(void)
+{
+    editSField(RendererRefFieldMask);
+
+    return _sfRendererRef.getValue();
+}
+
+//! Get the value of the VCoreViewarea::_sfRendererRef field.
+inline
+const std::string &VCoreViewareaBase::getRendererRef(void) const
+{
+    return _sfRendererRef.getValue();
+}
+
+//! Set the value of the VCoreViewarea::_sfRendererRef field.
+inline
+void VCoreViewareaBase::setRendererRef(const std::string &value)
+{
+    editSField(RendererRefFieldMask);
+
+    _sfRendererRef.setValue(value);
+}
+//! Get the value of the VCoreViewarea::_sfRootRef field.
+
+inline
+std::string &VCoreViewareaBase::editRootRef(void)
+{
+    editSField(RootRefFieldMask);
+
+    return _sfRootRef.getValue();
+}
+
+//! Get the value of the VCoreViewarea::_sfRootRef field.
+inline
+const std::string &VCoreViewareaBase::getRootRef(void) const
+{
+    return _sfRootRef.getValue();
+}
+
+//! Set the value of the VCoreViewarea::_sfRootRef field.
+inline
+void VCoreViewareaBase::setRootRef(const std::string &value)
+{
+    editSField(RootRefFieldMask);
+
+    _sfRootRef.setValue(value);
+}
+//! Get the value of the VCoreViewarea::_sfCameraRef field.
+
+inline
+std::string &VCoreViewareaBase::editCameraRef(void)
+{
+    editSField(CameraRefFieldMask);
+
+    return _sfCameraRef.getValue();
+}
+
+//! Get the value of the VCoreViewarea::_sfCameraRef field.
+inline
+const std::string &VCoreViewareaBase::getCameraRef(void) const
+{
+    return _sfCameraRef.getValue();
+}
+
+//! Set the value of the VCoreViewarea::_sfCameraRef field.
+inline
+void VCoreViewareaBase::setCameraRef(const std::string &value)
+{
+    editSField(CameraRefFieldMask);
+
+    _sfCameraRef.setValue(value);
+}
+
+//! Get the value of the VCoreViewarea::_sfRoot field.
+inline
+Node * VCoreViewareaBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the VCoreViewarea::_sfRoot field.
+inline
+void VCoreViewareaBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
+
+//! Get the value of the VCoreViewarea::_sfRenderer field.
+inline
+VCoreRendererItem * VCoreViewareaBase::getRenderer(void) const
+{
+    return _sfRenderer.getValue();
+}
+
+//! Set the value of the VCoreViewarea::_sfRenderer field.
+inline
+void VCoreViewareaBase::setRenderer(VCoreRendererItem * const value)
+{
+    editSField(RendererFieldMask);
+
+    _sfRenderer.setValue(value);
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreRendererItemBase::execSync (      VCoreRendererItemBase *pFrom,
+void VCoreViewareaBase::execSync (      VCoreViewareaBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+
+    if(FieldBits::NoField != (RendererRefFieldMask & whichField))
+        _sfRendererRef.syncWith(pFrom->_sfRendererRef);
+
+    if(FieldBits::NoField != (RootRefFieldMask & whichField))
+        _sfRootRef.syncWith(pFrom->_sfRootRef);
+
+    if(FieldBits::NoField != (CameraRefFieldMask & whichField))
+        _sfCameraRef.syncWith(pFrom->_sfCameraRef);
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pFrom->_sfRoot);
+
+    if(FieldBits::NoField != (RendererFieldMask & whichField))
+        _sfRenderer.syncWith(pFrom->_sfRenderer);
 }
 #endif
 
 
 inline
-const Char8 *VCoreRendererItemBase::getClassname(void)
+const Char8 *VCoreViewareaBase::getClassname(void)
 {
-    return "VCoreRendererItem";
+    return "VCoreViewarea";
 }
-OSG_GEN_CONTAINERPTR(VCoreRendererItem);
+OSG_GEN_CONTAINERPTR(VCoreViewarea);
 
 OSG_END_NAMESPACE
 

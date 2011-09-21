@@ -65,7 +65,6 @@
 
 #include "OSGVCoreItem.h" // Parent
 
-#include "OSGBaseFields.h"              // RootRef type
 
 #include "OSGVCoreRendererItemFields.h"
 
@@ -91,22 +90,6 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItemBase : public VCoreItem
 
   public:
 
-    enum
-    {
-        RootRefFieldId = Inherited::NextFieldId,
-        CameraRefFieldId = RootRefFieldId + 1,
-        NextFieldId = CameraRefFieldId + 1
-    };
-
-    static const OSG::BitVector RootRefFieldMask =
-        (TypeTraits<BitVector>::One << RootRefFieldId);
-    static const OSG::BitVector CameraRefFieldMask =
-        (TypeTraits<BitVector>::One << CameraRefFieldId);
-    static const OSG::BitVector NextFieldMask =
-        (TypeTraits<BitVector>::One << NextFieldId);
-        
-    typedef SFString          SFRootRefType;
-    typedef SFString          SFCameraRefType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -125,38 +108,6 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItemBase : public VCoreItem
     virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-
-                  SFString            *editSFRootRef        (void);
-            const SFString            *getSFRootRef         (void) const;
-
-                  SFString            *editSFCameraRef      (void);
-            const SFString            *getSFCameraRef       (void) const;
-
-
-                  std::string         &editRootRef        (void);
-            const std::string         &getRootRef         (void) const;
-
-                  std::string         &editCameraRef      (void);
-            const std::string         &getCameraRef       (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-            void setRootRef        (const std::string &value);
-            void setCameraRef      (const std::string &value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,14 +159,6 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItemBase : public VCoreItem
     static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    SFString          _sfRootRef;
-    SFString          _sfCameraRef;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -240,10 +183,6 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItemBase : public VCoreItem
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleRootRef         (void) const;
-    EditFieldHandlePtr editHandleRootRef        (void);
-    GetFieldHandlePtr  getHandleCameraRef       (void) const;
-    EditFieldHandlePtr editHandleCameraRef      (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

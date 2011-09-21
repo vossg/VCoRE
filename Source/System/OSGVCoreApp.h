@@ -82,7 +82,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreApp : public VCoreAppBase
 
     void startFrom(const std::string &szAppFile);
 
-    void run      (void                        );
+    bool init     (      void                  );
+    void run      (      void                  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -99,6 +100,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreApp : public VCoreAppBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

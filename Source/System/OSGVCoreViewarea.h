@@ -36,27 +36,27 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVCORERENDERERITEM_H_
-#define _OSGVCORERENDERERITEM_H_
+#ifndef _OSGVCOREVIEWAREA_H_
+#define _OSGVCOREVIEWAREA_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGConfig.h"
-#include "OSGVCoreRendererItemBase.h"
+#include "OSGVCoreViewareaBase.h"
+#include "OSGNode.h"
+#include "OSGVCoreRendererItem.h"
 
 OSG_BEGIN_NAMESPACE
 
 class VCoreApp;
 
-/*! \brief VCoreRendererItem is the basic NodeCore for inner nodes in the tree.
+/*! \brief VCoreViewArea is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
 
-class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItem : 
-    public VCoreRendererItemBase
+class OSG_VCORESYSTEM_DLLMAPPING VCoreViewarea : public VCoreViewareaBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -103,21 +103,21 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItem :
 
     protected:
 
-    typedef VCoreRendererItemBase Inherited;
+    typedef VCoreViewareaBase Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VCoreRendererItem(void);
-    VCoreRendererItem(const VCoreRendererItem &source);
+    VCoreViewarea(void);
+    VCoreViewarea(const VCoreViewarea &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VCoreRendererItem(void);
+    virtual ~VCoreViewarea(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -142,10 +142,10 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItem :
   private:
 
     friend class FieldContainer;
-    friend class VCoreRendererItemBase;
+    friend class VCoreViewareaBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const VCoreRendererItem &source);
+    void operator =(const VCoreViewarea &source);
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Python Related                         */
@@ -160,11 +160,11 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreRendererItem :
     /*---------------------------------------------------------------------*/
 };
 
-typedef VCoreRendererItem *VCoreRendererItemP;
+typedef VCoreViewarea *VCoreViewareaP;
 
 OSG_END_NAMESPACE
 
-#include "OSGVCoreRendererItemBase.inl"
-#include "OSGVCoreRendererItem.inl"
+#include "OSGVCoreViewareaBase.inl"
+#include "OSGVCoreViewarea.inl"
 
-#endif /* _OSGVCORERENDERERITEM_H_ */
+#endif /* _OSGVCOREVIEWAREA_H_ */

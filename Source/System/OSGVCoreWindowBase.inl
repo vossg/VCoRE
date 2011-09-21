@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreRendererItem!
+ **     class VCoreWindow!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,20 +53,20 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &VCoreRendererItemBase::getClassType(void)
+OSG::FieldContainerType &VCoreWindowBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 VCoreRendererItemBase::getClassTypeId(void)
+OSG::UInt32 VCoreWindowBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 VCoreRendererItemBase::getClassGroupId(void)
+OSG::UInt16 VCoreWindowBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
@@ -74,26 +74,39 @@ OSG::UInt16 VCoreRendererItemBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
+//! Get the value of the \a index element the VCoreWindow::_mfViews field.
+inline
+VCoreViewarea * VCoreWindowBase::getViews(const UInt32 index) const
+{
+    return _mfViews[index];
+}
+
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void VCoreRendererItemBase::execSync (      VCoreRendererItemBase *pFrom,
+void VCoreWindowBase::execSync (      VCoreWindowBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+
+    if(FieldBits::NoField != (ViewsFieldMask & whichField))
+        _mfViews.syncWith(pFrom->_mfViews,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
 }
 #endif
 
 
 inline
-const Char8 *VCoreRendererItemBase::getClassname(void)
+const Char8 *VCoreWindowBase::getClassname(void)
 {
-    return "VCoreRendererItem";
+    return "VCoreWindow";
 }
-OSG_GEN_CONTAINERPTR(VCoreRendererItem);
+OSG_GEN_CONTAINERPTR(VCoreWindow);
 
 OSG_END_NAMESPACE
 

@@ -59,4 +59,17 @@
 #define OSG_VCORESYSTEM_DLLTMPLMAPPING
 #endif
 
+#include "OSGBaseTypes.h"
+
+OSG_BEGIN_NAMESPACE
+
+namespace InitPhase
+{
+    static const UInt32 LoadReferences     = 0x0001;
+    static const UInt32 ResolveReferences  = 0x0002;
+    static const UInt32 StartupThreading   = 0x0004;
+   
+}
+
+OSG_END_NAMESPACE
 #endif /* _OSGVCORESYSTEMDEF_H_ */

@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreOSGSceneItem
+ **     class VCoreWindow
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGVCOREOSGSCENEITEMBASE_H_
-#define _OSGVCOREOSGSCENEITEMBASE_H_
+#ifndef _OSGVCOREWINDOWBASE_H_
+#define _OSGVCOREWINDOWBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,18 +65,17 @@
 
 #include "OSGVCoreItem.h" // Parent
 
-#include "OSGBaseFields.h"              // Url type
-#include "OSGNodeFields.h"              // Root type
+#include "OSGVCoreViewareaFields.h"     // Views type
 
-#include "OSGVCoreOSGSceneItemFields.h"
+#include "OSGVCoreWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 
-class VCoreOSGSceneItem;
+class VCoreWindow;
 
-//! \brief VCoreOSGSceneItem Base Class.
+//! \brief VCoreWindow Base Class.
 
-class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
+class OSG_VCORESYSTEM_DLLMAPPING VCoreWindowBase : public VCoreItem
 {
   public:
 
@@ -86,7 +85,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(VCoreOSGSceneItem);
+    OSG_GEN_INTERNALPTR(VCoreWindow);
 
     /*==========================  PUBLIC  =================================*/
 
@@ -94,24 +93,16 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
 
     enum
     {
-        UrlFieldId = Inherited::NextFieldId,
-        MatchedUrlFieldId = UrlFieldId + 1,
-        RootFieldId = MatchedUrlFieldId + 1,
-        NextFieldId = RootFieldId + 1
+        ViewsFieldId = Inherited::NextFieldId,
+        NextFieldId = ViewsFieldId + 1
     };
 
-    static const OSG::BitVector UrlFieldMask =
-        (TypeTraits<BitVector>::One << UrlFieldId);
-    static const OSG::BitVector MatchedUrlFieldMask =
-        (TypeTraits<BitVector>::One << MatchedUrlFieldId);
-    static const OSG::BitVector RootFieldMask =
-        (TypeTraits<BitVector>::One << RootFieldId);
+    static const OSG::BitVector ViewsFieldMask =
+        (TypeTraits<BitVector>::One << ViewsFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef MFString          MFUrlType;
-    typedef SFString          SFMatchedUrlType;
-    typedef SFUnrecNodePtr    SFRootType;
+    typedef MFUnrecVCoreViewareaPtr MFViewsType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -136,31 +127,17 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-
-                  MFString            *editMFUrl            (void);
-            const MFString            *getMFUrl             (void) const;
-
-                  SFString            *editSFMatchedUrl     (void);
-            const SFString            *getSFMatchedUrl      (void) const;
-            const SFUnrecNodePtr      *getSFRoot           (void) const;
-                  SFUnrecNodePtr      *editSFRoot           (void);
+            const MFUnrecVCoreViewareaPtr *getMFViews          (void) const;
+                  MFUnrecVCoreViewareaPtr *editMFViews          (void);
 
 
-                  std::string         &editUrl            (const UInt32 index);
-            const std::string         &getUrl             (const UInt32 index) const;
-
-                  std::string         &editMatchedUrl     (void);
-            const std::string         &getMatchedUrl      (void) const;
-
-                  Node * getRoot           (void) const;
+                  VCoreViewarea * getViews          (const UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setMatchedUrl     (const std::string &value);
-            void setRoot           (Node * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,6 +148,12 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
+    void pushToViews               (VCoreViewarea * const value   );
+    void assignViews              (const MFUnrecVCoreViewareaPtr &value);
+    void removeFromViews (UInt32               uiIndex );
+    void removeObjFromViews(VCoreViewarea * const value   );
+    void clearViews                 (void                         );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,16 +172,16 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  VCoreOSGSceneItemTransitPtr  create          (void);
-    static  VCoreOSGSceneItem           *createEmpty     (void);
+    static  VCoreWindowTransitPtr  create          (void);
+    static  VCoreWindow           *createEmpty     (void);
 
-    static  VCoreOSGSceneItemTransitPtr  createLocal     (
+    static  VCoreWindowTransitPtr  createLocal     (
                                                BitVector bFlags = FCLocal::All);
 
-    static  VCoreOSGSceneItem            *createEmptyLocal(
+    static  VCoreWindow            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
-    static  VCoreOSGSceneItemTransitPtr  createDependent  (BitVector bFlags);
+    static  VCoreWindowTransitPtr  createDependent  (BitVector bFlags);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -225,43 +208,37 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString          _mfUrl;
-    SFString          _sfMatchedUrl;
-    SFUnrecNodePtr    _sfRoot;
+    MFUnrecVCoreViewareaPtr _mfViews;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VCoreOSGSceneItemBase(void);
-    VCoreOSGSceneItemBase(const VCoreOSGSceneItemBase &source);
+    VCoreWindowBase(void);
+    VCoreWindowBase(const VCoreWindowBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VCoreOSGSceneItemBase(void);
+    virtual ~VCoreWindowBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const VCoreOSGSceneItem *source = NULL);
+    void onCreate(const VCoreWindow *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleUrl             (void) const;
-    EditFieldHandlePtr editHandleUrl            (void);
-    GetFieldHandlePtr  getHandleMatchedUrl      (void) const;
-    EditFieldHandlePtr editHandleMatchedUrl     (void);
-    GetFieldHandlePtr  getHandleRoot            (void) const;
-    EditFieldHandlePtr editHandleRoot           (void);
+    GetFieldHandlePtr  getHandleViews           (void) const;
+    EditFieldHandlePtr editHandleViews          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -275,7 +252,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      VCoreOSGSceneItemBase *pFrom,
+            void execSync (      VCoreWindowBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -315,11 +292,11 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const VCoreOSGSceneItemBase &source);
+    void operator =(const VCoreWindowBase &source);
 };
 
-typedef VCoreOSGSceneItemBase *VCoreOSGSceneItemBaseP;
+typedef VCoreWindowBase *VCoreWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGVCOREOSGSCENEITEMBASE_H_ */
+#endif /* _OSGVCOREWINDOWBASE_H_ */

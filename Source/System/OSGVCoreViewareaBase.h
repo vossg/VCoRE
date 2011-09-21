@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreOSGSceneItem
+ **     class VCoreViewarea
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGVCOREOSGSCENEITEMBASE_H_
-#define _OSGVCOREOSGSCENEITEMBASE_H_
+#ifndef _OSGVCOREVIEWAREABASE_H_
+#define _OSGVCOREVIEWAREABASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,30 +63,31 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoreItem.h" // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include "OSGBaseFields.h"              // Url type
+#include "OSGBaseFields.h"              // RendererRef type
 #include "OSGNodeFields.h"              // Root type
+#include "OSGVCoreRendererItemFields.h" // Renderer type
 
-#include "OSGVCoreOSGSceneItemFields.h"
+#include "OSGVCoreViewareaFields.h"
 
 OSG_BEGIN_NAMESPACE
 
-class VCoreOSGSceneItem;
+class VCoreViewarea;
 
-//! \brief VCoreOSGSceneItem Base Class.
+//! \brief VCoreViewarea Base Class.
 
-class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
+class OSG_VCORESYSTEM_DLLMAPPING VCoreViewareaBase : public AttachmentContainer
 {
   public:
 
-    typedef VCoreItem Inherited;
-    typedef VCoreItem ParentContainer;
+    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(VCoreOSGSceneItem);
+    OSG_GEN_INTERNALPTR(VCoreViewarea);
 
     /*==========================  PUBLIC  =================================*/
 
@@ -94,24 +95,32 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
 
     enum
     {
-        UrlFieldId = Inherited::NextFieldId,
-        MatchedUrlFieldId = UrlFieldId + 1,
-        RootFieldId = MatchedUrlFieldId + 1,
-        NextFieldId = RootFieldId + 1
+        RendererRefFieldId = Inherited::NextFieldId,
+        RootRefFieldId = RendererRefFieldId + 1,
+        CameraRefFieldId = RootRefFieldId + 1,
+        RootFieldId = CameraRefFieldId + 1,
+        RendererFieldId = RootFieldId + 1,
+        NextFieldId = RendererFieldId + 1
     };
 
-    static const OSG::BitVector UrlFieldMask =
-        (TypeTraits<BitVector>::One << UrlFieldId);
-    static const OSG::BitVector MatchedUrlFieldMask =
-        (TypeTraits<BitVector>::One << MatchedUrlFieldId);
+    static const OSG::BitVector RendererRefFieldMask =
+        (TypeTraits<BitVector>::One << RendererRefFieldId);
+    static const OSG::BitVector RootRefFieldMask =
+        (TypeTraits<BitVector>::One << RootRefFieldId);
+    static const OSG::BitVector CameraRefFieldMask =
+        (TypeTraits<BitVector>::One << CameraRefFieldId);
     static const OSG::BitVector RootFieldMask =
         (TypeTraits<BitVector>::One << RootFieldId);
+    static const OSG::BitVector RendererFieldMask =
+        (TypeTraits<BitVector>::One << RendererFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef MFString          MFUrlType;
-    typedef SFString          SFMatchedUrlType;
+    typedef SFString          SFRendererRefType;
+    typedef SFString          SFRootRefType;
+    typedef SFString          SFCameraRefType;
     typedef SFUnrecNodePtr    SFRootType;
+    typedef SFUnrecVCoreRendererItemPtr SFRendererType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -137,30 +146,43 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \{                                                                 */
 
 
-                  MFString            *editMFUrl            (void);
-            const MFString            *getMFUrl             (void) const;
+                  SFString            *editSFRendererRef    (void);
+            const SFString            *getSFRendererRef     (void) const;
 
-                  SFString            *editSFMatchedUrl     (void);
-            const SFString            *getSFMatchedUrl      (void) const;
+                  SFString            *editSFRootRef        (void);
+            const SFString            *getSFRootRef         (void) const;
+
+                  SFString            *editSFCameraRef      (void);
+            const SFString            *getSFCameraRef       (void) const;
             const SFUnrecNodePtr      *getSFRoot           (void) const;
                   SFUnrecNodePtr      *editSFRoot           (void);
+            const SFUnrecVCoreRendererItemPtr *getSFRenderer       (void) const;
+                  SFUnrecVCoreRendererItemPtr *editSFRenderer       (void);
 
 
-                  std::string         &editUrl            (const UInt32 index);
-            const std::string         &getUrl             (const UInt32 index) const;
+                  std::string         &editRendererRef    (void);
+            const std::string         &getRendererRef     (void) const;
 
-                  std::string         &editMatchedUrl     (void);
-            const std::string         &getMatchedUrl      (void) const;
+                  std::string         &editRootRef        (void);
+            const std::string         &getRootRef         (void) const;
+
+                  std::string         &editCameraRef      (void);
+            const std::string         &getCameraRef       (void) const;
 
                   Node * getRoot           (void) const;
+
+                  VCoreRendererItem * getRenderer       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setMatchedUrl     (const std::string &value);
+            void setRendererRef    (const std::string &value);
+            void setRootRef        (const std::string &value);
+            void setCameraRef      (const std::string &value);
             void setRoot           (Node * const value);
+            void setRenderer       (VCoreRendererItem * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,16 +211,16 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  VCoreOSGSceneItemTransitPtr  create          (void);
-    static  VCoreOSGSceneItem           *createEmpty     (void);
+    static  VCoreViewareaTransitPtr  create          (void);
+    static  VCoreViewarea           *createEmpty     (void);
 
-    static  VCoreOSGSceneItemTransitPtr  createLocal     (
+    static  VCoreViewareaTransitPtr  createLocal     (
                                                BitVector bFlags = FCLocal::All);
 
-    static  VCoreOSGSceneItem            *createEmptyLocal(
+    static  VCoreViewarea            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
-    static  VCoreOSGSceneItemTransitPtr  createDependent  (BitVector bFlags);
+    static  VCoreViewareaTransitPtr  createDependent  (BitVector bFlags);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -225,43 +247,49 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString          _mfUrl;
-    SFString          _sfMatchedUrl;
+    SFString          _sfRendererRef;
+    SFString          _sfRootRef;
+    SFString          _sfCameraRef;
     SFUnrecNodePtr    _sfRoot;
+    SFUnrecVCoreRendererItemPtr _sfRenderer;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VCoreOSGSceneItemBase(void);
-    VCoreOSGSceneItemBase(const VCoreOSGSceneItemBase &source);
+    VCoreViewareaBase(void);
+    VCoreViewareaBase(const VCoreViewareaBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~VCoreOSGSceneItemBase(void);
+    virtual ~VCoreViewareaBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const VCoreOSGSceneItem *source = NULL);
+    void onCreate(const VCoreViewarea *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleUrl             (void) const;
-    EditFieldHandlePtr editHandleUrl            (void);
-    GetFieldHandlePtr  getHandleMatchedUrl      (void) const;
-    EditFieldHandlePtr editHandleMatchedUrl     (void);
+    GetFieldHandlePtr  getHandleRendererRef     (void) const;
+    EditFieldHandlePtr editHandleRendererRef    (void);
+    GetFieldHandlePtr  getHandleRootRef         (void) const;
+    EditFieldHandlePtr editHandleRootRef        (void);
+    GetFieldHandlePtr  getHandleCameraRef       (void) const;
+    EditFieldHandlePtr editHandleCameraRef      (void);
     GetFieldHandlePtr  getHandleRoot            (void) const;
     EditFieldHandlePtr editHandleRoot           (void);
+    GetFieldHandlePtr  getHandleRenderer        (void) const;
+    EditFieldHandlePtr editHandleRenderer       (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -275,7 +303,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      VCoreOSGSceneItemBase *pFrom,
+            void execSync (      VCoreViewareaBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -315,11 +343,11 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItemBase : public VCoreItem
     /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const VCoreOSGSceneItemBase &source);
+    void operator =(const VCoreViewareaBase &source);
 };
 
-typedef VCoreOSGSceneItemBase *VCoreOSGSceneItemBaseP;
+typedef VCoreViewareaBase *VCoreViewareaBaseP;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGVCOREOSGSCENEITEMBASE_H_ */
+#endif /* _OSGVCOREVIEWAREABASE_H_ */

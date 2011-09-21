@@ -57,6 +57,7 @@
 
 
 
+#include "OSGNode.h"                    // Root Class
 
 #include "OSGVCoreOSGSceneItemBase.h"
 #include "OSGVCoreOSGSceneItem.h"
@@ -82,6 +83,14 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 /*! \var std::string     VCoreOSGSceneItemBase::_mfUrl
+    
+*/
+
+/*! \var std::string     VCoreOSGSceneItemBase::_sfMatchedUrl
+    
+*/
+
+/*! \var Node *          VCoreOSGSceneItemBase::_sfRoot
     
 */
 
@@ -124,6 +133,30 @@ void VCoreOSGSceneItemBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&VCoreOSGSceneItem::getHandleUrl));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
+        "matchedUrl",
+        "",
+        MatchedUrlFieldId, MatchedUrlFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&VCoreOSGSceneItem::editHandleMatchedUrl),
+        static_cast<FieldGetMethodSig >(&VCoreOSGSceneItem::getHandleMatchedUrl));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
+        "root",
+        "",
+        RootFieldId, RootFieldMask,
+        true,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&VCoreOSGSceneItem::editHandleRoot),
+        static_cast<FieldGetMethodSig >(&VCoreOSGSceneItem::getHandleRoot));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -159,6 +192,24 @@ VCoreOSGSceneItemBase::TypeObject VCoreOSGSceneItemBase::_type(
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
     "      >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "      name=\"matchedUrl\"\n"
+    "      type=\"std::string\"\n"
+    "      cardinality=\"single\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "\t name=\"root\"\n"
+    "\t type=\"Node\"\n"
+    "\t cardinality=\"single\"\n"
+    "\t visibility=\"internal\"\n"
+    "\t defaultValue=\"NULL\"\n"
+    "\t access=\"public\"\n"
+    "     category=\"pointer\"\n"
+    "\t >\n"
     "  </Field>\n"
     "</FieldContainer>\n",
     ""
@@ -197,6 +248,32 @@ const MFString *VCoreOSGSceneItemBase::getMFUrl(void) const
 }
 
 
+SFString *VCoreOSGSceneItemBase::editSFMatchedUrl(void)
+{
+    editSField(MatchedUrlFieldMask);
+
+    return &_sfMatchedUrl;
+}
+
+const SFString *VCoreOSGSceneItemBase::getSFMatchedUrl(void) const
+{
+    return &_sfMatchedUrl;
+}
+
+
+//! Get the VCoreOSGSceneItem::_sfRoot field.
+const SFUnrecNodePtr *VCoreOSGSceneItemBase::getSFRoot(void) const
+{
+    return &_sfRoot;
+}
+
+SFUnrecNodePtr      *VCoreOSGSceneItemBase::editSFRoot           (void)
+{
+    editSField(RootFieldMask);
+
+    return &_sfRoot;
+}
+
 
 
 
@@ -211,6 +288,14 @@ UInt32 VCoreOSGSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _mfUrl.getBinSize();
     }
+    if(FieldBits::NoField != (MatchedUrlFieldMask & whichField))
+    {
+        returnValue += _sfMatchedUrl.getBinSize();
+    }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        returnValue += _sfRoot.getBinSize();
+    }
 
     return returnValue;
 }
@@ -224,6 +309,14 @@ void VCoreOSGSceneItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _mfUrl.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (MatchedUrlFieldMask & whichField))
+    {
+        _sfMatchedUrl.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        _sfRoot.copyToBin(pMem);
+    }
 }
 
 void VCoreOSGSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
@@ -235,6 +328,16 @@ void VCoreOSGSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editMField(UrlFieldMask, _mfUrl);
         _mfUrl.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (MatchedUrlFieldMask & whichField))
+    {
+        editSField(MatchedUrlFieldMask);
+        _sfMatchedUrl.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        editSField(RootFieldMask);
+        _sfRoot.copyFromBin(pMem);
     }
 }
 
@@ -334,13 +437,17 @@ FieldContainerTransitPtr VCoreOSGSceneItemBase::shallowCopy(void) const
 
 VCoreOSGSceneItemBase::VCoreOSGSceneItemBase(void) :
     Inherited(),
-    _mfUrl                    ()
+    _mfUrl                    (),
+    _sfMatchedUrl             (),
+    _sfRoot                   (NULL)
 {
 }
 
 VCoreOSGSceneItemBase::VCoreOSGSceneItemBase(const VCoreOSGSceneItemBase &source) :
     Inherited(source),
-    _mfUrl                    (source._mfUrl                    )
+    _mfUrl                    (source._mfUrl                    ),
+    _sfMatchedUrl             (source._sfMatchedUrl             ),
+    _sfRoot                   (NULL)
 {
 }
 
@@ -351,6 +458,17 @@ VCoreOSGSceneItemBase::~VCoreOSGSceneItemBase(void)
 {
 }
 
+void VCoreOSGSceneItemBase::onCreate(const VCoreOSGSceneItem *source)
+{
+    Inherited::onCreate(source);
+
+    if(source != NULL)
+    {
+        VCoreOSGSceneItem *pThis = static_cast<VCoreOSGSceneItem *>(this);
+
+        pThis->setRoot(source->getRoot());
+    }
+}
 
 GetFieldHandlePtr VCoreOSGSceneItemBase::getHandleUrl             (void) const
 {
@@ -373,6 +491,59 @@ EditFieldHandlePtr VCoreOSGSceneItemBase::editHandleUrl            (void)
 
 
     editMField(UrlFieldMask, _mfUrl);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr VCoreOSGSceneItemBase::getHandleMatchedUrl      (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfMatchedUrl,
+             this->getType().getFieldDesc(MatchedUrlFieldId),
+             const_cast<VCoreOSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr VCoreOSGSceneItemBase::editHandleMatchedUrl     (void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfMatchedUrl,
+             this->getType().getFieldDesc(MatchedUrlFieldId),
+             this));
+
+
+    editSField(MatchedUrlFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr VCoreOSGSceneItemBase::getHandleRoot            (void) const
+{
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
+             const_cast<VCoreOSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr VCoreOSGSceneItemBase::editHandleRoot           (void)
+{
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
+             this));
+
+    returnValue->setSetMethod(
+        boost::bind(&VCoreOSGSceneItem::setRoot,
+                    static_cast<VCoreOSGSceneItem *>(this), _1));
+
+    editSField(RootFieldMask);
 
     return returnValue;
 }
@@ -413,6 +584,8 @@ FieldContainer *VCoreOSGSceneItemBase::createAspectCopy(
 void VCoreOSGSceneItemBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
+
+    static_cast<VCoreOSGSceneItem *>(this)->setRoot(NULL);
 
 #ifdef OSG_MT_CPTR_ASPECT
     AspectOffsetStore oOffsets;

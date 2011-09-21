@@ -47,6 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class VCoreApp;
+
 /*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
@@ -77,6 +79,8 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItem : public VCoreItemBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
@@ -92,6 +96,8 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItem : public VCoreItemBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+    virtual bool init(UInt32    uiInitPhase,
+                      VCoreApp *pApp       );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
