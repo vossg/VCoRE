@@ -95,6 +95,9 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+
+    SimpleSceneManager      *_sceneMgr;
+
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -142,7 +145,6 @@ class OSG_VCOREVIEWER_DLLMAPPING VCGLUTViewer : public VCGLUTViewerBase
     ViewportUnrecPtr _viewport;
     StageUnrecPtr _stage;
     VCRendererUnrecPtr _renderer;
-    SimpleSceneManager      *_sceneMgr;
 
     KeyCallback _keyCallback;
 

@@ -203,13 +203,13 @@ void testRenderTask()
         FNOTICE(("CREATE\n"));
         renderTask = OSG::VCRenderTask::create();
 
-        stage->setInheritedTarget(false);
+        stage->setInheritedTarget(true);
 
         OSG::StagedViewportUnrecPtr vp = OSG::StagedViewport::create();
         vp->setStage(stage);
         //OSG::FBOViewportUnrecPtr vp = OSG::FBOViewport::create();
         vp->setFrameBufferObject(fboComplex->_fbo);
-        vp->setCamera      (stage_cam  );
+        vp->setCamera      (/*stage_cam*/ OSG::VCGLUTViewer::the()->_sceneMgr->getCamera()  );
         vp->setBackground  (bkgnd);
         vp->setRoot(animRoot);
 
@@ -229,6 +229,10 @@ void testRenderTask()
     }
     else
     {
+        OSG::Matrix bla;
+        stage_cam->getViewing(bla, 128, 128);
+        std::cout << "beacon: " << bla << std::endl;
+        stage_cam->getBeacon()->getParent()->getCore()->dump();
         OSG::VCGLUTViewer::the()->getRenderer()->addRenderTask(renderTask);
         FNOTICE(("QUEUED\n"));
     }

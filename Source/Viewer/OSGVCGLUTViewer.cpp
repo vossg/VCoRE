@@ -205,7 +205,7 @@ bool VCGLUTViewer::init(void)
     }
 
     _viewport = /*Staged*/Viewport::create();
-    _viewport->setSize      (0,0, 1,1);
+    _viewport->setSize(0,0, 1,1);
     SolidBackgroundUnrecPtr bg = SolidBackground::create();
     bg->setColor(Color3f(0.2f, 0.2f, 0.2f));
     _viewport->setBackground(bg);
