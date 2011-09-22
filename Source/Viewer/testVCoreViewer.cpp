@@ -17,7 +17,7 @@ int main (int argc, char **argv)
     VCAppRefPtr app = VCApp::createFromFile("trala");   // just creates a dummy
     VCGLUTNativeWindow::setupGLUTApp(*app);     // app should use glut
 
-    app->run(); // this never return atm, so the whole shutdown thing is not
+    app->run(); // this never returns atm, so the whole shutdown thing is not
                 // working right now.
 
     VCSystem::shutdown();

@@ -121,7 +121,8 @@ private:
     ViewportUnrecPtr _viewport;
     VCRendererUnrecPtr _renderer;
     SimpleSceneManager* _sceneMgr;
-    VCWindowEventSink _windowEventSink;
+    VCWindowEventSource _windowEventSource; // to send stuff to NativeWindow (not used atm)
+    VCWindowEventSink _windowEventSink; // to receive stuff from NativeWindow
 
     void handleWindowEvents(const VCWindowEventSink::EventList& list);
 };

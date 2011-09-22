@@ -52,6 +52,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+// mother of all events
 class OSG_VCOREVIEWER_DLLMAPPING VCEvent: public MemoryObject
 {
 public:
@@ -60,6 +61,7 @@ public:
 };
 OSG_GEN_MEMOBJPTR(VCEvent);
 
+// receives events and buffers them until they are removed via swapEventList
 template<class EventT>
 class OSG_VCOREVIEWER_DLLMAPPING VCEventSink
 {
@@ -81,6 +83,7 @@ private:
     EventList _events;
 };
 
+// sends events to all subscribed EventSinks
 template<class EventT>
 class OSG_VCOREVIEWER_DLLMAPPING VCEventSource
 {
@@ -111,7 +114,7 @@ private:
 };
 
 
-
+// special window events, primarily for communication between VCWindow and NativeWindow
 class OSG_VCOREVIEWER_DLLMAPPING VCWindowEvent: public VCEvent
 {
 public:
