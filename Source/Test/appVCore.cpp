@@ -18,12 +18,16 @@ int run(int argc, char **argv)
         OSG::VCoreAppUnrecPtr pApp = OSG::VCoreApp::create();
 
         pApp->startFrom(argv[1]);
+        
+        // check if we can avoid this somehow !!
+        pApp->init();
 
         pApp->run();
 
         pApp = NULL;
     }
 
+	return 0;
 }
 
 int main (int argc, char **argv)

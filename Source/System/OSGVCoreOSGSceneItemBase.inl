@@ -73,6 +73,47 @@ OSG::UInt16 VCoreOSGSceneItemBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the value of the VCoreOSGSceneItem::_sfMatchedUrl field.
+
+inline
+std::string &VCoreOSGSceneItemBase::editMatchedUrl(void)
+{
+    editSField(MatchedUrlFieldMask);
+
+    return _sfMatchedUrl.getValue();
+}
+
+//! Get the value of the VCoreOSGSceneItem::_sfMatchedUrl field.
+inline
+const std::string &VCoreOSGSceneItemBase::getMatchedUrl(void) const
+{
+    return _sfMatchedUrl.getValue();
+}
+
+//! Set the value of the VCoreOSGSceneItem::_sfMatchedUrl field.
+inline
+void VCoreOSGSceneItemBase::setMatchedUrl(const std::string &value)
+{
+    editSField(MatchedUrlFieldMask);
+
+    _sfMatchedUrl.setValue(value);
+}
+
+//! Get the value of the VCoreOSGSceneItem::_sfRoot field.
+inline
+Node * VCoreOSGSceneItemBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the VCoreOSGSceneItem::_sfRoot field.
+inline
+void VCoreOSGSceneItemBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
 
 //! Get the value of the \a index element the VCoreOSGSceneItem::_mfUrl field.
 inline
@@ -106,6 +147,12 @@ void VCoreOSGSceneItemBase::execSync (      VCoreOSGSceneItemBase *pFrom,
                                 syncMode,
                                 uiSyncInfo,
                                 oOffsets);
+
+    if(FieldBits::NoField != (MatchedUrlFieldMask & whichField))
+        _sfMatchedUrl.syncWith(pFrom->_sfMatchedUrl);
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pFrom->_sfRoot);
 }
 #endif
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <FieldContainer
-    name="VCoreOSGSceneItem"
+    name="VCoreWindow"
     parent="VCoreItem"
     library="VCoreSystem"
     structure="concrete"
@@ -13,29 +13,12 @@
     docGroupBase="GrpVCoreSystem"
     >
   <Field
-      name="url"
-      type="std::string"
+      name="views"
+      type="VCoreViewarea"
       cardinality="multi"
       visibility="external"
       access="public"
+      category="pointer"
       >
-  </Field>
-  <Field
-      name="matchedUrl"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-  <Field
-	 name="root"
-	 type="Node"
-	 cardinality="single"
-	 visibility="internal"
-	 defaultValue="NULL"
-	 access="public"
-     category="pointer"
-	 >
   </Field>
 </FieldContainer>

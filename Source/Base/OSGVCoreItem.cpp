@@ -105,4 +105,16 @@ void VCoreItem::initMethod(InitPhase ePhase)
     }
 }
 
+FieldContainer *VCoreItem::findNamedComponent(const Char8 *szName) const
+{
+    return NULL;
+}
+
+bool VCoreItem::init(UInt32 uiInitPhase, VCoreApp *pApp)
+{
+    fprintf(stderr, "VCoreItem::init\n");
+
+    return true;
+}
+
 OSG_END_NAMESPACE

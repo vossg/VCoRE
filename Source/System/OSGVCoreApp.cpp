@@ -43,6 +43,7 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGOSGSceneFileType.h"
 #include "OSGContainerCollection.h"
+#include "OSGNameAttachment.h"
 
 #include "OSGVCoreApp.h"
 
@@ -136,8 +137,121 @@ void VCoreApp::startFrom(const std::string &szAppFile)
     }
 }
 
+bool VCoreApp::init(void)
+{
+    fprintf(stderr, "VCoreApp::init (LoadReferences)\n");
+
+    MFArenasType::const_iterator aIt  = _mfArenas.begin();
+    MFArenasType::const_iterator aEnd = _mfArenas.end  ();
+
+    for(; aIt != aEnd; ++aIt)
+    {
+        (*aIt)->init(InitPhase::LoadReferences, this);
+    }
+
+    fprintf(stderr, "VCoreApp::init (ResolveReferences)\n");
+
+    aIt  = _mfArenas.begin();
+
+    for(; aIt != aEnd; ++aIt)
+    {
+        (*aIt)->init(InitPhase::ResolveReferences, this);
+    }
+
+    return true;
+}
+
 void VCoreApp::run(void)
 {
+}
+
+FieldContainer *VCoreApp::findNamedComponent(
+    const Char8 *szName) const
+{
+    MFArenasType::const_iterator aIt  = _mfArenas.begin();
+    MFArenasType::const_iterator aEnd = _mfArenas.end  ();
+
+    for(; aIt != aEnd; ++aIt)
+    {
+        const Char8 *szTmpName = OSG::getName(*aIt);
+
+        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        {
+            return *aIt;
+        }
+
+        FieldContainer *tmpVal = (*aIt)->findNamedComponent(szName);
+
+         if(tmpVal != NULL)
+             return tmpVal;
+    }
+    
+#if 0
+    MFGlobalsType::const_iterator gIt  = _mfGlobals.begin();
+    MFGlobalsType::const_iterator gEnd = _mfGlobals.end  ();
+
+          AttachmentContainer *pAttCnt     = NULL;
+          Node                *pNode       = NULL;
+    const Char8               *szTmpName   = NULL;
+
+    if(_sfDrawManager.getValue() != NULL)
+    {
+        szTmpName = OSG::getName(_sfDrawManager.getValue());
+
+        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        {
+            return _sfDrawManager.getValue();
+        }
+
+         FieldContainer *tmpVal = 
+             _sfDrawManager.getValue()->findNamedComponent(szName);
+
+         if(tmpVal != NULL)
+             return tmpVal;
+    }
+
+    while(gIt != gEnd)
+    {
+        pNode = dynamic_cast<Node *>(*gIt);
+
+        if(pNode != NULL)
+        {
+            ElementFinder oFinder;
+
+            oFinder._szRefName = szName;
+
+            traverse(pNode, boost::bind(&ElementFinder::enter, &oFinder, _1));
+
+            if(oFinder._pResult != NULL)
+            {
+                return oFinder._pResult;
+            }
+         }
+        
+        pAttCnt = dynamic_cast<AttachmentContainer *>(*gIt);
+
+        if(pAttCnt != NULL)
+        {
+            szTmpName = OSG::getName(pAttCnt);
+           
+            if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+            {
+                return pAttCnt;
+            }
+            else
+            {
+                FieldContainer *tmpVal = pAttCnt->findNamedComponent(szName);
+                
+                if(tmpVal != NULL)
+                    return tmpVal;
+            }
+        }
+
+        ++gIt;
+    }
+#endif
+
+    return NULL;
 }
 
 /*-------------------------------------------------------------------------*/

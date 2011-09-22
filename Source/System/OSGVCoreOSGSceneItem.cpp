@@ -42,6 +42,9 @@
 #include "OSGConfig.h"
 
 #include "OSGVCoreOSGSceneItem.h"
+#include "OSGNameAttachment.h"
+#include "OSGOSGSceneFileType.h"
+#include "OSGSceneFileHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -102,7 +105,74 @@ void VCoreOSGSceneItem::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
+        OSGSceneFileType::the().registerEndNodeCallback(
+            VCoreOSGSceneItem::getClassType(),
+            reinterpret_cast<OSGSceneFileType::Callback>(
+                &VCoreOSGSceneItem::postOSGLoading));
     }
 }
+
+void VCoreOSGSceneItem::postOSGLoading(void)
+{
+    fprintf(stderr, "VCoreOSGSceneItem::postOSGLoading\n");
+
+    UInt32 i = 0;
+
+    for(; i < _mfUrl.size(); ++i)
+    {
+        std::string szFilenameResolved = 
+            SceneFileHandler::the()->getPathHandler()->findFile(
+                _mfUrl[i].c_str());
+
+        fprintf(stderr, "got %s -> %s\n",
+                _mfUrl[i].c_str(),
+                szFilenameResolved.c_str());
+
+        if(szFilenameResolved.empty() == false)
+        {
+            setMatchedUrl(szFilenameResolved);
+
+            break;
+        }
+    }
+
+    
+}
+
+bool VCoreOSGSceneItem::init(UInt32 uiInitPhase, VCoreApp *pApp)
+{
+    fprintf(stderr, "VCoreOSGSceneItem::init %s (%x)\n",
+            getName(this),
+            uiInitPhase);
+
+    if(0x0000 != (uiInitPhase & InitPhase::LoadReferences))
+    {
+        if(_sfMatchedUrl.getValue().empty() == false)
+        {
+            fprintf(stderr, "Loading %s\n",
+                    _sfMatchedUrl.getValue().c_str());
+            
+            NodeUnrecPtr pRoot = SceneFileHandler::the()->read(
+                _sfMatchedUrl.getValue().c_str(),
+                NULL,
+                NULL,
+                false);
+            
+            fprintf(stderr, "got %p\n", pRoot.get());
+            
+            if(pRoot != NULL)
+            {
+                setRoot(pRoot);
+            }
+            else
+            {
+                fprintf(stderr, "  failed\n");
+            }
+        }
+    }
+
+    return true;
+}
+
 
 OSG_END_NAMESPACE

@@ -47,6 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class VCoreApp;
+
 /*! \brief VCoreOSGSceneItem is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
@@ -78,6 +80,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItem :
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
+    void postOSGLoading(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
@@ -93,6 +97,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCoreOSGSceneItem :
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+    virtual bool init(UInt32    uiInitPhase,
+                      VCoreApp *pApp       );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

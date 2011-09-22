@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class VCoreRendererItem!
+ **     class VCoreWindow!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -57,9 +57,10 @@
 
 
 
+#include "OSGVCoreViewarea.h"           // Views Class
 
-#include "OSGVCoreRendererItemBase.h"
-#include "OSGVCoreRendererItem.h"
+#include "OSGVCoreWindowBase.h"
+#include "OSGVCoreWindow.h"
 
 #include <boost/bind.hpp>
 
@@ -73,7 +74,7 @@ OSG_BEGIN_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class OSG::VCoreRendererItem
+/*! \class OSG::VCoreWindow
     
  */
 
@@ -81,49 +82,67 @@ OSG_BEGIN_NAMESPACE
  *                        Field Documentation                              *
 \***************************************************************************/
 
+/*! \var VCoreViewarea * VCoreWindowBase::_mfViews
+    
+*/
+
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCoreRendererItem *>::_type("VCoreRendererItemPtr", "VCoreItemPtr");
+DataType FieldTraits<VCoreWindow *>::_type("VCoreWindowPtr", "VCoreItemPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(VCoreRendererItem *)
+OSG_FIELDTRAITS_GETTYPE(VCoreWindow *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           VCoreRendererItem *,
+                           VCoreWindow *,
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           VCoreRendererItem *,
+                           VCoreWindow *,
                            0);
 
 /***************************************************************************\
  *                         Field Description                               *
 \***************************************************************************/
 
-void VCoreRendererItemBase::classDescInserter(TypeObject &oType)
+void VCoreWindowBase::classDescInserter(TypeObject &oType)
 {
+    FieldDescriptionBase *pDesc = NULL;
+
+
+    pDesc = new MFUnrecVCoreViewareaPtr::Description(
+        MFUnrecVCoreViewareaPtr::getClassType(),
+        "views",
+        "",
+        ViewsFieldId, ViewsFieldMask,
+        false,
+        (Field::MFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&VCoreWindow::editHandleViews),
+        static_cast<FieldGetMethodSig >(&VCoreWindow::getHandleViews));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
-VCoreRendererItemBase::TypeObject VCoreRendererItemBase::_type(
-    VCoreRendererItemBase::getClassname(),
+VCoreWindowBase::TypeObject VCoreWindowBase::_type(
+    VCoreWindowBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
     0,
-    reinterpret_cast<PrototypeCreateF>(&VCoreRendererItemBase::createEmptyLocal),
-    VCoreRendererItem::initMethod,
-    VCoreRendererItem::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&VCoreRendererItem::classDescInserter),
+    reinterpret_cast<PrototypeCreateF>(&VCoreWindowBase::createEmptyLocal),
+    VCoreWindow::initMethod,
+    VCoreWindow::exitMethod,
+    reinterpret_cast<InitalInsertDescFunc>(&VCoreWindow::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "    name=\"VCoreRendererItem\"\n"
+    "    name=\"VCoreWindow\"\n"
     "    parent=\"VCoreItem\"\n"
     "    library=\"VCoreSystem\"\n"
     "    structure=\"concrete\"\n"
@@ -134,101 +153,189 @@ VCoreRendererItemBase::TypeObject VCoreRendererItemBase::_type(
     "    isBundle=\"true\"\n"
     "    docGroupBase=\"GrpVCoreSystem\"\n"
     "    >\n"
+    "  <Field\n"
+    "      name=\"views\"\n"
+    "      type=\"VCoreViewarea\"\n"
+    "      cardinality=\"multi\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      category=\"pointer\"\n"
+    "      >\n"
+    "  </Field>\n"
     "</FieldContainer>\n",
     ""
     );
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &VCoreRendererItemBase::getType(void)
+FieldContainerType &VCoreWindowBase::getType(void)
 {
     return _type;
 }
 
-const FieldContainerType &VCoreRendererItemBase::getType(void) const
+const FieldContainerType &VCoreWindowBase::getType(void) const
 {
     return _type;
 }
 
-UInt32 VCoreRendererItemBase::getContainerSize(void) const
+UInt32 VCoreWindowBase::getContainerSize(void) const
 {
-    return sizeof(VCoreRendererItem);
+    return sizeof(VCoreWindow);
 }
 
 /*------------------------- decorator get ------------------------------*/
 
 
+//! Get the VCoreWindow::_mfViews field.
+const MFUnrecVCoreViewareaPtr *VCoreWindowBase::getMFViews(void) const
+{
+    return &_mfViews;
+}
 
+MFUnrecVCoreViewareaPtr *VCoreWindowBase::editMFViews          (void)
+{
+    editMField(ViewsFieldMask, _mfViews);
+
+    return &_mfViews;
+}
+
+
+
+void VCoreWindowBase::pushToViews(VCoreViewarea * const value)
+{
+    editMField(ViewsFieldMask, _mfViews);
+
+    _mfViews.push_back(value);
+}
+
+void VCoreWindowBase::assignViews    (const MFUnrecVCoreViewareaPtr &value)
+{
+    MFUnrecVCoreViewareaPtr::const_iterator elemIt  =
+        value.begin();
+    MFUnrecVCoreViewareaPtr::const_iterator elemEnd =
+        value.end  ();
+
+    static_cast<VCoreWindow *>(this)->clearViews();
+
+    while(elemIt != elemEnd)
+    {
+        this->pushToViews(*elemIt);
+
+        ++elemIt;
+    }
+}
+
+void VCoreWindowBase::removeFromViews(UInt32 uiIndex)
+{
+    if(uiIndex < _mfViews.size())
+    {
+        editMField(ViewsFieldMask, _mfViews);
+
+        _mfViews.erase(uiIndex);
+    }
+}
+
+void VCoreWindowBase::removeObjFromViews(VCoreViewarea * const value)
+{
+    Int32 iElemIdx = _mfViews.findIndex(value);
+
+    if(iElemIdx != -1)
+    {
+        editMField(ViewsFieldMask, _mfViews);
+
+        _mfViews.erase(iElemIdx);
+    }
+}
+void VCoreWindowBase::clearViews(void)
+{
+    editMField(ViewsFieldMask, _mfViews);
+
+
+    _mfViews.clear();
+}
 
 
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 VCoreRendererItemBase::getBinSize(ConstFieldMaskArg whichField)
+UInt32 VCoreWindowBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (ViewsFieldMask & whichField))
+    {
+        returnValue += _mfViews.getBinSize();
+    }
 
     return returnValue;
 }
 
-void VCoreRendererItemBase::copyToBin(BinaryDataHandler &pMem,
+void VCoreWindowBase::copyToBin(BinaryDataHandler &pMem,
                                   ConstFieldMaskArg  whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (ViewsFieldMask & whichField))
+    {
+        _mfViews.copyToBin(pMem);
+    }
 }
 
-void VCoreRendererItemBase::copyFromBin(BinaryDataHandler &pMem,
+void VCoreWindowBase::copyFromBin(BinaryDataHandler &pMem,
                                     ConstFieldMaskArg  whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
+    if(FieldBits::NoField != (ViewsFieldMask & whichField))
+    {
+        editMField(ViewsFieldMask, _mfViews);
+        _mfViews.copyFromBin(pMem);
+    }
 }
 
 //! create a new instance of the class
-VCoreRendererItemTransitPtr VCoreRendererItemBase::createLocal(BitVector bFlags)
+VCoreWindowTransitPtr VCoreWindowBase::createLocal(BitVector bFlags)
 {
-    VCoreRendererItemTransitPtr fc;
+    VCoreWindowTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
 
-        fc = dynamic_pointer_cast<VCoreRendererItem>(tmpPtr);
+        fc = dynamic_pointer_cast<VCoreWindow>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class, copy the container flags
-VCoreRendererItemTransitPtr VCoreRendererItemBase::createDependent(BitVector bFlags)
+VCoreWindowTransitPtr VCoreWindowBase::createDependent(BitVector bFlags)
 {
-    VCoreRendererItemTransitPtr fc;
+    VCoreWindowTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyDependent(bFlags);
 
-        fc = dynamic_pointer_cast<VCoreRendererItem>(tmpPtr);
+        fc = dynamic_pointer_cast<VCoreWindow>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class
-VCoreRendererItemTransitPtr VCoreRendererItemBase::create(void)
+VCoreWindowTransitPtr VCoreWindowBase::create(void)
 {
     return createLocal();
 }
 
-VCoreRendererItem *VCoreRendererItemBase::createEmptyLocal(BitVector bFlags)
+VCoreWindow *VCoreWindowBase::createEmptyLocal(BitVector bFlags)
 {
-    VCoreRendererItem *returnValue;
+    VCoreWindow *returnValue;
 
-    newPtr<VCoreRendererItem>(returnValue, bFlags);
+    newPtr<VCoreWindow>(returnValue, bFlags);
 
     returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
@@ -236,18 +343,18 @@ VCoreRendererItem *VCoreRendererItemBase::createEmptyLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-VCoreRendererItem *VCoreRendererItemBase::createEmpty(void)
+VCoreWindow *VCoreWindowBase::createEmpty(void)
 {
     return createEmptyLocal();
 }
 
 
-FieldContainerTransitPtr VCoreRendererItemBase::shallowCopyLocal(
+FieldContainerTransitPtr VCoreWindowBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    VCoreRendererItem *tmpPtr;
+    VCoreWindow *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const VCoreRendererItem *>(this), bFlags);
+    newPtr(tmpPtr, dynamic_cast<const VCoreWindow *>(this), bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -256,12 +363,12 @@ FieldContainerTransitPtr VCoreRendererItemBase::shallowCopyLocal(
     return returnValue;
 }
 
-FieldContainerTransitPtr VCoreRendererItemBase::shallowCopyDependent(
+FieldContainerTransitPtr VCoreWindowBase::shallowCopyDependent(
     BitVector bFlags) const
 {
-    VCoreRendererItem *tmpPtr;
+    VCoreWindow *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const VCoreRendererItem *>(this), ~bFlags);
+    newPtr(tmpPtr, dynamic_cast<const VCoreWindow *>(this), ~bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -270,7 +377,7 @@ FieldContainerTransitPtr VCoreRendererItemBase::shallowCopyDependent(
     return returnValue;
 }
 
-FieldContainerTransitPtr VCoreRendererItemBase::shallowCopy(void) const
+FieldContainerTransitPtr VCoreWindowBase::shallowCopy(void) const
 {
     return shallowCopyLocal();
 }
@@ -280,35 +387,95 @@ FieldContainerTransitPtr VCoreRendererItemBase::shallowCopy(void) const
 
 /*------------------------- constructors ----------------------------------*/
 
-VCoreRendererItemBase::VCoreRendererItemBase(void) :
-    Inherited()
+VCoreWindowBase::VCoreWindowBase(void) :
+    Inherited(),
+    _mfViews                  ()
 {
 }
 
-VCoreRendererItemBase::VCoreRendererItemBase(const VCoreRendererItemBase &source) :
-    Inherited(source)
+VCoreWindowBase::VCoreWindowBase(const VCoreWindowBase &source) :
+    Inherited(source),
+    _mfViews                  ()
 {
 }
 
 
 /*-------------------------- destructors ----------------------------------*/
 
-VCoreRendererItemBase::~VCoreRendererItemBase(void)
+VCoreWindowBase::~VCoreWindowBase(void)
 {
 }
 
+void VCoreWindowBase::onCreate(const VCoreWindow *source)
+{
+    Inherited::onCreate(source);
+
+    if(source != NULL)
+    {
+        VCoreWindow *pThis = static_cast<VCoreWindow *>(this);
+
+        MFUnrecVCoreViewareaPtr::const_iterator ViewsIt  =
+            source->_mfViews.begin();
+        MFUnrecVCoreViewareaPtr::const_iterator ViewsEnd =
+            source->_mfViews.end  ();
+
+        while(ViewsIt != ViewsEnd)
+        {
+            pThis->pushToViews(*ViewsIt);
+
+            ++ViewsIt;
+        }
+    }
+}
+
+GetFieldHandlePtr VCoreWindowBase::getHandleViews           (void) const
+{
+    MFUnrecVCoreViewareaPtr::GetHandlePtr returnValue(
+        new  MFUnrecVCoreViewareaPtr::GetHandle(
+             &_mfViews,
+             this->getType().getFieldDesc(ViewsFieldId),
+             const_cast<VCoreWindowBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr VCoreWindowBase::editHandleViews          (void)
+{
+    MFUnrecVCoreViewareaPtr::EditHandlePtr returnValue(
+        new  MFUnrecVCoreViewareaPtr::EditHandle(
+             &_mfViews,
+             this->getType().getFieldDesc(ViewsFieldId),
+             this));
+
+    returnValue->setAddMethod(
+        boost::bind(&VCoreWindow::pushToViews,
+                    static_cast<VCoreWindow *>(this), _1));
+    returnValue->setRemoveMethod(
+        boost::bind(&VCoreWindow::removeFromViews,
+                    static_cast<VCoreWindow *>(this), _1));
+    returnValue->setRemoveObjMethod(
+        boost::bind(&VCoreWindow::removeObjFromViews,
+                    static_cast<VCoreWindow *>(this), _1));
+    returnValue->setClearMethod(
+        boost::bind(&VCoreWindow::clearViews,
+                    static_cast<VCoreWindow *>(this)));
+
+    editMField(ViewsFieldMask, _mfViews);
+
+    return returnValue;
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-void VCoreRendererItemBase::execSyncV(      FieldContainer    &oFrom,
+void VCoreWindowBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    VCoreRendererItem *pThis = static_cast<VCoreRendererItem *>(this);
+    VCoreWindow *pThis = static_cast<VCoreWindow *>(this);
 
-    pThis->execSync(static_cast<VCoreRendererItem *>(&oFrom),
+    pThis->execSync(static_cast<VCoreWindow *>(&oFrom),
                     whichField,
                     oOffsets,
                     syncMode,
@@ -318,22 +485,24 @@ void VCoreRendererItemBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *VCoreRendererItemBase::createAspectCopy(
+FieldContainer *VCoreWindowBase::createAspectCopy(
     const FieldContainer *pRefAspect) const
 {
-    VCoreRendererItem *returnValue;
+    VCoreWindow *returnValue;
 
     newAspectCopy(returnValue,
-                  dynamic_cast<const VCoreRendererItem *>(pRefAspect),
-                  dynamic_cast<const VCoreRendererItem *>(this));
+                  dynamic_cast<const VCoreWindow *>(pRefAspect),
+                  dynamic_cast<const VCoreWindow *>(this));
 
     return returnValue;
 }
 #endif
 
-void VCoreRendererItemBase::resolveLinks(void)
+void VCoreWindowBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
+
+    static_cast<VCoreWindow *>(this)->clearViews();
 
 
 }

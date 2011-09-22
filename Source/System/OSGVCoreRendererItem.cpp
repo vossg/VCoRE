@@ -42,6 +42,7 @@
 #include "OSGConfig.h"
 
 #include "OSGVCoreRendererItem.h"
+#include "OSGNameAttachment.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -103,6 +104,16 @@ void VCoreRendererItem::initMethod(InitPhase ePhase)
     if(ePhase == TypeObject::SystemPost)
     {
     }
+}
+
+bool VCoreRendererItem::init(UInt32 uiInitPhase, VCoreApp *pApp)
+{
+    fprintf(stderr, "VCoreRendererItem::init %s (%x)\n",
+            getName(this),
+            uiInitPhase);
+
+    return true;
+//    VCGLUTViewer::the();
 }
 
 OSG_END_NAMESPACE

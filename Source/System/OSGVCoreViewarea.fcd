@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 
 <FieldContainer
-    name="VCoreOSGSceneItem"
-    parent="VCoreItem"
+    name="VCoreViewarea"
+    parent="AttachmentContainer"
     library="VCoreSystem"
     structure="concrete"
     pointerfieldtypes="both"
@@ -11,17 +11,25 @@
     isNodeCore="false"
     isBundle="true"
     docGroupBase="GrpVCoreSystem"
-    >
+   >
   <Field
-      name="url"
+      name="rendererRef"
       type="std::string"
-      cardinality="multi"
+      cardinality="single"
       visibility="external"
       access="public"
       >
   </Field>
   <Field
-      name="matchedUrl"
+      name="rootRef"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+  <Field
+      name="cameraRef"
       type="std::string"
       cardinality="single"
       visibility="external"
@@ -31,6 +39,16 @@
   <Field
 	 name="root"
 	 type="Node"
+	 cardinality="single"
+	 visibility="internal"
+	 defaultValue="NULL"
+	 access="public"
+     category="pointer"
+	 >
+  </Field>
+  <Field
+	 name="renderer"
+	 type="VCoreRendererItem"
 	 cardinality="single"
 	 visibility="internal"
 	 defaultValue="NULL"

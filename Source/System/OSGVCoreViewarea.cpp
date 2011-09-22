@@ -41,32 +41,34 @@
 
 #include "OSGConfig.h"
 
-#include "OSGVCoreArena.h"
+#include "OSGVCoreViewarea.h"
 #include "OSGNameAttachment.h"
+#include "OSGFieldContainerUtils.h"
+
+#include "OSGVCoreApp.h"
 
 OSG_BEGIN_NAMESPACE
 
 // Documentation for this class is emited in the
-// OSGVCoreArenaBase.cpp file.
+// OSGVCoreViewareaBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void VCoreArena::changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         details)
+void VCoreViewarea::changed(ConstFieldMaskArg whichField,
+                            UInt32            origin,
+                            BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
 }
 
-
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-void VCoreArena::dump(      UInt32    uiIndent,
-                      const BitVector bvFlags) const
+void VCoreViewarea::dump(      UInt32    uiIndent,
+                         const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -74,12 +76,12 @@ void VCoreArena::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-VCoreArena::VCoreArena(void) :
+VCoreViewarea::VCoreViewarea(void) :
     Inherited()
 {
 }
 
-VCoreArena::VCoreArena(const VCoreArena &source) :
+VCoreViewarea::VCoreViewarea(const VCoreViewarea &source) :
     Inherited(source)
 {
 }
@@ -87,7 +89,7 @@ VCoreArena::VCoreArena(const VCoreArena &source) :
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-VCoreArena::~VCoreArena(void)
+VCoreViewarea::~VCoreViewarea(void)
 {
 }
 
@@ -97,7 +99,7 @@ VCoreArena::~VCoreArena(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-void VCoreArena::initMethod(InitPhase ePhase)
+void VCoreViewarea::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
@@ -106,73 +108,66 @@ void VCoreArena::initMethod(InitPhase ePhase)
     }
 }
 
-FieldContainer *VCoreArena::findNamedComponent(
-    const Char8 *szName) const
+bool VCoreViewarea::init(UInt32    uiInitPhase,
+                         VCoreApp *pApp       )
 {
-    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
-    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+    fprintf(stderr, "VCoreViewarea::init %s (%d)\n", 
+            getName(this), uiInitPhase);
 
-    for(; wIt != wEnd; ++wIt)
+    if(0x0000 != (uiInitPhase & InitPhase::ResolveReferences))
     {
-        const Char8 *szTmpName = OSG::getName(*wIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        if(_sfRendererRef.getValue().empty() == false)
         {
-            return *wIt;
+            FieldContainer *pFC = 
+                resolveFieldPath(_sfRendererRef.getValue().c_str(), 
+                                 boost::bind(&VCoreApp::findNamedComponent,
+                                             pApp,
+                                             _1));
+
+            VCoreRendererItem *pRenderer = 
+                dynamic_cast<VCoreRendererItem *>(pFC);
+
+            fprintf(stderr, "resolved renderer (%s) %p | %p\n",
+                    _sfRendererRef.getValue().c_str(),
+                    pRenderer, pFC);
+         
+            if(pFC != NULL)
+            {
+                fprintf(stderr, "got %s\n",
+                        pFC->getType().getCName());
+            }
+   
+            if(pRenderer != NULL)
+                setRenderer(pRenderer);
         }
 
-        FieldContainer *tmpVal = (*wIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        const Char8 *szTmpName = OSG::getName(*iIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        if(_sfRootRef.getValue().empty() == false)
         {
-            return *iIt;
+            FieldContainer *pFC = 
+                resolveFieldPath(_sfRootRef.getValue().c_str(), 
+                                 boost::bind(&VCoreApp::findNamedComponent,
+                                             pApp,
+                                             _1));
+
+            Node *pNode = dynamic_cast<Node *>(pFC);
+
+            fprintf(stderr, "resolved root (%s) %p | %p\n",
+                    _sfRootRef.getValue().c_str(),
+                    pNode, pFC);
+
+            if(pFC != NULL)
+            {
+                fprintf(stderr, "got %s\n",
+                        pFC->getType().getCName());
+            }
+
+            if(pNode != NULL)
+                setRoot(pNode);
         }
-
-        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-    return NULL;
-}
-
-bool VCoreArena::init(UInt32 uiInitPhase, VCoreApp *pApp)
-{
-    fprintf(stderr, "VCoreArena::init %s (%x)\n",
-            getName(this),
-            uiInitPhase);
-
-    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
-    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
-
-    for(; wIt != wEnd; ++wIt)
-    {
-        (*wIt)->init(uiInitPhase, pApp);
-    }
-
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        (*iIt)->init(uiInitPhase, pApp);
     }
 
     return true;
 }
+
 
 OSG_END_NAMESPACE

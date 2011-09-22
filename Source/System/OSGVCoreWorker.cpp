@@ -42,6 +42,7 @@
 #include "OSGConfig.h"
 
 #include "OSGVCoreWorker.h"
+#include "OSGNameAttachment.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -103,6 +104,48 @@ void VCoreWorker::initMethod(InitPhase ePhase)
     if(ePhase == TypeObject::SystemPost)
     {
     }
+}
+
+FieldContainer *VCoreWorker::findNamedComponent(
+    const Char8 *szName) const
+{
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        const Char8 *szTmpName = OSG::getName(*iIt);
+
+        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        {
+            return *iIt;
+        }
+
+        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
+
+         if(tmpVal != NULL)
+             return tmpVal;
+    }
+
+    return NULL;
+}
+
+bool VCoreWorker::init(UInt32 uiInitPhase, VCoreApp *pApp)
+{
+    fprintf(stderr, "VCoreWorker::init %s (%x)\n", 
+            getName(this),
+            uiInitPhase);
+
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        (*iIt)->init(uiInitPhase, pApp);
+    }
+
+    return true;
 }
 
 OSG_END_NAMESPACE
