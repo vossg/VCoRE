@@ -159,10 +159,10 @@ ActionBase::ResultE VCTestStage::renderEnter(Action *action)
     Background        *pBack       = this->getBackground     ();
     Viewport          *pView       = a   ->getViewport       ();
 
-
     if(pTarget == NULL && this->getInheritedTarget() == true)
     {
         pTarget = pParentPart->getRenderTarget();
+        a->disableDefaultPartition();   // THINKABOUTME KS: 
     }
     //if(!pTarget && pView)
     //{

@@ -40,123 +40,43 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <cstdlib>
-#include <cstdio>
-
 #include "OSGConfig.h"
 
-#include "OSGVCRenderer.h"
+#include "OSGVCNativeWindow.h"
 
 OSG_BEGIN_NAMESPACE
 
-// Documentation for this class is emitted in the
-// OSGVCRendererBase.cpp file.
-// To modify it, please change the .fcd file (OSGVCRenderer.fcd) and
-// regenerate the base file.
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-void VCRenderer::initMethod(InitPhase ePhase)
+VCNativeWindow::VCNativeWindow(const VCNativeWindowDesc& desc)
+    : _desc(desc)
+    , _osgWindow(NULL)
 {
-    Inherited::initMethod(ePhase);
 
-    if(ePhase == TypeObject::SystemPost)
-    {
-    }
+}
+VCNativeWindow::~VCNativeWindow()
+{
+
 }
 
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*----------------------- constructors & destructors ----------------------*/
-
-VCRenderer::VCRenderer(void) :
-    Inherited(),
-    _renderAction(NULL)
+void VCNativeWindow::sendDisplayWindowEvent()
 {
+    VCDisplayWindowEventRefPtr event( new VCDisplayWindowEvent );
+    _windowEventSource.sendEvent(event);
 }
-
-VCRenderer::VCRenderer(const VCRenderer &source) :
-    Inherited(source),
-    _renderAction(source._renderAction)
+void VCNativeWindow::sendResizeWindowEvent(int width, int height)
 {
+    VCResizeWindowEventRefPtr event( new VCResizeWindowEvent(width,height) );
+    _windowEventSource.sendEvent(event);
 }
-
-VCRenderer::~VCRenderer(void)
+void VCNativeWindow::sendMouseWindowEvent(int x, int y, int button, int buttonState)
 {
+    VCMouseWindowEventRefPtr event( new VCMouseWindowEvent(x,y,button,buttonState) );
+    _windowEventSource.sendEvent(event);
 }
-
-/*----------------------------- class specific ----------------------------*/
-
-void VCRenderer::changed(ConstFieldMaskArg whichField, 
-                            UInt32            origin,
-                            BitVector         details)
+void VCNativeWindow::sendKeyboardWindowEvent(int x, int y, int key,
+                             VCKeyboardWindowEvent::EventType eventType)
 {
-    Inherited::changed(whichField, origin, details);
+    VCKeyboardWindowEventRefPtr event( new VCKeyboardWindowEvent(x,y,key,eventType) );
+    _windowEventSource.sendEvent(event);
 }
-
-void VCRenderer::dump(      UInt32    ,
-                         const BitVector ) const
-{
-    SLOG << "Dump VCRenderer NI" << std::endl;
-}
-
-
-void VCRenderer::init()
-{
-    _renderAction = RenderAction::create();
-}
-
-void VCRenderer::update()
-{
-    if(_mfWindows.empty())
-        return;
-
-    Window* win = getWindows(0);
-
-    //std::cout << "RENDER START" << std::endl;
-    if(_mfRenderTasks.empty() == false)
-    {
-        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
-        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
-
-        for(; tIt != tEnd; ++tIt)
-        {
-            if((*tIt)->getDone() == false)
-                win->addPort((*tIt)->getViewport());
-        }
-    }
-
-    win->render(_renderAction);
-
-    if(_mfRenderTasks.empty() == false)
-    {
-        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
-        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
-
-        for(; tIt != tEnd; ++tIt)
-        {
-            if((*tIt)->getDone() == false)
-            {
-                win->subPortByObj((*tIt)->getViewport());
-                (*tIt)->setDone(true);
-            }
-        }
-    }
-    //std::cout << "RENDER STOP" << std::endl;
-}
-
 
 OSG_END_NAMESPACE

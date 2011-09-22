@@ -40,35 +40,35 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <cstdlib>
-#include <cstdio>
-
 #include "OSGConfig.h"
 
-#include "OSGVCRenderer.h"
+#include "OSGVCSystem.h"
+
+#include "OSGVCNativeWindow.h"
 
 OSG_BEGIN_NAMESPACE
 
-// Documentation for this class is emitted in the
-// OSGVCRendererBase.cpp file.
-// To modify it, please change the .fcd file (OSGVCRenderer.fcd) and
-// regenerate the base file.
 
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
 
+VCSystem* VCSystem::_the = NULL;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
-void VCRenderer::initMethod(InitPhase ePhase)
+void VCSystem::init(int argc, char **argv)
 {
-    Inherited::initMethod(ePhase);
+    assert(!_the);
+    _the = new VCSystem();
+}
 
-    if(ePhase == TypeObject::SystemPost)
-    {
-    }
+void VCSystem::shutdown()
+{
+    delete _the;
+    _the = NULL;
 }
 
 
@@ -76,87 +76,14 @@ void VCRenderer::initMethod(InitPhase ePhase)
  *                           Instance methods                              *
 \***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                 -
-\*-------------------------------------------------------------------------*/
-
 /*----------------------- constructors & destructors ----------------------*/
 
-VCRenderer::VCRenderer(void) :
-    Inherited(),
-    _renderAction(NULL)
+VCSystem::VCSystem()
 {
 }
 
-VCRenderer::VCRenderer(const VCRenderer &source) :
-    Inherited(source),
-    _renderAction(source._renderAction)
+VCSystem::~VCSystem(void)
 {
 }
-
-VCRenderer::~VCRenderer(void)
-{
-}
-
-/*----------------------------- class specific ----------------------------*/
-
-void VCRenderer::changed(ConstFieldMaskArg whichField, 
-                            UInt32            origin,
-                            BitVector         details)
-{
-    Inherited::changed(whichField, origin, details);
-}
-
-void VCRenderer::dump(      UInt32    ,
-                         const BitVector ) const
-{
-    SLOG << "Dump VCRenderer NI" << std::endl;
-}
-
-
-void VCRenderer::init()
-{
-    _renderAction = RenderAction::create();
-}
-
-void VCRenderer::update()
-{
-    if(_mfWindows.empty())
-        return;
-
-    Window* win = getWindows(0);
-
-    //std::cout << "RENDER START" << std::endl;
-    if(_mfRenderTasks.empty() == false)
-    {
-        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
-        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
-
-        for(; tIt != tEnd; ++tIt)
-        {
-            if((*tIt)->getDone() == false)
-                win->addPort((*tIt)->getViewport());
-        }
-    }
-
-    win->render(_renderAction);
-
-    if(_mfRenderTasks.empty() == false)
-    {
-        MFUnrecVCRenderTaskPtr::const_iterator tIt  = _mfRenderTasks.begin();
-        MFUnrecVCRenderTaskPtr::const_iterator tEnd = _mfRenderTasks.end  ();
-
-        for(; tIt != tEnd; ++tIt)
-        {
-            if((*tIt)->getDone() == false)
-            {
-                win->subPortByObj((*tIt)->getViewport());
-                (*tIt)->setDone(true);
-            }
-        }
-    }
-    //std::cout << "RENDER STOP" << std::endl;
-}
-
 
 OSG_END_NAMESPACE
