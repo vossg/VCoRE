@@ -50,7 +50,7 @@ public:
     }
 
 	/// Makes _no_ GL context the current context
-    virtual void doneCurrent(void)
+    virtual void doneCurrent(void) 
     {
         QGLContext::doneCurrent();
     }
@@ -132,7 +132,8 @@ void OpenSGWidget::makeCurrent(void)
 
 void OpenSGWidget::doneCurrent(void)
 {
-    ((OpenSGGLContext*)context())->doneCurrent();
+    const_cast<OpenSGGLContext *>(
+        static_cast<const OpenSGGLContext *>(context()))->doneCurrent();
 }
 
 void OpenSGWidget::initializeGL()

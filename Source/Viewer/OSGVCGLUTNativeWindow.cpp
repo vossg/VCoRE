@@ -296,7 +296,7 @@ void VCGLUTNativeWindow::setupGLUTApp(VCApp& app)
     if( !_glutInitialized )
     {
         int  argc = 1;
-        char *argv[] = { "[dummy]" };
+        char *argv[] = { const_cast<char *>("[dummy]") };
         glutInit(&argc, argv);
         _glutInitialized = true;
     }

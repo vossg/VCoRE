@@ -11,11 +11,29 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase VCoreGreatestHacks VCoreRenderer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase 
+                                VCoreGreatestHacks 
+                                VCoreRenderer 
+                                OSGSystem 
+                                OSGUtil 
+                                OSGWindowGLUT 
+                                OSGEffectGroups)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks VCoreRenderer VCoreViewer OSGSystem OSGUtil OSGWindowGLUT OSGEffectGroups OSGImageFileIO)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase 
+                                     VCoreGreatestHacks 
+                                     VCoreRenderer 
+                                     VCoreViewer 
+                                     OSGSystem 
+                                     OSGUtil 
+                                     OSGWindowGLUT 
+                                     OSGEffectGroups 
+                                     OSGImageFileIO)
 
 # dependencies - External
+
+##
+# add OSG_BOOST_THREAD_LIBS to xxx_DEP_LIB to use boost thread lib
+##
 SET(${PROJECT_NAME}_DEP_LIB OSG_GLUT_LIBRARIES)
 SET(${PROJECT_NAME}_DEP_LIBDIR OSG_GLUT_LIB_DIR)
 SET(${PROJECT_NAME}_DEP_INCDIR OSG_GLUT_INC_DIR)

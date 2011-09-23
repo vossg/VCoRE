@@ -45,6 +45,7 @@
 #include "OSGVCoreViewerDef.h"
 
 #include <vector>
+#include "boost/bind.hpp"
 
 //#include "boost/thread.hpp"
 
