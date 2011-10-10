@@ -1,5 +1,5 @@
 
-#include "OSGVCoreApp.h"
+#include "OSGVCoREApp.h"
 
 int run(int argc, char **argv)
 {
@@ -15,7 +15,7 @@ int run(int argc, char **argv)
     {
         fprintf(stderr, "Trying to start from : %s\n", argv[1]);
 
-        OSG::VCoreAppUnrecPtr pApp = OSG::VCoreApp::create();
+        VCoRE::AppUnrecPtr pApp = VCoRE::App::create();
 
         pApp->startFrom(argv[1]);
         

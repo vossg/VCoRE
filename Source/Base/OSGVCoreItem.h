@@ -45,9 +45,12 @@
 #include "OSGConfig.h"
 #include "OSGVCoreItemBase.h"
 
-OSG_BEGIN_NAMESPACE
+namespace VCoRE
+{
+    class App;
+}
 
-class VCoreApp;
+OSG_BEGIN_NAMESPACE
 
 /*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
@@ -96,8 +99,8 @@ class OSG_VCOREBASE_DLLMAPPING VCoreItem : public VCoreItemBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual bool init(UInt32    uiInitPhase,
-                      VCoreApp *pApp       );
+    virtual bool init(UInt32      uiInitPhase,
+                      VCoRE::App *pApp       );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

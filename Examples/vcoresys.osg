@@ -5,26 +5,26 @@ ContainerCollection
 {
   containers
   [
-    DEF Repo VCoreRepository
+    DEF Repo Repository
     {
     }
 
-    DEF RenderArena VCoreArena
+    DEF RenderArena Arena
     {
       items
       [
-        DEF MainWin VCoreWindow
+        DEF MainWin VCWindow
         {
           views
           [
-            DEF AppView VCoreViewarea
+            DEF AppView Viewarea
             {
                rendererRef "AppRenderer"
                rootRef     "AppOpenSG/root"
                cameraRef   "AppOpenSG/camera"
             }
             
-            DEF UiView VCoreViewarea
+            DEF UiView Viewarea
             {
                rendererRef "UIRenderer"
                rootRef     "UIOpenSG/root"
@@ -33,32 +33,32 @@ ContainerCollection
           ]
         }
 
-        DEF AppRenderer VCoreRendererItem
+        DEF AppRenderer RendererItem
         {
         }
 
-        DEF UIRenderer VCoreRendererItem
+        DEF UIRenderer RendererItem
         {
         }
       ]
     }
 
-    DEF SimulatorArena VCoreArena
+    DEF SimulatorArena Arena
     {
       worker
       [
-        DEF AppWorker VCoreWorker
+        DEF AppWorker Worker
         {
           items
           [
-            DEF AppOpenSG VCoreOSGSceneItem
+            DEF AppOpenSG OSGSceneItem
             {
               url ["tie.wrl"]
             }
           ]
         }
 
-        DEF UIWorker VCoreWorker
+        DEF UIWorker Worker
         {
           items
           [
@@ -70,11 +70,11 @@ ContainerCollection
       ]
     }
 
-    DEF VisionArena VCoreArena
+    DEF VisionArena Arena
     {
       worker
       [
-        DEF VisionWorker VCoreWorker
+        DEF VisionWorker Worker
         {
           items
           [

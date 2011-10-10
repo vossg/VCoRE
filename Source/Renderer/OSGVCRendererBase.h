@@ -72,6 +72,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCRenderer;
 
 //! \brief VCRenderer Base Class.

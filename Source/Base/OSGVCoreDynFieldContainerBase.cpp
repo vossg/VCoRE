@@ -91,18 +91,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCoreDynFieldContainer *>::_type("VCoreDynFieldContainerPtr", "AttachmentContainerPtr");
+DataType FieldTraits<VCoreDynFieldContainer *, nsOSG>::_type("VCoreDynFieldContainerPtr", "AttachmentContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(VCoreDynFieldContainer *)
+OSG_FIELDTRAITS_GETTYPE_NS(VCoreDynFieldContainer *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            VCoreDynFieldContainer *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            VCoreDynFieldContainer *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -133,7 +133,7 @@ VCoreDynFieldContainerBase::TypeObject VCoreDynFieldContainerBase::_type(
     VCoreDynFieldContainerBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     NULL,
     VCoreDynFieldContainer::initMethod,
     VCoreDynFieldContainer::exitMethod,

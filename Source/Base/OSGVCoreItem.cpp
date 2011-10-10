@@ -110,7 +110,7 @@ FieldContainer *VCoreItem::findNamedComponent(const Char8 *szName) const
     return NULL;
 }
 
-bool VCoreItem::init(UInt32 uiInitPhase, VCoreApp *pApp)
+bool VCoreItem::init(UInt32 uiInitPhase, VCoRE::App *pApp)
 {
     fprintf(stderr, "VCoreItem::init\n");
 

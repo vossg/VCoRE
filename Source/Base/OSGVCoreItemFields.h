@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCoreItem;
 
 OSG_GEN_CONTAINERPTR(VCoreItem);
-
 /*! \ingroup GrpVCoreBaseFieldTraits
     \ingroup GrpLibOSGVCoreBase
  */
 template <>
-struct FieldTraits<VCoreItem *> :
-    public FieldTraitsFCPtrBase<VCoreItem *>
+struct FieldTraits<VCoreItem *, nsOSG> :
+    public FieldTraitsFCPtrBase<VCoreItem *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<VCoreItem *> :
 
   public:
 
-    typedef FieldTraits<VCoreItem *>  Self;
+    typedef FieldTraits<VCoreItem *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<VCoreItem *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFVCoreItemPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFVCoreItemPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdVCoreItemPtr"; 
 }
@@ -149,13 +147,13 @@ const Char8 *FieldTraits<VCoreItem *, 0>::getMName<NoRefCountPolicy>(void)
 /*! \ingroup GrpVCoreBaseFieldTraits
  */
 template <>
-struct FieldTraits<VCoreItem *, 1> :
-    public FieldTraitsFCPtrBase<VCoreItem *, 1>
+struct FieldTraits<VCoreItem *, nsOSG + 1> :
+    public FieldTraitsFCPtrBase<VCoreItem *, nsOSG + 1>
 {
   private:
 
   public:
-    typedef FieldTraits<VCoreItem *, 1>  Self;
+    typedef FieldTraits<VCoreItem *, nsOSG + 1>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -169,49 +167,49 @@ struct FieldTraits<VCoreItem *, 1> :
 };
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakChildVCoreItemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreItem *, 1>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreItem *, nsOSG + 1>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdChildVCoreItemPtr"; 
 }
@@ -220,30 +218,30 @@ const Char8 *FieldTraits<VCoreItem *, 1>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreItem *,
-                      RecordedRefCountPolicy  > SFRecVCoreItemPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreItem *,
-                      UnrecordedRefCountPolicy> SFUnrecVCoreItemPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreItem *,
-                      WeakRefCountPolicy      > SFWeakVCoreItemPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreItem *,
-                      NoRefCountPolicy        > SFUncountedVCoreItemPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedVCoreItemPtr;
 
 
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreItem *,
-                      RecordedRefCountPolicy  > MFRecVCoreItemPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreItem *,
-                      UnrecordedRefCountPolicy> MFUnrecVCoreItemPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreItem *,
-                      WeakRefCountPolicy      > MFWeakVCoreItemPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakVCoreItemPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreItem *,
-                      NoRefCountPolicy        > MFUncountedVCoreItemPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedVCoreItemPtr;
 
 
 
@@ -251,14 +249,14 @@ typedef PointerMField<VCoreItem *,
 typedef ChildPointerSField<
           VCoreItem *, 
           UnrecordedRefCountPolicy,
-          1             > SFUnrecChildVCoreItemPtr;
+          nsOSG + 1             > SFUnrecChildVCoreItemPtr;
 
 
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef ChildPointerMField<
           VCoreItem *, 
           UnrecordedRefCountPolicy,
-          1             > MFUnrecChildVCoreItemPtr;
+          nsOSG + 1             > MFUnrecChildVCoreItemPtr;
 
 
 
@@ -306,7 +304,7 @@ struct SFUnrecChildVCoreItemPtr :
     public ChildPointerSField<
         VCoreItem *, 
         UnrecordedRefCountPolicy,
-        1             > {};
+        nsOSG + 1             > {};
 
 
 /*! \ingroup GrpVCoreBaseFieldMFields \ingroup GrpLibOSGVCoreBase */
@@ -314,7 +312,7 @@ struct MFUnrecChildVCoreItemPtr :
     public ChildPointerMField<
         VCoreItem *, 
         UnrecordedRefCountPolicy,
-        1             > {};
+        nsOSG + 1             > {};
 
 
 #endif // these are the doxygen hacks

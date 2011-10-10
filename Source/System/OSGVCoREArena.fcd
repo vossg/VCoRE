@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="Arena"
+    parent="AttachmentContainer"
+    library="VCoRESystem"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="true"
+    docGroupBase="GrpVCoreSystem"
+    parentFields="single"
+    libnamespace="VCoRE"
+   >
+  <Field
+      name="worker"
+      type="VCoRE::Worker"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      category="childpointer"
+      childParentType="Arena"
+      linkParentField="Parent"
+      >
+  </Field>
+  <Field
+      name="items"
+      type="VCoreItem"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      category="childpointer"
+      childParentType="FieldContainer"
+      linkParentField="Parent"
+      >
+  </Field>
+</FieldContainer>

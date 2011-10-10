@@ -71,6 +71,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class StagedViewport;
 
 //! \brief StagedViewport Base Class.

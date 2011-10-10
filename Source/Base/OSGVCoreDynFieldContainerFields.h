@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCoreDynFieldContainer;
 
 OSG_GEN_CONTAINERPTR(VCoreDynFieldContainer);
-
 /*! \ingroup GrpVCoreBaseFieldTraits
     \ingroup GrpLibOSGVCoreBase
  */
 template <>
-struct FieldTraits<VCoreDynFieldContainer *> :
-    public FieldTraitsFCPtrBase<VCoreDynFieldContainer *>
+struct FieldTraits<VCoreDynFieldContainer *, nsOSG> :
+    public FieldTraitsFCPtrBase<VCoreDynFieldContainer *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<VCoreDynFieldContainer *> :
 
   public:
 
-    typedef FieldTraits<VCoreDynFieldContainer *>  Self;
+    typedef FieldTraits<VCoreDynFieldContainer *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<VCoreDynFieldContainer *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFVCoreDynFieldContainerPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFVCoreDynFieldContainerPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakVCoreDynFieldContainerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCoreDynFieldContainer *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdVCoreDynFieldContainerPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<VCoreDynFieldContainer *, 0>::getMName<NoRefCountPolicy
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreDynFieldContainer *,
-                      RecordedRefCountPolicy  > SFRecVCoreDynFieldContainerPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreDynFieldContainer *,
-                      UnrecordedRefCountPolicy> SFUnrecVCoreDynFieldContainerPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreDynFieldContainer *,
-                      WeakRefCountPolicy      > SFWeakVCoreDynFieldContainerPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldSFields */
 typedef PointerSField<VCoreDynFieldContainer *,
-                      NoRefCountPolicy        > SFUncountedVCoreDynFieldContainerPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedVCoreDynFieldContainerPtr;
 
 
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreDynFieldContainer *,
-                      RecordedRefCountPolicy  > MFRecVCoreDynFieldContainerPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreDynFieldContainer *,
-                      UnrecordedRefCountPolicy> MFUnrecVCoreDynFieldContainerPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreDynFieldContainer *,
-                      WeakRefCountPolicy      > MFWeakVCoreDynFieldContainerPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakVCoreDynFieldContainerPtr;
 /*! \ingroup GrpVCoreBaseFieldMFields */
 typedef PointerMField<VCoreDynFieldContainer *,
-                      NoRefCountPolicy        > MFUncountedVCoreDynFieldContainerPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedVCoreDynFieldContainerPtr;
 
 
 

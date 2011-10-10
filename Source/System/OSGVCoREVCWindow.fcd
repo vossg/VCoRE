@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="VCWindow"
+    parent="VCoreItem"
+    library="VCoRESystem"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="true"
+    docGroupBase="GrpVCoreSystem"
+    libnamespace="VCoRE"
+    >
+  <Field
+      name="views"
+      type="VCoRE::Viewarea"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      category="pointer"
+      >
+  </Field>
+</FieldContainer>

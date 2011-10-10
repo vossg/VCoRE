@@ -97,18 +97,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCRenderer *>::_type("VCRendererPtr", "VCoreItemPtr");
+DataType FieldTraits<VCRenderer *, nsOSG>::_type("VCRendererPtr", "VCoreItemPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(VCRenderer *)
+OSG_FIELDTRAITS_GETTYPE_NS(VCRenderer *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            VCRenderer *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            VCRenderer *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -149,7 +149,7 @@ VCRendererBase::TypeObject VCRendererBase::_type(
     VCRendererBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&VCRendererBase::createEmptyLocal),
     VCRenderer::initMethod,
     VCRenderer::exitMethod,

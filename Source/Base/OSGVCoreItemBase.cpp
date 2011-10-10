@@ -96,35 +96,35 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCoreItem *>::_type("VCoreItemPtr", "VCoreDynFieldContainerPtr");
+DataType FieldTraits<VCoreItem *, nsOSG>::_type("VCoreItemPtr", "VCoreDynFieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(VCoreItem *)
+OSG_FIELDTRAITS_GETTYPE_NS(VCoreItem *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            VCoreItem *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            VCoreItem *,
-                           0);
+                           nsOSG);
 
-DataType &FieldTraits< VCoreItem *, 1 >::getType(void)
+DataType &FieldTraits< VCoreItem *, nsOSG + 1 >::getType(void)
 {
-    return FieldTraits<VCoreItem *, 0>::getType();
+    return FieldTraits<VCoreItem *, nsOSG>::getType();
 }
 
 
 OSG_EXPORT_PTR_SFIELD(ChildPointerSField,
                       VCoreItem *,
                       UnrecordedRefCountPolicy,
-                      1);
+                      nsOSG + 1);
 
 
 OSG_EXPORT_PTR_MFIELD(ChildPointerMField,
                       VCoreItem *,
                       UnrecordedRefCountPolicy,
-                      1);
+                      nsOSG + 1);
 
 
 /***************************************************************************\
@@ -166,7 +166,7 @@ VCoreItemBase::TypeObject VCoreItemBase::_type(
     VCoreItemBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&VCoreItemBase::createEmptyLocal),
     VCoreItem::initMethod,
     VCoreItem::exitMethod,

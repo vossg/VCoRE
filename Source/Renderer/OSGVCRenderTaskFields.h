@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCRenderTask;
 
 OSG_GEN_CONTAINERPTR(VCRenderTask);
-
 /*! \ingroup GrpVCoreRendererFieldTraits
     \ingroup GrpLibOSGVCoreRenderer
  */
 template <>
-struct FieldTraits<VCRenderTask *> :
-    public FieldTraitsFCPtrBase<VCRenderTask *>
+struct FieldTraits<VCRenderTask *, nsOSG> :
+    public FieldTraitsFCPtrBase<VCRenderTask *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<VCRenderTask *> :
 
   public:
 
-    typedef FieldTraits<VCRenderTask *>  Self;
+    typedef FieldTraits<VCRenderTask *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<VCRenderTask *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFVCRenderTaskPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFVCRenderTaskPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakVCRenderTaskPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCRenderTask *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCRenderTask *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdVCRenderTaskPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<VCRenderTask *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreRendererFieldSFields */
 typedef PointerSField<VCRenderTask *,
-                      RecordedRefCountPolicy  > SFRecVCRenderTaskPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldSFields */
 typedef PointerSField<VCRenderTask *,
-                      UnrecordedRefCountPolicy> SFUnrecVCRenderTaskPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldSFields */
 typedef PointerSField<VCRenderTask *,
-                      WeakRefCountPolicy      > SFWeakVCRenderTaskPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldSFields */
 typedef PointerSField<VCRenderTask *,
-                      NoRefCountPolicy        > SFUncountedVCRenderTaskPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedVCRenderTaskPtr;
 
 
 /*! \ingroup GrpVCoreRendererFieldMFields */
 typedef PointerMField<VCRenderTask *,
-                      RecordedRefCountPolicy  > MFRecVCRenderTaskPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldMFields */
 typedef PointerMField<VCRenderTask *,
-                      UnrecordedRefCountPolicy> MFUnrecVCRenderTaskPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldMFields */
 typedef PointerMField<VCRenderTask *,
-                      WeakRefCountPolicy      > MFWeakVCRenderTaskPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakVCRenderTaskPtr;
 /*! \ingroup GrpVCoreRendererFieldMFields */
 typedef PointerMField<VCRenderTask *,
-                      NoRefCountPolicy        > MFUncountedVCRenderTaskPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedVCRenderTaskPtr;
 
 
 

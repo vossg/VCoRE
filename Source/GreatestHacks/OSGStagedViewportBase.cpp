@@ -92,18 +92,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<StagedViewport *>::_type("StagedViewportPtr", "FBOViewportPtr");
+DataType FieldTraits<StagedViewport *, nsOSG>::_type("StagedViewportPtr", "FBOViewportPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(StagedViewport *)
+OSG_FIELDTRAITS_GETTYPE_NS(StagedViewport *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            StagedViewport *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            StagedViewport *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -132,7 +132,7 @@ StagedViewportBase::TypeObject StagedViewportBase::_type(
     StagedViewportBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&StagedViewportBase::createEmptyLocal),
     StagedViewport::initMethod,
     StagedViewport::exitMethod,

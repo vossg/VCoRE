@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCTestStage;
 
 OSG_GEN_CONTAINERPTR(VCTestStage);
-
 /*! \ingroup GrpVCoreGreatestHacksFieldTraits
     \ingroup GrpLibOSGVCoreGreatestHacks
  */
 template <>
-struct FieldTraits<VCTestStage *> :
-    public FieldTraitsFCPtrBase<VCTestStage *>
+struct FieldTraits<VCTestStage *, nsOSG> :
+    public FieldTraitsFCPtrBase<VCTestStage *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<VCTestStage *> :
 
   public:
 
-    typedef FieldTraits<VCTestStage *>  Self;
+    typedef FieldTraits<VCTestStage *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<VCTestStage *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFVCTestStagePtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFVCTestStagePtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakVCTestStagePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<VCTestStage *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<VCTestStage *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdVCTestStagePtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<VCTestStage *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<VCTestStage *,
-                      RecordedRefCountPolicy  > SFRecVCTestStagePtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<VCTestStage *,
-                      UnrecordedRefCountPolicy> SFUnrecVCTestStagePtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<VCTestStage *,
-                      WeakRefCountPolicy      > SFWeakVCTestStagePtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<VCTestStage *,
-                      NoRefCountPolicy        > SFUncountedVCTestStagePtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedVCTestStagePtr;
 
 
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<VCTestStage *,
-                      RecordedRefCountPolicy  > MFRecVCTestStagePtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<VCTestStage *,
-                      UnrecordedRefCountPolicy> MFUnrecVCTestStagePtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<VCTestStage *,
-                      WeakRefCountPolicy      > MFWeakVCTestStagePtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakVCTestStagePtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<VCTestStage *,
-                      NoRefCountPolicy        > MFUncountedVCTestStagePtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedVCTestStagePtr;
 
 
 

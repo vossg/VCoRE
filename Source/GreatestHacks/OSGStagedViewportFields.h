@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class StagedViewport;
 
 OSG_GEN_CONTAINERPTR(StagedViewport);
-
 /*! \ingroup GrpVCoreGreatestHacksFieldTraits
     \ingroup GrpLibOSGVCoreGreatestHacks
  */
 template <>
-struct FieldTraits<StagedViewport *> :
-    public FieldTraitsFCPtrBase<StagedViewport *>
+struct FieldTraits<StagedViewport *, nsOSG> :
+    public FieldTraitsFCPtrBase<StagedViewport *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<StagedViewport *> :
 
   public:
 
-    typedef FieldTraits<StagedViewport *>  Self;
+    typedef FieldTraits<StagedViewport *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<StagedViewport *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFStagedViewportPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFStagedViewportPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakStagedViewportPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<StagedViewport *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<StagedViewport *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdStagedViewportPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<StagedViewport *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<StagedViewport *,
-                      RecordedRefCountPolicy  > SFRecStagedViewportPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<StagedViewport *,
-                      UnrecordedRefCountPolicy> SFUnrecStagedViewportPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<StagedViewport *,
-                      WeakRefCountPolicy      > SFWeakStagedViewportPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldSFields */
 typedef PointerSField<StagedViewport *,
-                      NoRefCountPolicy        > SFUncountedStagedViewportPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedStagedViewportPtr;
 
 
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<StagedViewport *,
-                      RecordedRefCountPolicy  > MFRecStagedViewportPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<StagedViewport *,
-                      UnrecordedRefCountPolicy> MFUnrecStagedViewportPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<StagedViewport *,
-                      WeakRefCountPolicy      > MFWeakStagedViewportPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakStagedViewportPtr;
 /*! \ingroup GrpVCoreGreatestHacksFieldMFields */
 typedef PointerMField<StagedViewport *,
-                      NoRefCountPolicy        > MFUncountedStagedViewportPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedStagedViewportPtr;
 
 
 

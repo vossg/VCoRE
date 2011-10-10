@@ -72,6 +72,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class VCoreItem;
 
 //! \brief VCoreItem Base Class.
