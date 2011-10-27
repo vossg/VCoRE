@@ -97,7 +97,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCRenderer *, nsOSG>::_type("VCRendererPtr", "VCoreItemPtr", nsOSG);
+PointerType FieldTraits<VCRenderer *, nsOSG>::_type(
+    "VCRendererPtr", 
+    "VCoreItemPtr", 
+    VCRenderer::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(VCRenderer *, nsOSG)

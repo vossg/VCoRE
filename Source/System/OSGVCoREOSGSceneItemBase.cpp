@@ -102,7 +102,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<OSGSceneItem *, nsVCoRE>::_type("OSGSceneItemPtr", "VCoreItemPtr", nsVCoRE);
+PointerType FieldTraits<OSGSceneItem *, nsVCoRE>::_type(
+    "OSGSceneItemPtr", 
+    "VCoreItemPtr", 
+    OSGSceneItem::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(OSGSceneItem *, nsVCoRE)

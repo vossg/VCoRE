@@ -99,7 +99,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<Worker *, nsVCoRE>::_type("WorkerPtr", "AttachmentContainerPtr", nsVCoRE);
+PointerType FieldTraits<Worker *, nsVCoRE>::_type(
+    "WorkerPtr", 
+    "AttachmentContainerPtr", 
+    Worker::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(Worker *, nsVCoRE)

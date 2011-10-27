@@ -111,7 +111,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<Viewarea *, nsVCoRE>::_type("ViewareaPtr", "AttachmentContainerPtr", nsVCoRE);
+PointerType FieldTraits<Viewarea *, nsVCoRE>::_type(
+    "ViewareaPtr", 
+    "AttachmentContainerPtr", 
+    Viewarea::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(Viewarea *, nsVCoRE)

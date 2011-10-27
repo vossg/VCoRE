@@ -99,7 +99,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<App *, nsVCoRE>::_type("AppPtr", "AttachmentContainerPtr", nsVCoRE);
+PointerType FieldTraits<App *, nsVCoRE>::_type(
+    "AppPtr", 
+    "AttachmentContainerPtr", 
+    App::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(App *, nsVCoRE)

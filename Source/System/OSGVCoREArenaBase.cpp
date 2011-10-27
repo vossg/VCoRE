@@ -99,7 +99,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<Arena *, nsVCoRE>::_type("ArenaPtr", "AttachmentContainerPtr", nsVCoRE);
+PointerType FieldTraits<Arena *, nsVCoRE>::_type(
+    "ArenaPtr", 
+    "AttachmentContainerPtr", 
+    Arena::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(Arena *, nsVCoRE)

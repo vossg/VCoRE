@@ -97,7 +97,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCTestStage *, nsOSG>::_type("VCTestStagePtr", "StagePtr", nsOSG);
+PointerType FieldTraits<VCTestStage *, nsOSG>::_type(
+    "VCTestStagePtr", 
+    "StagePtr", 
+    VCTestStage::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(VCTestStage *, nsOSG)

@@ -96,7 +96,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCoreItem *, nsOSG>::_type("VCoreItemPtr", "VCoreDynFieldContainerPtr", nsOSG);
+PointerType FieldTraits<VCoreItem *, nsOSG>::_type(
+    "VCoreItemPtr", 
+    "VCoreDynFieldContainerPtr", 
+    VCoreItem::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(VCoreItem *, nsOSG)

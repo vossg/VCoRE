@@ -89,7 +89,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RendererItem *, nsVCoRE>::_type("RendererItemPtr", "VCoreItemPtr", nsVCoRE);
+PointerType FieldTraits<RendererItem *, nsVCoRE>::_type(
+    "RendererItemPtr", 
+    "VCoreItemPtr", 
+    RendererItem::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(RendererItem *, nsVCoRE)

@@ -84,7 +84,7 @@ struct FieldTraits<Repository *, nsVCoRE> :
 {
   private:
 
-    static DataType             _type;
+    static PointerType             _type;
 
   public:
 

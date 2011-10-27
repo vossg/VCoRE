@@ -94,7 +94,11 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<VCWindow *, nsVCoRE>::_type("VCWindowPtr", "VCoreItemPtr", nsVCoRE);
+PointerType FieldTraits<VCWindow *, nsVCoRE>::_type(
+    "VCWindowPtr", 
+    "VCoreItemPtr", 
+    VCWindow::getClassType(),
+    nsVCoRE);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(VCWindow *, nsVCoRE)
