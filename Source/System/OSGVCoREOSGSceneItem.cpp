@@ -101,16 +101,27 @@ OSGSceneItem::~OSGSceneItem(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
+
 void OSGSceneItem::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
     if(ePhase == TypeObject::SystemPost)
     {
+#ifdef WIN32
+        typedef OSGSceneFileType::PostLoadingDispatcher<
+                  OSGSceneItem> PLDOSGSceneItem;
+
+        OSGSceneFileType::the().registerEndNodeCallback(
+            OSGSceneItem::getClassType(),
+            boost::bind(&PLDOSGSceneItem::dispatch,
+                        PLDOSGSceneItem(), _1)); 
+#else
         OSGSceneFileType::the().registerEndNodeCallback(
             OSGSceneItem::getClassType(),
             reinterpret_cast<OSGSceneFileType::Callback>(
                 &OSGSceneItem::postOSGLoading));
+#endif
     }
 }
 
