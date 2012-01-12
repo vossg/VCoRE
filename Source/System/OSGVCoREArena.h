@@ -45,7 +45,7 @@
 #include "OSGConfig.h"
 #include "OSGVCoREArenaBase.h"
 #include "OSGVCoREWorker.h"
-#include "OSGVCoreItem.h"
+#include "OSGVCoREItem.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -78,6 +78,8 @@ class OSG_VCORESYSTEM_DLLMAPPING Arena : public ArenaBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
+    void tick(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
@@ -92,8 +94,6 @@ class OSG_VCORESYSTEM_DLLMAPPING Arena : public ArenaBase
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -58,7 +58,7 @@
 
 
 #include "OSGVCoREArena.h"              // Parent Class
-#include "OSGVCoreItem.h"               // Items Class
+#include "OSGVCoREItem.h"               // Items Class
 
 #include "OSGVCoREWorkerBase.h"
 #include "OSGVCoREWorker.h"
@@ -89,7 +89,7 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
-/*! \var VCoreItem *     WorkerBase::_mfItems
+/*! \var Item *          WorkerBase::_mfItems
     
 */
 
@@ -161,8 +161,8 @@ void WorkerBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new MFUnrecVCoreItemPtr::Description(
-        MFUnrecVCoreItemPtr::getClassType(),
+    pDesc = new MFUnrecItemPtr::Description(
+        MFUnrecItemPtr::getClassType(),
         "items",
         "",
         ItemsFieldId, ItemsFieldMask,
@@ -191,6 +191,7 @@ WorkerBase::TypeObject WorkerBase::_type(
     "<FieldContainer\n"
     "    name=\"Worker\"\n"
     "    parent=\"AttachmentContainer\"\n"
+    "    parentnamespace=\"OSG\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -213,7 +214,7 @@ WorkerBase::TypeObject WorkerBase::_type(
     "  </Field>\n"
     "  <Field\n"
     "      name=\"items\"\n"
-    "      type=\"VCoreItem\"\n"
+    "      type=\"VCoRE::Item\"\n"
     "      cardinality=\"multi\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
@@ -246,12 +247,12 @@ UInt32 WorkerBase::getContainerSize(void) const
 
 
 //! Get the Worker::_mfItems field.
-const MFUnrecVCoreItemPtr *WorkerBase::getMFItems(void) const
+const MFUnrecItemPtr *WorkerBase::getMFItems(void) const
 {
     return &_mfItems;
 }
 
-MFUnrecVCoreItemPtr *WorkerBase::editMFItems          (void)
+MFUnrecItemPtr      *WorkerBase::editMFItems          (void)
 {
     editMField(ItemsFieldMask, _mfItems);
 
@@ -260,18 +261,18 @@ MFUnrecVCoreItemPtr *WorkerBase::editMFItems          (void)
 
 
 
-void WorkerBase::pushToItems(VCoreItem * const value)
+void WorkerBase::pushToItems(Item * const value)
 {
     editMField(ItemsFieldMask, _mfItems);
 
     _mfItems.push_back(value);
 }
 
-void WorkerBase::assignItems    (const MFUnrecVCoreItemPtr &value)
+void WorkerBase::assignItems    (const MFUnrecItemPtr    &value)
 {
-    MFUnrecVCoreItemPtr::const_iterator elemIt  =
+    MFUnrecItemPtr   ::const_iterator elemIt  =
         value.begin();
-    MFUnrecVCoreItemPtr::const_iterator elemEnd =
+    MFUnrecItemPtr   ::const_iterator elemEnd =
         value.end  ();
 
     static_cast<Worker *>(this)->clearItems();
@@ -294,7 +295,7 @@ void WorkerBase::removeFromItems(UInt32 uiIndex)
     }
 }
 
-void WorkerBase::removeObjFromItems(VCoreItem * const value)
+void WorkerBase::removeObjFromItems(Item * const value)
 {
     Int32 iElemIdx = _mfItems.findIndex(value);
 
@@ -317,9 +318,9 @@ void WorkerBase::clearItems(void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 WorkerBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT WorkerBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
@@ -566,9 +567,9 @@ void WorkerBase::onCreate(const Worker *source)
     {
         Worker *pThis = static_cast<Worker *>(this);
 
-        MFUnrecVCoreItemPtr::const_iterator ItemsIt  =
+        MFUnrecItemPtr::const_iterator ItemsIt  =
             source->_mfItems.begin();
-        MFUnrecVCoreItemPtr::const_iterator ItemsEnd =
+        MFUnrecItemPtr::const_iterator ItemsEnd =
             source->_mfItems.end  ();
 
         while(ItemsIt != ItemsEnd)
@@ -596,8 +597,8 @@ EditFieldHandlePtr WorkerBase::editHandleParent         (void)
 
 GetFieldHandlePtr WorkerBase::getHandleItems           (void) const
 {
-    MFUnrecVCoreItemPtr::GetHandlePtr returnValue(
-        new  MFUnrecVCoreItemPtr::GetHandle(
+    MFUnrecItemPtr::GetHandlePtr returnValue(
+        new  MFUnrecItemPtr::GetHandle(
              &_mfItems,
              this->getType().getFieldDesc(ItemsFieldId),
              const_cast<WorkerBase *>(this)));
@@ -607,8 +608,8 @@ GetFieldHandlePtr WorkerBase::getHandleItems           (void) const
 
 EditFieldHandlePtr WorkerBase::editHandleItems          (void)
 {
-    MFUnrecVCoreItemPtr::EditHandlePtr returnValue(
-        new  MFUnrecVCoreItemPtr::EditHandle(
+    MFUnrecItemPtr::EditHandlePtr returnValue(
+        new  MFUnrecItemPtr::EditHandle(
              &_mfItems,
              this->getType().getFieldDesc(ItemsFieldId),
              this));

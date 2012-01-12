@@ -8,6 +8,8 @@
 
 OSG_USING_NAMESPACE
 
+VCORE_USING_NAMESPACE
+
 int main (int argc, char **argv)
 {
     OSG::osgInit(argc, argv);

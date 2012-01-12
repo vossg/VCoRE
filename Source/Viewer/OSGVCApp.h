@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoREViewerDef.h"
 
 #include <set>
 
@@ -53,9 +53,11 @@
 #include "OSGSimpleSceneManager.h"
 
 #include "OSGVCNativeWindow.h"
-#include "OSGVCRenderer.h"
+#include "OSGVCoREVCRenderer.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 class OSG_VCOREVIEWER_DLLMAPPING VCApp: public MemoryObject
 {
@@ -120,7 +122,7 @@ private:
     WindowRecPtr _osgWindow;
     ViewportUnrecPtr _viewport;
     VCRendererUnrecPtr _renderer;
-    SimpleSceneManager* _sceneMgr;
+    SimpleSceneManagerRefPtr _sceneMgr;
     VCWindowEventSource _windowEventSource; // to send stuff to NativeWindow (not used atm)
     VCWindowEventSink _windowEventSink; // to receive stuff from NativeWindow
 
@@ -129,7 +131,7 @@ private:
 OSG_GEN_MEMOBJPTR(VCDummyApp);
 
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE
 
 #include "OSGVCApp.inl"
 

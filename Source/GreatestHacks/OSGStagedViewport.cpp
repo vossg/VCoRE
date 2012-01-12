@@ -141,7 +141,7 @@ Int32 StagedViewport::getPixelLeft(void) const
 {
     if(!getFrameBufferObject())
     {   // => behave like normal viewport
-        return Viewport::getPixelLeft();
+        return Viewport::calcPixelLeft();
     }
     else
     {   // => behave like FBOViewport
@@ -156,7 +156,7 @@ Int32 StagedViewport::getPixelRight(void) const
 {
     if(!getFrameBufferObject())
     {   // => behave like normal viewport
-        return Viewport::getPixelRight();
+        return Viewport::calcPixelRight();
     }
     else
     {   // => behave like FBOViewport
@@ -172,7 +172,7 @@ Int32 StagedViewport::getPixelBottom(void) const
 {
     if(!getFrameBufferObject())
     {   // => behave like normal viewport
-        return Viewport::getPixelBottom();
+        return Viewport::calcPixelBottom();
     }
     else
     {   // => behave like FBOViewport
@@ -187,7 +187,7 @@ Int32 StagedViewport::getPixelTop(void) const
 {
     if(!getFrameBufferObject())
     {   // => behave like normal viewport
-        return Viewport::getPixelTop();
+        return Viewport::calcPixelTop();
     }
     else
     {   // => behave like FBOViewport
@@ -202,7 +202,7 @@ Int32 StagedViewport::getPixelTop(void) const
 bool StagedViewport::isFullWindow(void) const
 {
     if(getFrameBufferObject() == NULL)
-        return Viewport::isFullWindow();
+        return Viewport::calcIsFullWindow();
     else
         return  
             getPixelBottom() == 0 &&
@@ -290,7 +290,7 @@ void StagedViewport::renderWithStage(RenderActionBase *action)
 
     action->setCamera    (getCamera    ());
     action->setBackground(getBackground());
-    action->setViewport  (this           );
+    action->setViewarea  (this           );
     action->setTravMask  (getTravMask()  );
 
     action->apply(_stageNode);

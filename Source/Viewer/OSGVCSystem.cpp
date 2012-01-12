@@ -46,8 +46,9 @@
 
 #include "OSGVCNativeWindow.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
 
+OSG_IMPORT_NAMESPACE;
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -86,4 +87,4 @@ VCSystem::~VCSystem(void)
 {
 }
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

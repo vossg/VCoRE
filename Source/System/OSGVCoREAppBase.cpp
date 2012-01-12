@@ -173,6 +173,7 @@ AppBase::TypeObject AppBase::_type(
     "<FieldContainer\n"
     "    name=\"App\"\n"
     "    parent=\"AttachmentContainer\"\n"
+    "    parentnamespace=\"OSG\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -363,9 +364,9 @@ void AppBase::clearArenas(void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 AppBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT AppBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (RepositoriesFieldMask & whichField))
     {

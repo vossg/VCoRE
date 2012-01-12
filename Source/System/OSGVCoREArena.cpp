@@ -152,6 +152,25 @@ FieldContainer *Arena::findNamedComponent(
     return NULL;
 }
 
+void Arena::tick(void)
+{
+    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
+    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+
+    for(; wIt != wEnd; ++wIt)
+    {
+        (*wIt)->tick();
+    }
+
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        (*iIt)->tick();
+    }
+}
+
 bool Arena::init(UInt32 uiInitPhase, App *pApp)
 {
     fprintf(stderr, "Arena::init %s (%x)\n",

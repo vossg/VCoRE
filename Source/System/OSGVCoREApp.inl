@@ -39,4 +39,12 @@ VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
+inline
+void App::tick(void)
+{
+    for_each(_sApps.begin(), 
+             _sApps.end  (), 
+              boost::bind(&App::doTick, _1));
+}
+
 VCORE_END_NAMESPACE

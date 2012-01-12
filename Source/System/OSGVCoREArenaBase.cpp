@@ -58,7 +58,7 @@
 
 
 #include "OSGVCoREWorker.h"             // Worker Class
-#include "OSGVCoreItem.h"               // Items Class
+#include "OSGVCoREItem.h"               // Items Class
 
 #include "OSGVCoREArenaBase.h"
 #include "OSGVCoREArena.h"
@@ -89,7 +89,7 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
-/*! \var VCoreItem *     ArenaBase::_mfItems
+/*! \var Item *          ArenaBase::_mfItems
     
 */
 
@@ -160,8 +160,8 @@ void ArenaBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new MFUnrecChildVCoreItemPtr::Description(
-        MFUnrecChildVCoreItemPtr::getClassType(),
+    pDesc = new MFUnrecChildItemPtr::Description(
+        MFUnrecChildItemPtr::getClassType(),
         "items",
         "",
         ItemsFieldId, ItemsFieldMask,
@@ -190,6 +190,7 @@ ArenaBase::TypeObject ArenaBase::_type(
     "<FieldContainer\n"
     "    name=\"Arena\"\n"
     "    parent=\"AttachmentContainer\"\n"
+    "    parentnamespace=\"OSG\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -214,7 +215,7 @@ ArenaBase::TypeObject ArenaBase::_type(
     "  </Field>\n"
     "  <Field\n"
     "      name=\"items\"\n"
-    "      type=\"VCoreItem\"\n"
+    "      type=\"VCoRE::Item\"\n"
     "      cardinality=\"multi\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
@@ -261,12 +262,12 @@ MFUnrecChildWorkerPtr *ArenaBase::editMFWorker         (void)
 }
 
 //! Get the Arena::_mfItems field.
-const MFUnrecChildVCoreItemPtr *ArenaBase::getMFItems(void) const
+const MFUnrecChildItemPtr *ArenaBase::getMFItems(void) const
 {
     return &_mfItems;
 }
 
-MFUnrecChildVCoreItemPtr *ArenaBase::editMFItems          (void)
+MFUnrecChildItemPtr *ArenaBase::editMFItems          (void)
 {
     editMField(ItemsFieldMask, _mfItems);
 
@@ -328,18 +329,18 @@ void ArenaBase::clearWorker(void)
     _mfWorker.clear();
 }
 
-void ArenaBase::pushToItems(VCoreItem * const value)
+void ArenaBase::pushToItems(Item * const value)
 {
     editMField(ItemsFieldMask, _mfItems);
 
     _mfItems.push_back(value);
 }
 
-void ArenaBase::assignItems    (const MFUnrecChildVCoreItemPtr &value)
+void ArenaBase::assignItems    (const MFUnrecChildItemPtr &value)
 {
-    MFUnrecChildVCoreItemPtr::const_iterator elemIt  =
+    MFUnrecChildItemPtr::const_iterator elemIt  =
         value.begin();
-    MFUnrecChildVCoreItemPtr::const_iterator elemEnd =
+    MFUnrecChildItemPtr::const_iterator elemEnd =
         value.end  ();
 
     static_cast<Arena *>(this)->clearItems();
@@ -362,7 +363,7 @@ void ArenaBase::removeFromItems(UInt32 uiIndex)
     }
 }
 
-void ArenaBase::removeObjFromItems(VCoreItem * const value)
+void ArenaBase::removeObjFromItems(Item * const value)
 {
     Int32 iElemIdx = _mfItems.findIndex(value);
 
@@ -385,9 +386,9 @@ void ArenaBase::clearItems(void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 ArenaBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT ArenaBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (WorkerFieldMask & whichField))
     {
@@ -534,7 +535,7 @@ ArenaBase::ArenaBase(void) :
                           Worker::ParentFieldId),
     _mfItems                  (this,
                           ItemsFieldId,
-                          VCoreItem::ParentFieldId)
+                          Item::ParentFieldId)
 {
 }
 
@@ -545,7 +546,7 @@ ArenaBase::ArenaBase(const ArenaBase &source) :
                           Worker::ParentFieldId),
     _mfItems                  (this,
                           ItemsFieldId,
-                          VCoreItem::ParentFieldId)
+                          Item::ParentFieldId)
 {
 }
 
@@ -599,8 +600,8 @@ bool ArenaBase::unlinkChild(
 
     if(childFieldId == ItemsFieldId)
     {
-        VCoreItem * pTypedChild =
-            dynamic_cast<VCoreItem *>(pChild);
+        Item * pTypedChild =
+            dynamic_cast<Item *>(pChild);
 
         if(pTypedChild != NULL)
         {
@@ -655,9 +656,9 @@ void ArenaBase::onCreate(const Arena *source)
             ++WorkerIt;
         }
 
-        MFUnrecChildVCoreItemPtr::const_iterator ItemsIt  =
+        MFUnrecChildItemPtr::const_iterator ItemsIt  =
             source->_mfItems.begin();
-        MFUnrecChildVCoreItemPtr::const_iterator ItemsEnd =
+        MFUnrecChildItemPtr::const_iterator ItemsEnd =
             source->_mfItems.end  ();
 
         while(ItemsIt != ItemsEnd)
@@ -708,8 +709,8 @@ EditFieldHandlePtr ArenaBase::editHandleWorker         (void)
 
 GetFieldHandlePtr ArenaBase::getHandleItems           (void) const
 {
-    MFUnrecChildVCoreItemPtr::GetHandlePtr returnValue(
-        new  MFUnrecChildVCoreItemPtr::GetHandle(
+    MFUnrecChildItemPtr::GetHandlePtr returnValue(
+        new  MFUnrecChildItemPtr::GetHandle(
              &_mfItems,
              this->getType().getFieldDesc(ItemsFieldId),
              const_cast<ArenaBase *>(this)));
@@ -719,8 +720,8 @@ GetFieldHandlePtr ArenaBase::getHandleItems           (void) const
 
 EditFieldHandlePtr ArenaBase::editHandleItems          (void)
 {
-    MFUnrecChildVCoreItemPtr::EditHandlePtr returnValue(
-        new  MFUnrecChildVCoreItemPtr::EditHandle(
+    MFUnrecChildItemPtr::EditHandlePtr returnValue(
+        new  MFUnrecChildItemPtr::EditHandle(
              &_mfItems,
              this->getType().getFieldDesc(ItemsFieldId),
              this));

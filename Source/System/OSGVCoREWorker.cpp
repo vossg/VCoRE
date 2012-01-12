@@ -96,6 +96,17 @@ Worker::~Worker(void)
 /*-------------------------------------------------------------------------*/
 /*                             Intersect                                   */
 
+void Worker::tick(void)
+{
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        (*iIt)->tick();
+    }
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 

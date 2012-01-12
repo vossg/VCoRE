@@ -63,10 +63,12 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoreItem.h" // Parent
+#include "OSGVCoREItem.h" // Parent
 
 #include "OSGBaseFields.h"              // Url type
 #include "OSGNodeFields.h"              // Root type
+#include "OSGFieldContainerFields.h"    // Globals type
+#include "OSGCameraFields.h"            // Camera type
 
 #include "OSGVCoREOSGSceneItemFields.h"
 
@@ -78,12 +80,12 @@ class OSGSceneItem;
 
 //! \brief OSGSceneItem Base Class.
 
-class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
+class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public Item
 {
   public:
 
-    typedef VCoreItem Inherited;
-    typedef VCoreItem ParentContainer;
+    typedef Item Inherited;
+    typedef Item ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -99,7 +101,12 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
         UrlFieldId = Inherited::NextFieldId,
         MatchedUrlFieldId = UrlFieldId + 1,
         RootFieldId = MatchedUrlFieldId + 1,
-        NextFieldId = RootFieldId + 1
+        GlobalsFieldId = RootFieldId + 1,
+        GlobalUrlFieldId = GlobalsFieldId + 1,
+        MatchedGlobalUrlFieldId = GlobalUrlFieldId + 1,
+        CameraFieldId = MatchedGlobalUrlFieldId + 1,
+        ActiveCameraFieldId = CameraFieldId + 1,
+        NextFieldId = ActiveCameraFieldId + 1
     };
 
     static const OSG::BitVector UrlFieldMask =
@@ -108,12 +115,27 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
         (TypeTraits<BitVector>::One << MatchedUrlFieldId);
     static const OSG::BitVector RootFieldMask =
         (TypeTraits<BitVector>::One << RootFieldId);
+    static const OSG::BitVector GlobalsFieldMask =
+        (TypeTraits<BitVector>::One << GlobalsFieldId);
+    static const OSG::BitVector GlobalUrlFieldMask =
+        (TypeTraits<BitVector>::One << GlobalUrlFieldId);
+    static const OSG::BitVector MatchedGlobalUrlFieldMask =
+        (TypeTraits<BitVector>::One << MatchedGlobalUrlFieldId);
+    static const OSG::BitVector CameraFieldMask =
+        (TypeTraits<BitVector>::One << CameraFieldId);
+    static const OSG::BitVector ActiveCameraFieldMask =
+        (TypeTraits<BitVector>::One << ActiveCameraFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef MFString          MFUrlType;
     typedef SFString          SFMatchedUrlType;
     typedef SFUnrecNodePtr    SFRootType;
+    typedef MFRecFieldContainerPtr MFGlobalsType;
+    typedef MFString          MFGlobalUrlType;
+    typedef SFString          SFMatchedGlobalUrlType;
+    typedef SFUnrecCameraPtr  SFCameraType;
+    typedef SFString          SFActiveCameraType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -146,6 +168,19 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
             const SFString            *getSFMatchedUrl      (void) const;
             const SFUnrecNodePtr      *getSFRoot           (void) const;
                   SFUnrecNodePtr      *editSFRoot           (void);
+            const MFRecFieldContainerPtr *getMFGlobals        (void) const;
+                  MFRecFieldContainerPtr *editMFGlobals        (void);
+
+                  MFString            *editMFGlobalUrl      (void);
+            const MFString            *getMFGlobalUrl       (void) const;
+
+                  SFString            *editSFMatchedGlobalUrl(void);
+            const SFString            *getSFMatchedGlobalUrl (void) const;
+            const SFUnrecCameraPtr    *getSFCamera         (void) const;
+                  SFUnrecCameraPtr    *editSFCamera         (void);
+
+                  SFString            *editSFActiveCamera   (void);
+            const SFString            *getSFActiveCamera    (void) const;
 
 
                   std::string         &editUrl            (const UInt32 index);
@@ -156,6 +191,19 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
 
                   Node * getRoot           (void) const;
 
+                  FieldContainer * getGlobals        (const UInt32 index) const;
+
+                  std::string         &editGlobalUrl      (const UInt32 index);
+            const std::string         &getGlobalUrl       (const UInt32 index) const;
+
+                  std::string         &editMatchedGlobalUrl(void);
+            const std::string         &getMatchedGlobalUrl (void) const;
+
+                  Camera * getCamera         (void) const;
+
+                  std::string         &editActiveCamera   (void);
+            const std::string         &getActiveCamera    (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -163,6 +211,9 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
 
             void setMatchedUrl     (const std::string &value);
             void setRoot           (Node * const value);
+            void setMatchedGlobalUrl(const std::string &value);
+            void setCamera         (Camera * const value);
+            void setActiveCamera   (const std::string &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,12 +225,18 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
 
+    void pushToGlobals             (FieldContainer * const value   );
+    void assignGlobals            (const MFRecFieldContainerPtr &value);
+    void removeFromGlobals (UInt32               uiIndex );
+    void removeObjFromGlobals(FieldContainer * const value   );
+    void clearGlobals               (void                         );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,
@@ -230,6 +287,11 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
     MFString          _mfUrl;
     SFString          _sfMatchedUrl;
     SFUnrecNodePtr    _sfRoot;
+    MFRecFieldContainerPtr _mfGlobals;
+    MFString          _mfGlobalUrl;
+    SFString          _sfMatchedGlobalUrl;
+    SFUnrecCameraPtr  _sfCamera;
+    SFString          _sfActiveCamera;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,6 +326,16 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public VCoreItem
     EditFieldHandlePtr editHandleMatchedUrl     (void);
     GetFieldHandlePtr  getHandleRoot            (void) const;
     EditFieldHandlePtr editHandleRoot           (void);
+    GetFieldHandlePtr  getHandleGlobals         (void) const;
+    EditFieldHandlePtr editHandleGlobals        (void);
+    GetFieldHandlePtr  getHandleGlobalUrl       (void) const;
+    EditFieldHandlePtr editHandleGlobalUrl      (void);
+    GetFieldHandlePtr  getHandleMatchedGlobalUrl (void) const;
+    EditFieldHandlePtr editHandleMatchedGlobalUrl(void);
+    GetFieldHandlePtr  getHandleCamera          (void) const;
+    EditFieldHandlePtr editHandleCamera         (void);
+    GetFieldHandlePtr  getHandleActiveCamera    (void) const;
+    EditFieldHandlePtr editHandleActiveCamera   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

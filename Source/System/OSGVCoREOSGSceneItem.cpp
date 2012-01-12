@@ -45,6 +45,8 @@
 #include "OSGNameAttachment.h"
 #include "OSGOSGSceneFileType.h"
 #include "OSGSceneFileHandler.h"
+#include "OSGImageFileHandler.h"
+#include "OSGContainerCollection.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -54,6 +56,8 @@ OSG_IMPORT_NAMESPACE;
 // OSGVCoREOSGSceneItemBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
+
+PathHandler OSGSceneItem::_oPathHandler;
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
@@ -65,6 +69,59 @@ void OSGSceneItem::changed(ConstFieldMaskArg whichField,
     Inherited::changed(whichField, origin, details);
 }
 
+FieldContainer *OSGSceneItem::findNamedComponent(const Char8 *szName) const
+{
+    MFGlobalsType::const_iterator gIt  = _mfGlobals.begin();
+    MFGlobalsType::const_iterator gEnd = _mfGlobals.end  ();
+
+          AttachmentContainer *pAttCnt     = NULL;
+    const Char8               *szTmpName   = NULL;
+
+
+    while(gIt != gEnd)
+    {
+#if 0
+        pNode = dynamic_cast<Node *>(*gIt);
+
+        if(pNode != NULL)
+        {
+            ElementFinder oFinder;
+
+            oFinder._szRefName = szName;
+
+            traverse(pNode, boost::bind(&ElementFinder::enter, &oFinder, _1));
+
+            if(oFinder._pResult != NULL)
+            {
+                return oFinder._pResult;
+            }
+         }
+#endif 
+       
+        pAttCnt = dynamic_cast<AttachmentContainer *>(*gIt);
+
+        if(pAttCnt != NULL)
+        {
+            szTmpName = OSG::getName(pAttCnt);
+           
+            if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+            {
+                return pAttCnt;
+            }
+            else
+            {
+                FieldContainer *tmpVal = pAttCnt->findNamedComponent(szName);
+                
+                if(tmpVal != NULL)
+                    return tmpVal;
+            }
+        }
+
+        ++gIt;
+    }
+
+    return NULL;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
@@ -149,7 +206,24 @@ void OSGSceneItem::postOSGLoading(void)
         }
     }
 
-    
+
+    for(; i < _mfGlobalUrl.size(); ++i)
+    {
+        std::string szFilenameResolved = 
+            SceneFileHandler::the()->getPathHandler()->findFile(
+                _mfGlobalUrl[i].c_str());
+
+        fprintf(stderr, "got %s -> %s\n",
+                _mfGlobalUrl[i].c_str(),
+                szFilenameResolved.c_str());
+
+        if(szFilenameResolved.empty() == false)
+        {
+            setMatchedGlobalUrl(szFilenameResolved);
+
+            break;
+        }
+    }
 }
 
 bool OSGSceneItem::init(UInt32 uiInitPhase, App *pApp)
@@ -180,6 +254,75 @@ bool OSGSceneItem::init(UInt32 uiInitPhase, App *pApp)
             else
             {
                 fprintf(stderr, "  failed\n");
+            }
+        }
+
+
+        if(_sfMatchedGlobalUrl.getValue().empty() == false)
+        {
+            fprintf(stderr, "Loading global %s\n",
+                    _sfMatchedGlobalUrl.getValue().c_str());
+            
+            FieldContainerUnrecPtr pRes(NULL);
+
+            _oPathHandler.pushState();
+
+            _oPathHandler.setBaseFile(_sfMatchedGlobalUrl.getValue().c_str());
+
+            ImageFileHandler::the()->setPathHandler(&_oPathHandler);
+
+            fprintf(stderr, "loading osg file %s ...\n",
+                    _sfMatchedGlobalUrl.getValue().c_str());
+
+            pRes = OSG::OSGSceneFileType::the().readContainer(
+                _sfMatchedGlobalUrl.getValue().c_str(),
+                NULL);
+
+            ImageFileHandler::the()->setPathHandler(NULL);
+
+            _oPathHandler.popState();
+            
+            fprintf(stderr, "got global %p\n", pRes.get());
+            
+            if(pRes != NULL)
+            {
+                ContainerCollectionUnrecPtr pColl = 
+                    dynamic_pointer_cast<ContainerCollection>(pRes);
+
+                if(pColl != NULL)
+                {
+                    MFUnrecFieldContainerPtr::const_iterator fIt  = 
+                        pColl->getMFContainers()->begin();
+
+                    MFUnrecFieldContainerPtr::const_iterator fEnd = 
+                        pColl->getMFContainers()->end();
+
+                    while(fIt != fEnd)
+                    {
+                        this->pushToGlobals(*fIt);
+                        ++fIt;
+                    }   
+                }
+            }
+            else
+            {
+                fprintf(stderr, "  failed\n");
+            }
+
+            fprintf(stderr, "got %ld globals\n",
+                    _mfGlobals.size());
+
+            if(_sfActiveCamera.getValue().empty() == false)
+            {
+                FieldContainer *pCnt = findNamedComponent(
+                    _sfActiveCamera.getValue().c_str());
+
+                Camera *pCam = dynamic_cast<Camera *>(pCnt);
+
+                fprintf(stderr, "found camera %p\n",
+                        pCam);
+
+                setCamera(pCam);
             }
         }
     }

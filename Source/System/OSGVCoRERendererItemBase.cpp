@@ -91,7 +91,7 @@ VCORE_IMPORT_NAMESPACE;
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 PointerType FieldTraits<RendererItem *, nsVCoRE>::_type(
     "RendererItemPtr", 
-    "VCoreItemPtr", 
+    "ItemPtr", 
     RendererItem::getClassType(),
     nsVCoRE);
 #endif
@@ -136,7 +136,7 @@ RendererItemBase::TypeObject RendererItemBase::_type(
     "\n"
     "<FieldContainer\n"
     "    name=\"RendererItem\"\n"
-    "    parent=\"VCoreItem\"\n"
+    "    parent=\"Item\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -177,9 +177,9 @@ UInt32 RendererItemBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RendererItemBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RendererItemBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;

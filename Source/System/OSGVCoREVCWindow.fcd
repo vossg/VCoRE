@@ -2,7 +2,7 @@
 
 <FieldContainer
     name="VCWindow"
-    parent="VCoreItem"
+    parent="Item"
     library="VCoRESystem"
     structure="concrete"
     pointerfieldtypes="both"
@@ -15,7 +15,7 @@
     >
   <Field
       name="views"
-      type="VCoRE::Viewarea"
+      type="VCoRE::VCViewarea"
       cardinality="multi"
       visibility="external"
       access="public"

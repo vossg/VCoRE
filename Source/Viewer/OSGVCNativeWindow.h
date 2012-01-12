@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoREViewerDef.h"
 
 #include <string>
 
@@ -52,7 +52,9 @@
 
 #include "OSGVCWindowEvent.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 class OSG_VCOREVIEWER_DLLMAPPING VCNativeWindowDesc
 {
@@ -109,7 +111,7 @@ private:
 };
 OSG_GEN_MEMOBJPTR(VCNativeWindow);
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE
 
 #include "OSGVCNativeWindow.inl"
 

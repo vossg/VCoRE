@@ -44,7 +44,9 @@
 
 #include "OSGVCNativeWindow.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 VCNativeWindow::VCNativeWindow(const VCNativeWindowDesc& desc)
     : _desc(desc)
@@ -79,4 +81,4 @@ void VCNativeWindow::sendKeyboardWindowEvent(int x, int y, int key,
     _windowEventSource.sendEvent(event);
 }
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

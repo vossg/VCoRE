@@ -3,6 +3,7 @@
 <FieldContainer
     name="Worker"
     parent="AttachmentContainer"
+    parentnamespace="OSG"
     library="VCoRESystem"
     structure="concrete"
     pointerfieldtypes="both"
@@ -25,7 +26,7 @@
   </Field>
   <Field
       name="items"
-      type="VCoreItem"
+      type="VCoRE::Item"
       cardinality="multi"
       visibility="external"
       access="public"

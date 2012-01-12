@@ -118,7 +118,7 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING VCTestStage : public VCTestStageBase
         FrameBufferObject *pTarget,
         Camera            *pCam,
         Background        *pBack,
-        Viewport          *pViewport );
+        Viewarea          *pViewarea );
 
 
 

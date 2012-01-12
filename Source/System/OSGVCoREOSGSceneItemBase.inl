@@ -116,6 +116,72 @@ void OSGSceneItemBase::setRoot(Node * const value)
 
     _sfRoot.setValue(value);
 }
+//! Get the value of the OSGSceneItem::_sfMatchedGlobalUrl field.
+
+inline
+std::string &OSGSceneItemBase::editMatchedGlobalUrl(void)
+{
+    editSField(MatchedGlobalUrlFieldMask);
+
+    return _sfMatchedGlobalUrl.getValue();
+}
+
+//! Get the value of the OSGSceneItem::_sfMatchedGlobalUrl field.
+inline
+const std::string &OSGSceneItemBase::getMatchedGlobalUrl(void) const
+{
+    return _sfMatchedGlobalUrl.getValue();
+}
+
+//! Set the value of the OSGSceneItem::_sfMatchedGlobalUrl field.
+inline
+void OSGSceneItemBase::setMatchedGlobalUrl(const std::string &value)
+{
+    editSField(MatchedGlobalUrlFieldMask);
+
+    _sfMatchedGlobalUrl.setValue(value);
+}
+
+//! Get the value of the OSGSceneItem::_sfCamera field.
+inline
+Camera * OSGSceneItemBase::getCamera(void) const
+{
+    return _sfCamera.getValue();
+}
+
+//! Set the value of the OSGSceneItem::_sfCamera field.
+inline
+void OSGSceneItemBase::setCamera(Camera * const value)
+{
+    editSField(CameraFieldMask);
+
+    _sfCamera.setValue(value);
+}
+//! Get the value of the OSGSceneItem::_sfActiveCamera field.
+
+inline
+std::string &OSGSceneItemBase::editActiveCamera(void)
+{
+    editSField(ActiveCameraFieldMask);
+
+    return _sfActiveCamera.getValue();
+}
+
+//! Get the value of the OSGSceneItem::_sfActiveCamera field.
+inline
+const std::string &OSGSceneItemBase::getActiveCamera(void) const
+{
+    return _sfActiveCamera.getValue();
+}
+
+//! Set the value of the OSGSceneItem::_sfActiveCamera field.
+inline
+void OSGSceneItemBase::setActiveCamera(const std::string &value)
+{
+    editSField(ActiveCameraFieldMask);
+
+    _sfActiveCamera.setValue(value);
+}
 
 //! Get the value of the \a index element the OSGSceneItem::_mfUrl field.
 inline
@@ -130,6 +196,29 @@ std::string &OSGSceneItemBase::editUrl(const UInt32 index)
     editMField(UrlFieldMask, _mfUrl);
 
     return _mfUrl[index];
+}
+
+
+//! Get the value of the \a index element the OSGSceneItem::_mfGlobals field.
+inline
+FieldContainer * OSGSceneItemBase::getGlobals(const UInt32 index) const
+{
+    return _mfGlobals[index];
+}
+
+//! Get the value of the \a index element the OSGSceneItem::_mfGlobalUrl field.
+inline
+const std::string &OSGSceneItemBase::getGlobalUrl(const UInt32 index) const
+{
+    return _mfGlobalUrl[index];
+}
+
+inline
+std::string &OSGSceneItemBase::editGlobalUrl(const UInt32 index)
+{
+    editMField(GlobalUrlFieldMask, _mfGlobalUrl);
+
+    return _mfGlobalUrl[index];
 }
 
 
@@ -155,6 +244,27 @@ void OSGSceneItemBase::execSync (      OSGSceneItemBase *pFrom,
 
     if(FieldBits::NoField != (RootFieldMask & whichField))
         _sfRoot.syncWith(pFrom->_sfRoot);
+
+    if(FieldBits::NoField != (GlobalsFieldMask & whichField))
+        _mfGlobals.syncWith(pFrom->_mfGlobals,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
+
+    if(FieldBits::NoField != (GlobalUrlFieldMask & whichField))
+        _mfGlobalUrl.syncWith(pFrom->_mfGlobalUrl,
+                                syncMode,
+                                uiSyncInfo,
+                                oOffsets);
+
+    if(FieldBits::NoField != (MatchedGlobalUrlFieldMask & whichField))
+        _sfMatchedGlobalUrl.syncWith(pFrom->_sfMatchedGlobalUrl);
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+        _sfCamera.syncWith(pFrom->_sfCamera);
+
+    if(FieldBits::NoField != (ActiveCameraFieldMask & whichField))
+        _sfActiveCamera.syncWith(pFrom->_sfActiveCamera);
 }
 #endif
 

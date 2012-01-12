@@ -44,6 +44,8 @@
 
 #include "OSGConfig.h"
 #include "OSGVCoREOSGSceneItemBase.h"
+#include "OSGPathHandler.h"
+#include "OSGCamera.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -76,6 +78,8 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
@@ -106,7 +110,9 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
 
     protected:
 
-    typedef OSGSceneItemBase Inherited;
+    typedef OSGSceneItemBase  Inherited;
+
+    static  PathHandler      _oPathHandler;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

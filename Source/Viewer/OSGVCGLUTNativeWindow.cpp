@@ -46,7 +46,10 @@
 #include "OSGVCApp.h"   // just to get tickHack()
 
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
+
 
 VCGLUTNativeWindow::WindowBag VCGLUTNativeWindow::_windowBag;
 bool VCGLUTNativeWindow::_glutInitialized = false;
@@ -421,4 +424,4 @@ VCGLUTNativeWindow::~VCGLUTNativeWindow()
 
 
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

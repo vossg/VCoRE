@@ -48,6 +48,8 @@
 #define VCORE_END_NAMESPACE }
 #define VCORE_IMPORT_NAMESPACE using namespace VCoRE
 
+#define VCORE_USING_NAMESPACE using namespace VCoRE;
+
 VCORE_BEGIN_NAMESPACE
 
 static const OSG::UInt32 nsVCoRE = 10;

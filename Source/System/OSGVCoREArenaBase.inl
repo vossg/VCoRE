@@ -85,7 +85,7 @@ Worker * ArenaBase::getWorker(const UInt32 index) const
 
 //! Get the value of the \a index element the Arena::_mfItems field.
 inline
-VCoreItem * ArenaBase::getItems(const UInt32 index) const
+Item * ArenaBase::getItems(const UInt32 index) const
 {
     return _mfItems[index];
 }

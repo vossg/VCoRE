@@ -148,7 +148,7 @@ StagedViewportBase::TypeObject StagedViewportBase::_type(
     "<FieldContainer\n"
     "   name=\"StagedViewport\"\n"
     "   parent=\"FBOViewport\"\n"
-    "   library=\"VCoreGreatestHacks\"\n"
+    "   library=\"VCoREGreatestHacks\"\n"
     "   structure=\"concrete\"\n"
     "   pointerfieldtypes=\"both\"\n"
     "   systemcomponent=\"true\"\n"
@@ -210,9 +210,9 @@ SFUnrecStagePtr     *StagedViewportBase::editSFStage          (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 StagedViewportBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT StagedViewportBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (StageFieldMask & whichField))
     {

@@ -137,6 +137,7 @@ RepositoryBase::TypeObject RepositoryBase::_type(
     "<FieldContainer\n"
     "    name=\"Repository\"\n"
     "    parent=\"AttachmentContainer\"\n"
+    "    parentnamespace=\"OSG\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -177,9 +178,9 @@ UInt32 RepositoryBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RepositoryBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RepositoryBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;

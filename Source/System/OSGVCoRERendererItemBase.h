@@ -63,7 +63,7 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoreItem.h" // Parent
+#include "OSGVCoREItem.h" // Parent
 
 
 #include "OSGVCoRERendererItemFields.h"
@@ -76,12 +76,12 @@ class RendererItem;
 
 //! \brief RendererItem Base Class.
 
-class OSG_VCORESYSTEM_DLLMAPPING RendererItemBase : public VCoreItem
+class OSG_VCORESYSTEM_DLLMAPPING RendererItemBase : public Item
 {
   public:
 
-    typedef VCoreItem Inherited;
-    typedef VCoreItem ParentContainer;
+    typedef Item Inherited;
+    typedef Item ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -116,7 +116,7 @@ class OSG_VCORESYSTEM_DLLMAPPING RendererItemBase : public VCoreItem
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,

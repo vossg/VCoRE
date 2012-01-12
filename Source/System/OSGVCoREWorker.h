@@ -44,7 +44,7 @@
 
 #include "OSGConfig.h"
 #include "OSGVCoREWorkerBase.h"
-#include "OSGVCoreItem.h"
+#include "OSGVCoREItem.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -76,6 +76,8 @@ class OSG_VCORESYSTEM_DLLMAPPING Worker : public WorkerBase
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    void tick(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

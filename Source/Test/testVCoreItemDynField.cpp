@@ -5,7 +5,7 @@
 
 #include "OSGBaseInitFunctions.h"
 #include "OSGVecSFields.h"
-#include "OSGVCoreItem.h"
+#include "OSGVCoREItem.h"
 
 void dumpType(OSG::FieldContainerType &oType)
 {
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 {
     OSG::osgInit(argc, argv);
 
-    OSG::VCoreItemUnrecPtr pObj = OSG::VCoreItem::create();
+    VCoRE::ItemUnrecPtr pObj = VCoRE::Item::create();
 
     fprintf(stderr, "sf type : %d\n",
             OSG::FieldTraits<OSG::Vec3f>::getType().getId());
@@ -42,21 +42,21 @@ int main(int argc, char **argv)
 
 
     fprintf(stderr, "nc : %d | sp : %d | sb : %d | py : %d\n",
-            OSG::AttachmentContainer         ::NextFieldId,
-            OSG::VCoreDynFieldContainerParent::NextFieldId,
-            OSG::VCoreDynFieldContainerBase  ::NextFieldId,
-            OSG::VCoreItem                   ::NextFieldId);
+            OSG  ::AttachmentContainer      ::NextFieldId,
+            VCoRE::VCDynFieldContainerParent::NextFieldId,
+            VCoRE::VCDynFieldContainerBase  ::NextFieldId,
+            VCoRE::Item                     ::NextFieldId);
 
     fprintf(stderr, "nc : %d | sp : %d | sb : %d | py : %d\n",
-          OSG::AttachmentContainer         ::getClassType().getNumFieldDescs(),
-          OSG::VCoreDynFieldContainerParent::getClassType().getNumFieldDescs(),
-          OSG::VCoreDynFieldContainerBase  ::getClassType().getNumFieldDescs(),
-          OSG::VCoreItem                   ::getClassType().getNumFieldDescs());
+          OSG  ::AttachmentContainer      ::getClassType().getNumFieldDescs(),
+          VCoRE::VCDynFieldContainerParent::getClassType().getNumFieldDescs(),
+          VCoRE::VCDynFieldContainerBase  ::getClassType().getNumFieldDescs(),
+          VCoRE::Item                     ::getClassType().getNumFieldDescs());
 
-    dumpType(OSG::AttachmentContainer         ::getClassType());
-    dumpType(OSG::VCoreDynFieldContainerParent::getClassType());
-    dumpType(OSG::VCoreDynFieldContainerBase  ::getClassType());
-    dumpType(OSG::VCoreItem                   ::getClassType());
+    dumpType(OSG  ::AttachmentContainer      ::getClassType());
+    dumpType(VCoRE::VCDynFieldContainerParent::getClassType());
+    dumpType(VCoRE::VCDynFieldContainerBase  ::getClassType());
+    dumpType(VCoRE::Item                     ::getClassType());
 
     pObj->dump();
 

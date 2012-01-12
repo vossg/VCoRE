@@ -38,7 +38,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
 
+OSG_IMPORT_NAMESPACE;
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

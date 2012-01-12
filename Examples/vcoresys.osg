@@ -13,7 +13,7 @@ ContainerCollection
     {
       items
       [
-        DEF MainWin VCWindow
+        DEF MainWin VCNativeWindow
         {
           views
           [
@@ -24,12 +24,12 @@ ContainerCollection
                cameraRef   "AppOpenSG/camera"
             }
             
-            DEF UiView Viewarea
-            {
-               rendererRef "UIRenderer"
-               rootRef     "UIOpenSG/root"
-               cameraRef   "UIOpenSG/camera"
-            }
+#            DEF UiView Viewarea
+#            {
+#               rendererRef "UIRenderer"
+#               rootRef     "UIOpenSG/root"
+#               cameraRef   "UIOpenSG/camera"
+#            }
           ]
         }
 
@@ -54,6 +54,9 @@ ContainerCollection
             DEF AppOpenSG OSGSceneItem
             {
               url ["tie.wrl"]
+
+              globalUrl ["scenesetup.osg"]
+              activeCamera "PerspCamGL"
             }
           ]
         }
@@ -62,7 +65,7 @@ ContainerCollection
         {
           items
           [
-            DEF UIOpenSG VCoreItem
+            DEF UIOpenSG Item
             {
             }
           ]
@@ -78,7 +81,7 @@ ContainerCollection
         {
           items
           [
-            DEF VisionItem VCoreItem
+            DEF VisionItem Item
             {
             }
           ]

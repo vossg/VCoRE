@@ -56,6 +56,8 @@ OSG_IMPORT_NAMESPACE;
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
+App::AppBag App::_sApps;
+
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
@@ -64,6 +66,16 @@ void App::changed(ConstFieldMaskArg whichField,
                   BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
+}
+
+void App::setCreateNativeWindowFunc(const CreateWindowFunc &oFunc)
+{
+    _fCreateNativeWindowFunc = oFunc;
+}
+
+void App::setEventLoopFunc(const EventLoopFunc &oFunc)
+{
+    _fEventLoopFunc = oFunc;
 }
 
 void App::startFrom(const std::string &szAppFile)
@@ -165,6 +177,19 @@ bool App::init(void)
 
 void App::run(void)
 {
+    if(_fEventLoopFunc)
+        _fEventLoopFunc();
+}
+
+App::NWinHandlerTransitPtr 
+    App::createNativeWindowHandler(const VCWindowDesc &oDesc)
+{
+    NWinHandlerTransitPtr returnValue(NULL);
+
+    if(_fCreateNativeWindowFunc)
+        returnValue = _fCreateNativeWindowFunc(oDesc);
+
+    return returnValue;
 }
 
 FieldContainer *App::findNamedComponent(
@@ -290,6 +315,22 @@ App::~App(void)
 /*-------------------------------------------------------------------------*/
 /*                             Intersect                                   */
 
+void App::onCreate(const App *source)
+{
+    Inherited::onCreate(source);
+
+    // Don't add the prototype instances to the list
+    if(GlobalSystemState != Running)
+        return;
+
+    _sApps.insert(this);
+}
+ 
+void App::onDestroy(UInt32 uiContainerId)
+{
+    _sApps.erase(this);
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
@@ -299,6 +340,17 @@ void App::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
+    }
+}
+
+void App::doTick(void)
+{
+    MFArenasType::const_iterator aIt  = _mfArenas.begin();
+    MFArenasType::const_iterator aEnd = _mfArenas.end  ();
+
+    for(; aIt != aEnd; ++aIt)
+    {
+        (*aIt)->tick();
     }
 }
 

@@ -48,9 +48,16 @@
 #include "OSGVCoRERepository.h"
 #include "OSGVCoREArena.h"
 
+#include "OSGVCoREVCNativeWindowHandler.h"
+
+#include <boost/function.hpp>
+#include <set>
+
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
+
+class VCWindowDesc;
 
 /*! \brief VCoreApp is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
@@ -64,6 +71,14 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
 
   public:
 
+    typedef VCNativeWindowHandlerTransitPtr NWinHandlerTransitPtr;
+
+    typedef boost::function<
+        NWinHandlerTransitPtr (const VCWindowDesc &) > CreateWindowFunc;
+
+    typedef boost::function< 
+        Int32                 (      void          ) > EventLoopFunc;
+
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
@@ -76,6 +91,9 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    void setCreateNativeWindowFunc(const CreateWindowFunc &oFunc);
+    void setEventLoopFunc         (const EventLoopFunc    &oFunc);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -95,7 +113,20 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
 
+
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    NWinHandlerTransitPtr createNativeWindowHandler(const VCWindowDesc &oDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Field Access                          */
+    /*! \{                                                                 */
+
+    static void tick(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -109,9 +140,14 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
 
     protected:
 
-    typedef AppBase Inherited;
+    typedef AppBase         Inherited;
+    typedef std::set<App *> AppBag;
 
-    PathHandler _oPathHandler;
+    PathHandler      _oPathHandler;
+    CreateWindowFunc _fCreateNativeWindowFunc;
+    EventLoopFunc    _fEventLoopFunc;
+
+    static AppBag    _sApps;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -132,6 +168,9 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
+    void onCreate (const App    *source = NULL);
+    void onDestroy(      UInt32  uiContainerId);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Init                                  */
@@ -143,6 +182,8 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
+
+    void doTick(void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

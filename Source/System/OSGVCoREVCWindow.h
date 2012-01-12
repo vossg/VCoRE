@@ -43,14 +43,40 @@
 #endif
 
 #include "OSGConfig.h"
+#include "OSGWindow.h"
+#include "OSGRenderAction.h"
+#include "OSGSimpleSceneManager.h"
+
 #include "OSGVCoREVCWindowBase.h"
-#include "OSGVCoREViewarea.h"
+#include "OSGVCoREVCViewarea.h"
+#include "OSGVCoREVCWindowEvents.h"
+
+OSG_BEGIN_NAMESPACE
+
+class SimpleSceneManager;
+OSG_END_NAMESPACE
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
 class App;
+
+class OSG_VCORESYSTEM_DLLMAPPING VCWindowDesc
+{
+  public:
+    
+    std::string _szTitle;
+    bool        _bVisible;
+    bool        _bFullscreen;
+    Vec2i       _vSize;
+    Vec2i       _vPosition;
+    bool        _bDrawCursor;
+    Int32       _iSampleCount;
+    bool        _bStereoBuffer;
+
+    VCWindowDesc(void);
+};
 
 /*! \brief VCWindow is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
@@ -77,6 +103,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindow : public VCWindowBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
+    void sendEvent(VCWindowEvent *pEvent);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
@@ -92,6 +120,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindow : public VCWindowBase
 
     /*! \}                                                                 */
 
+    virtual void tick(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Field Access                          */
@@ -106,6 +136,16 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindow : public VCWindowBase
     protected:
 
     typedef VCWindowBase Inherited;
+
+    WindowUnrecPtr              _pOSGWin;
+    RenderActionRefPtr          _pAction;
+    SimpleSceneManagerRefPtr    _pMgr;
+
+    // sends events to VCWindow (or whoever listens)
+    VCWindowEventSource         _oWindowEventSource; 
+
+    // receives events from VCWindow (or whoever is sending)
+    VCWindowEventSink           _oWindowEventSink;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -125,6 +165,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindow : public VCWindowBase
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    virtual void resolveLinks(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

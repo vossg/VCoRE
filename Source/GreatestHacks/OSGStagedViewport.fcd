@@ -3,7 +3,7 @@
 <FieldContainer
    name="StagedViewport"
    parent="FBOViewport"
-   library="VCoreGreatestHacks"
+   library="VCoREGreatestHacks"
    structure="concrete"
    pointerfieldtypes="both"
    systemcomponent="true"

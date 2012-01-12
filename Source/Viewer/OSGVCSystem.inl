@@ -38,7 +38,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 inline
 VCSystem* VCSystem::the()
@@ -46,4 +48,4 @@ VCSystem* VCSystem::the()
     return _the;
 }
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

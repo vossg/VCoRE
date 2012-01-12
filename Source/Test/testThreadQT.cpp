@@ -89,8 +89,8 @@ protected:
 	void closeEvent(QCloseEvent *ev);
 
 private:
-    OSG::SimpleSceneManager *mgr;
-    OSG::PassiveWindowRecPtr pwin;
+    OSG::SimpleSceneManagerRefPtr mgr;
+    OSG::PassiveWindowRecPtr      pwin;
     bool _initialized;
 };
 
@@ -101,7 +101,7 @@ OpenSGWidget::OpenSGWidget(const QGLFormat &f, QWidget *parent)
     setAutoBufferSwap(false);
 	setContext(new OpenSGGLContext(f, this));
 
-    mgr = new OSG::SimpleSceneManager;
+    mgr = OSG::SimpleSceneManager::create();
     pwin = OSG::PassiveWindow::create();
     mgr->setWindow(pwin);
 }

@@ -57,7 +57,7 @@
 
 
 
-#include "OSGVCoREViewarea.h"           // Views Class
+#include "OSGVCoREVCViewarea.h"         // Views Class
 
 #include "OSGVCoREVCWindowBase.h"
 #include "OSGVCoREVCWindow.h"
@@ -84,7 +84,7 @@ VCORE_IMPORT_NAMESPACE;
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var Viewarea *      VCWindowBase::_mfViews
+/*! \var VCViewarea *    VCWindowBase::_mfViews
     
 */
 
@@ -96,7 +96,7 @@ VCORE_IMPORT_NAMESPACE;
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 PointerType FieldTraits<VCWindow *, nsVCoRE>::_type(
     "VCWindowPtr", 
-    "VCoreItemPtr", 
+    "ItemPtr", 
     VCWindow::getClassType(),
     nsVCoRE);
 #endif
@@ -126,8 +126,8 @@ void VCWindowBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new MFUnrecViewareaPtr::Description(
-        MFUnrecViewareaPtr::getClassType(),
+    pDesc = new MFUnrecVCViewareaPtr::Description(
+        MFUnrecVCViewareaPtr::getClassType(),
         "views",
         "",
         ViewsFieldId, ViewsFieldMask,
@@ -155,7 +155,7 @@ VCWindowBase::TypeObject VCWindowBase::_type(
     "\n"
     "<FieldContainer\n"
     "    name=\"VCWindow\"\n"
-    "    parent=\"VCoreItem\"\n"
+    "    parent=\"Item\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -168,7 +168,7 @@ VCWindowBase::TypeObject VCWindowBase::_type(
     "    >\n"
     "  <Field\n"
     "      name=\"views\"\n"
-    "      type=\"VCoRE::Viewarea\"\n"
+    "      type=\"VCoRE::VCViewarea\"\n"
     "      cardinality=\"multi\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
@@ -200,12 +200,12 @@ UInt32 VCWindowBase::getContainerSize(void) const
 
 
 //! Get the VCWindow::_mfViews field.
-const MFUnrecViewareaPtr *VCWindowBase::getMFViews(void) const
+const MFUnrecVCViewareaPtr *VCWindowBase::getMFViews(void) const
 {
     return &_mfViews;
 }
 
-MFUnrecViewareaPtr  *VCWindowBase::editMFViews          (void)
+MFUnrecVCViewareaPtr *VCWindowBase::editMFViews          (void)
 {
     editMField(ViewsFieldMask, _mfViews);
 
@@ -214,18 +214,18 @@ MFUnrecViewareaPtr  *VCWindowBase::editMFViews          (void)
 
 
 
-void VCWindowBase::pushToViews(Viewarea * const value)
+void VCWindowBase::pushToViews(VCViewarea * const value)
 {
     editMField(ViewsFieldMask, _mfViews);
 
     _mfViews.push_back(value);
 }
 
-void VCWindowBase::assignViews    (const MFUnrecViewareaPtr &value)
+void VCWindowBase::assignViews    (const MFUnrecVCViewareaPtr &value)
 {
-    MFUnrecViewareaPtr::const_iterator elemIt  =
+    MFUnrecVCViewareaPtr::const_iterator elemIt  =
         value.begin();
-    MFUnrecViewareaPtr::const_iterator elemEnd =
+    MFUnrecVCViewareaPtr::const_iterator elemEnd =
         value.end  ();
 
     static_cast<VCWindow *>(this)->clearViews();
@@ -248,7 +248,7 @@ void VCWindowBase::removeFromViews(UInt32 uiIndex)
     }
 }
 
-void VCWindowBase::removeObjFromViews(Viewarea * const value)
+void VCWindowBase::removeObjFromViews(VCViewarea * const value)
 {
     Int32 iElemIdx = _mfViews.findIndex(value);
 
@@ -271,9 +271,9 @@ void VCWindowBase::clearViews(void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 VCWindowBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT VCWindowBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ViewsFieldMask & whichField))
     {
@@ -427,9 +427,9 @@ void VCWindowBase::onCreate(const VCWindow *source)
     {
         VCWindow *pThis = static_cast<VCWindow *>(this);
 
-        MFUnrecViewareaPtr::const_iterator ViewsIt  =
+        MFUnrecVCViewareaPtr::const_iterator ViewsIt  =
             source->_mfViews.begin();
-        MFUnrecViewareaPtr::const_iterator ViewsEnd =
+        MFUnrecVCViewareaPtr::const_iterator ViewsEnd =
             source->_mfViews.end  ();
 
         while(ViewsIt != ViewsEnd)
@@ -443,8 +443,8 @@ void VCWindowBase::onCreate(const VCWindow *source)
 
 GetFieldHandlePtr VCWindowBase::getHandleViews           (void) const
 {
-    MFUnrecViewareaPtr::GetHandlePtr returnValue(
-        new  MFUnrecViewareaPtr::GetHandle(
+    MFUnrecVCViewareaPtr::GetHandlePtr returnValue(
+        new  MFUnrecVCViewareaPtr::GetHandle(
              &_mfViews,
              this->getType().getFieldDesc(ViewsFieldId),
              const_cast<VCWindowBase *>(this)));
@@ -454,8 +454,8 @@ GetFieldHandlePtr VCWindowBase::getHandleViews           (void) const
 
 EditFieldHandlePtr VCWindowBase::editHandleViews          (void)
 {
-    MFUnrecViewareaPtr::EditHandlePtr returnValue(
-        new  MFUnrecViewareaPtr::EditHandle(
+    MFUnrecVCViewareaPtr::EditHandlePtr returnValue(
+        new  MFUnrecVCViewareaPtr::EditHandle(
              &_mfViews,
              this->getType().getFieldDesc(ViewsFieldId),
              this));

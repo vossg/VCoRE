@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="VCRenderer"
+   parent="Item"
+   library="VCoRERenderer"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpVCoreRenderer"
+   typeDescAddable="true"
+   dynFCDerived="true"
+   libnamespace="VCoRE"
+   >
+    <Field
+        name="windows"
+        type="Window"
+        cardinality="multi"
+        visibility="external"
+        access="public"
+        category="pointer"
+        pushToFieldAs="addWindow"
+        insertIntoMFieldAs="insertWindow"
+        replaceInMFieldIndexAs="replaceWindow"
+        replaceInMFieldObjectAs="replaceWindowByObj"
+        removeFromMFieldIndexAs="subWindow"
+        removeFromMFieldObjectAs="subWindowByObj"
+        clearFieldAs="clearWindows"        
+        ptrFieldAccess = "nullCheck"
+        fieldHeader="OSGWindow.h"
+        typeHeader="OSGWindow.h"
+    >
+    </Field>
+   <Field
+        name="renderTasks"
+        type="VCoRE::VCRenderTask"
+        cardinality="multi"
+        visibility="external"
+        access="public"
+        pushToFieldAs="addRenderTask"
+        removeFromMFieldIndexAs="subRenderTask"
+        clearFieldAs="clearRenderTasks"        
+        category="pointer"
+        ptrFieldAccess = "nullCheck"
+        fieldHeader="OSGVCoREVCRenderTask.h"
+        typeHeader="OSGVCoREVCRenderTask.h"
+     >
+  </Field>
+
+</FieldContainer>

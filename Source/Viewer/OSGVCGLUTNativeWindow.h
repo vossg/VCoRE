@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoREViewerDef.h"
 
 #include <map>
 #include <memory>
@@ -51,7 +51,9 @@
 
 #include "OSGVCNativeWindow.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 class VCApp;
 
@@ -71,7 +73,8 @@ private:
     static bool _glutInitialized;
 
     static VCGLUTNativeWindow *findWindow(int id);
-    static VCGLUTNativeWindow *getWindowByIndex(int index);
+    static VCGLUTNativeWindow *getWindowByIndex(int index); 
+   
     static int windowCount();
 
     // glut callbacks
@@ -106,7 +109,7 @@ private:
     int _winID;
 };
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE
 
 #include "OSGVCGLUTNativeWindow.inl"
 

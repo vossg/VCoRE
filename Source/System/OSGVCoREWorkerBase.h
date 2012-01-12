@@ -66,7 +66,7 @@
 #include "OSGAttachmentContainer.h" // Parent
 
 #include "OSGVCoREArenaFields.h"        // Parent type
-#include "OSGVCoreItemFields.h"         // Items type
+#include "OSGVCoREItemFields.h"         // Items type
 
 #include "OSGVCoREWorkerFields.h"
 
@@ -109,7 +109,7 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFParentArenaPtr  SFParentType;
-    typedef MFUnrecVCoreItemPtr MFItemsType;
+    typedef MFUnrecItemPtr    MFItemsType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -134,11 +134,11 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const MFUnrecVCoreItemPtr *getMFItems          (void) const;
-                  MFUnrecVCoreItemPtr *editMFItems          (void);
+            const MFUnrecItemPtr      *getMFItems          (void) const;
+                  MFUnrecItemPtr      *editMFItems          (void);
 
 
-                  VCoreItem * getItems          (const UInt32 index) const;
+                  Item * getItems          (const UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -156,10 +156,10 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
 
-    void pushToItems               (VCoreItem * const value   );
-    void assignItems              (const MFUnrecVCoreItemPtr &value);
+    void pushToItems               (Item * const value   );
+    void assignItems              (const MFUnrecItemPtr    &value);
     void removeFromItems (UInt32               uiIndex );
-    void removeObjFromItems(VCoreItem * const value   );
+    void removeObjFromItems(Item * const value   );
     void clearItems                 (void                         );
 
     /*! \}                                                                 */
@@ -167,7 +167,7 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,
@@ -216,7 +216,7 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
     /*! \{                                                                 */
 
     SFParentArenaPtr  _sfParent;
-    MFUnrecVCoreItemPtr _mfItems;
+    MFUnrecItemPtr    _mfItems;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

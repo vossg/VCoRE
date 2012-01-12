@@ -50,7 +50,9 @@
 #include "OSGVCSystem.h"
 
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 VCApp::AppBag VCApp::_apps;
 
@@ -173,7 +175,7 @@ void VCDummyApp::init()
     _renderer->init();
     _renderer->addWindow(_osgWindow);
 
-    _sceneMgr = new SimpleSceneManager;
+    _sceneMgr = SimpleSceneManager::create();
     _sceneMgr->setWindow(_osgWindow);
     _sceneMgr->setUseTraversalAction(true);
     _sceneMgr->setRoot(_root);
@@ -189,7 +191,6 @@ void VCDummyApp::init()
 
 void VCDummyApp::shutdown()
 {
-    delete _sceneMgr;
     _sceneMgr = NULL;
 }
 
@@ -236,4 +237,4 @@ void VCDummyApp::handleWindowEvents(const VCWindowEventSink::EventList& list)
 }
 
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

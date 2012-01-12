@@ -38,7 +38,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 inline
 WindowUnrecPtr VCNativeWindow::getOSGWindow() const
@@ -47,4 +49,4 @@ WindowUnrecPtr VCNativeWindow::getOSGWindow() const
 }
 
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE

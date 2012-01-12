@@ -55,7 +55,7 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoreGreatestHacksDef.h"
+#include "OSGVCoREGreatestHacksDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -69,7 +69,7 @@ class VCTestStage;
 
 OSG_GEN_CONTAINERPTR(VCTestStage);
 /*! \ingroup GrpVCoreGreatestHacksFieldTraits
-    \ingroup GrpLibOSGVCoreGreatestHacks
+    \ingroup GrpLibOSGVCoREGreatestHacks
  */
 template <>
 struct FieldTraits<VCTestStage *, nsOSG> :
@@ -177,37 +177,37 @@ typedef PointerMField<VCTestStage *,
 
 #else // these are the doxygen hacks
 
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFRecVCTestStagePtr : 
     public PointerSField<VCTestStage *,
                          RecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFUnrecVCTestStagePtr : 
     public PointerSField<VCTestStage *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFWeakVCTestStagePtr :
     public PointerSField<VCTestStage *,
                          WeakRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFUncountedVCTestStagePtr :
     public PointerSField<VCTestStage *,
                          NoRefCountPolicy> {};
 
 
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFRecVCTestStagePtr :
     public PointerMField<VCTestStage *,
                          RecordedRefCountPolicy  > {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFUnrecVCTestStagePtr :
     public PointerMField<VCTestStage *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFWeakVCTestStagePtr :
     public PointerMField<VCTestStage *,
                          WeakRefCountPolicy      > {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFUncountedVCTestStagePtr :
     public PointerMField<VCTestStage *,
                          NoRefCountPolicy        > {};

@@ -42,14 +42,16 @@
 #pragma once
 #endif
 
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoREViewerDef.h"
 
 #include <memory>
 #include <vector>
 
 #include "boost/function.hpp"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 class OSG_VCOREVIEWER_DLLMAPPING VCSystem
 {
@@ -70,7 +72,8 @@ private:
     ~VCSystem();
     const VCSystem& operator = (const VCSystem&);
 };
-OSG_END_NAMESPACE
+
+VCORE_END_NAMESPACE
 
 #include "OSGVCSystem.inl"
 

@@ -78,7 +78,7 @@ OSG::UInt16 VCWindowBase::getClassGroupId(void)
 
 //! Get the value of the \a index element the VCWindow::_mfViews field.
 inline
-Viewarea * VCWindowBase::getViews(const UInt32 index) const
+VCViewarea * VCWindowBase::getViews(const UInt32 index) const
 {
     return _mfViews[index];
 }

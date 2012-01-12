@@ -3,7 +3,7 @@
 #include "OSGNode.h"
 #include "OSGNodeFields.h"
 #include "OSGNodeCore.h"
-#include "OSGVCoreItem.h"
+#include "OSGVCoREItem.h"
 #include "OSGVecSFields.h"
 
 #define DO_DUMP_ASPECTS 1
@@ -12,16 +12,16 @@ const OSG::UInt32 uiNumAspects = 4;
 
 OSG::ChangeList *vAspectChangeList[3];
 
-void dumpAspect(OSG::VCoreItem *pFC, OSG::UInt32 uiAspect)
+void dumpAspect(VCoRE::Item *pFC, OSG::UInt32 uiAspect)
 {
     OSG::UInt32 uiCurrAspect= OSG::Thread::getCurrentAspect();
 
     OSG::Thread::setAspectTo(uiAspect);
 
 #ifdef OSG_MT_CPTR_ASPECT
-    OSG::VCoreItem *pAFC = OSG::convertToCurrentAspect(pFC);
+    VCoRE::Item *pAFC = OSG::convertToCurrentAspect(pFC);
 #else
-    OSG::VCoreItem *pAFC = getCPtr(pFC);
+    VCoRE::Item *pAFC = getCPtr(pFC);
 #endif
 
     if(pAFC != NULL)
@@ -36,7 +36,7 @@ void dumpAspect(OSG::VCoreItem *pFC, OSG::UInt32 uiAspect)
     OSG::Thread::setAspectTo(uiCurrAspect);
 }
 
-void dumpAspects(OSG::VCoreItem *pFC)
+void dumpAspects(VCoRE::Item *pFC)
 {
 #ifdef DO_DUMP_ASPECTS
     for(OSG::UInt32 i = 0; i < uiNumAspects; ++i)
@@ -68,7 +68,7 @@ void applyToAspect(OSG::UInt32 uiAspect, bool bClear = false)
 
 template<class FieldT>
 void setValueSField(typename FieldT::StoredType  val,
-                             OSG::VCoreItem     *pFC,
+                             VCoRE::Item        *pFC,
                              OSG::UInt32         uiFieldId)
 {
     typedef typename FieldT::EditHandle    TypedEditHandle;
@@ -87,7 +87,7 @@ void setValueSField(typename FieldT::StoredType  val,
 
 template<class FieldT>
 void setPtrSField(typename FieldT::StoredType  val,
-                           OSG::VCoreItem     *pFC,
+                           VCoRE::Item        *pFC,
                            OSG::UInt32         uiFieldId)
 {
     typedef typename FieldT::EditHandle    TypedEditHandle;
@@ -108,7 +108,7 @@ void setPtrSField(typename FieldT::StoredType  val,
 template<class FieldT>
 void setValueMField(typename FieldT::StoredType *aVals,
                              OSG::UInt32         uiNumVals,
-                             OSG::VCoreItem     *pFC,
+                             VCoRE::Item        *pFC,
                              OSG::UInt32         uiFieldId)
 {
     typedef typename FieldT::EditHandle    TypedEditHandle;
@@ -131,7 +131,7 @@ void setValueMField(typename FieldT::StoredType *aVals,
 template<class FieldT, class ValueT>
 void setPtrMField(ValueT         *aVals,
                   OSG::UInt32     uiNumVals,
-                  OSG::VCoreItem *pFC,
+                  VCoRE::Item    *pFC,
                   OSG::UInt32     uiFieldId)
 {
     typedef typename FieldT::EditHandle    TypedEditHandle;
@@ -154,9 +154,9 @@ void setPtrMField(ValueT         *aVals,
 void testValField(void)
 {
     fprintf(stderr, "sharing\n===============================\n\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(OSG::VCoreItem));
+    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
 
-    OSG::VCoreItemRecPtr pTestFC = OSG::VCoreItem::create();
+    VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
     fprintf(stderr, "sharing | created\n===============================\n\n");
 
@@ -280,9 +280,9 @@ void testValField(void)
 void testPtrField(void)
 {
     fprintf(stderr, "sharing\n===============================\n\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(OSG::VCoreItem));
+    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
 
-    OSG::VCoreItemRecPtr pTestFC = OSG::VCoreItem::create();
+    VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
     fprintf(stderr, "sharing | created\n===============================\n\n");
 
@@ -421,9 +421,9 @@ void testPtrField(void)
 void testCreate(void)
 {
     fprintf(stderr, "create\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(OSG::VCoreItem));
+    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
 
-    OSG::VCoreItemRecPtr pTestFC = OSG::VCoreItem::create();
+    VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
     fprintf(stderr, "sharing | created\n");
 
@@ -490,10 +490,10 @@ int main (int argc, char **argv)
     OSG::Thread::getCurrentChangeList()->dump ();
     OSG::Thread::getCurrentChangeList()->clear();
 
-    OSG::Node                  ::getClassType ().dump();
-    OSG::NodeCore              ::getClassType ().dump();    
-    OSG::VCoreItem             ::getClassType().dump();
-    OSG::VCoreDynFieldContainer::getClassType().dump();
+    OSG  ::Node               ::getClassType ().dump();
+    OSG  ::NodeCore           ::getClassType ().dump();    
+    VCoRE::Item               ::getClassType().dump();
+    VCoRE::VCDynFieldContainer::getClassType().dump();
 
 //    testCreate();
 //    testValField();

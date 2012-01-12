@@ -78,7 +78,7 @@ OSG::UInt16 WorkerBase::getClassGroupId(void)
 
 //! Get the value of the \a index element the Worker::_mfItems field.
 inline
-VCoreItem * WorkerBase::getItems(const UInt32 index) const
+Item * WorkerBase::getItems(const UInt32 index) const
 {
     return _mfItems[index];
 }

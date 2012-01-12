@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="Item"
+   parent="VCDynFieldContainer"
+   library="VCoREBase"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpVCoREBase"
+   typeDescAddable="true"
+   dynFCDerived="true"
+   childFields="both"
+   libnamespace="VCoRE"
+   >
+  <Field
+      name="parent"
+      type="FieldContainer"
+      cardinality="single"
+      visibility="internal"
+      access="none"
+      category="parentpointer"
+      >
+  </Field>
+  <Field
+     name="postDFMixinTestField"
+     type="Int32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="10"
+     >
+  </Field>
+</FieldContainer>

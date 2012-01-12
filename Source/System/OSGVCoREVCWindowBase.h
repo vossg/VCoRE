@@ -63,9 +63,9 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoreItem.h" // Parent
+#include "OSGVCoREItem.h" // Parent
 
-#include "OSGVCoREViewareaFields.h"     // Views type
+#include "OSGVCoREVCViewareaFields.h"   // Views type
 
 #include "OSGVCoREVCWindowFields.h"
 
@@ -77,12 +77,12 @@ class VCWindow;
 
 //! \brief VCWindow Base Class.
 
-class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
+class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public Item
 {
   public:
 
-    typedef VCoreItem Inherited;
-    typedef VCoreItem ParentContainer;
+    typedef Item Inherited;
+    typedef Item ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -104,7 +104,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef MFUnrecViewareaPtr MFViewsType;
+    typedef MFUnrecVCViewareaPtr MFViewsType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -129,11 +129,11 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const MFUnrecViewareaPtr  *getMFViews          (void) const;
-                  MFUnrecViewareaPtr  *editMFViews          (void);
+            const MFUnrecVCViewareaPtr *getMFViews          (void) const;
+                  MFUnrecVCViewareaPtr *editMFViews          (void);
 
 
-                  Viewarea * getViews          (const UInt32 index) const;
+                  VCViewarea * getViews          (const UInt32 index) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -151,10 +151,10 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
 
-    void pushToViews               (Viewarea * const value   );
-    void assignViews              (const MFUnrecViewareaPtr &value);
+    void pushToViews               (VCViewarea * const value   );
+    void assignViews              (const MFUnrecVCViewareaPtr &value);
     void removeFromViews (UInt32               uiIndex );
-    void removeObjFromViews(Viewarea * const value   );
+    void removeObjFromViews(VCViewarea * const value   );
     void clearViews                 (void                         );
 
     /*! \}                                                                 */
@@ -162,7 +162,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,
@@ -210,7 +210,7 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public VCoreItem
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFUnrecViewareaPtr _mfViews;
+    MFUnrecVCViewareaPtr _mfViews;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -55,7 +55,7 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoreGreatestHacksDef.h"
+#include "OSGVCoREGreatestHacksDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -69,7 +69,7 @@ class StagedViewport;
 
 OSG_GEN_CONTAINERPTR(StagedViewport);
 /*! \ingroup GrpVCoreGreatestHacksFieldTraits
-    \ingroup GrpLibOSGVCoreGreatestHacks
+    \ingroup GrpLibOSGVCoREGreatestHacks
  */
 template <>
 struct FieldTraits<StagedViewport *, nsOSG> :
@@ -177,37 +177,37 @@ typedef PointerMField<StagedViewport *,
 
 #else // these are the doxygen hacks
 
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFRecStagedViewportPtr : 
     public PointerSField<StagedViewport *,
                          RecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFUnrecStagedViewportPtr : 
     public PointerSField<StagedViewport *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFWeakStagedViewportPtr :
     public PointerSField<StagedViewport *,
                          WeakRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldSFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct SFUncountedStagedViewportPtr :
     public PointerSField<StagedViewport *,
                          NoRefCountPolicy> {};
 
 
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFRecStagedViewportPtr :
     public PointerMField<StagedViewport *,
                          RecordedRefCountPolicy  > {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFUnrecStagedViewportPtr :
     public PointerMField<StagedViewport *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFWeakStagedViewportPtr :
     public PointerMField<StagedViewport *,
                          WeakRefCountPolicy      > {};
-/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoreGreatestHacks */
+/*! \ingroup GrpVCoreGreatestHacksFieldMFields \ingroup GrpLibOSGVCoREGreatestHacks */
 struct MFUncountedStagedViewportPtr :
     public PointerMField<StagedViewport *,
                          NoRefCountPolicy        > {};

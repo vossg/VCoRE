@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="VCRenderTask"
+   parent="AttachmentContainer"
+   parentnamespace="OSG"
+   library="VCoRERenderer"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="false"
+   docGroupBase="GrpVCoreRenderer"
+   typeDescAddable="false"
+   dynFCDerived="false"
+   libnamespace="VCoRE"
+   >
+   <Field
+     name="viewport"
+     type="ViewportPtr"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="NULL"
+     fieldHeader="OSGViewport.h"
+     typeHeader="OSGViewport.h"
+     >
+   </Field>
+   <Field
+     name="done"
+     type="bool"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="false"
+     >
+  </Field>
+
+</FieldContainer>

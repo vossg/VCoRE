@@ -59,7 +59,7 @@
 
 
 #include "OSGConfig.h"
-#include "OSGVCoreGreatestHacksDef.h"
+#include "OSGVCoREGreatestHacksDef.h"
 
 //#include "OSGBaseTypes.h"
 
@@ -156,7 +156,7 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewportBase : public FBOViewport
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,

@@ -165,7 +165,7 @@ VCTestStageBase::TypeObject VCTestStageBase::_type(
     "<FieldContainer\n"
     "   name=\"VCTestStage\"\n"
     "   parent=\"Stage\"\n"
-    "   library=\"VCoreGreatestHacks\"\n"
+    "   library=\"VCoREGreatestHacks\"\n"
     "   structure=\"concrete\"\n"
     "   pointerfieldtypes=\"both\"\n"
     "   systemcomponent=\"true\"\n"
@@ -249,9 +249,9 @@ SFUnrecBackgroundPtr *VCTestStageBase::editSFBackground     (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 VCTestStageBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT VCTestStageBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (CameraFieldMask & whichField))
     {

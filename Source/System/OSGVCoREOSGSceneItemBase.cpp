@@ -58,6 +58,8 @@
 
 
 #include "OSGNode.h"                    // Root Class
+#include "OSGFieldContainer.h"          // Globals Class
+#include "OSGCamera.h"                  // Camera Class
 
 #include "OSGVCoREOSGSceneItemBase.h"
 #include "OSGVCoREOSGSceneItem.h"
@@ -96,6 +98,26 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
+/*! \var FieldContainer * OSGSceneItemBase::_mfGlobals
+    
+*/
+
+/*! \var std::string     OSGSceneItemBase::_mfGlobalUrl
+    
+*/
+
+/*! \var std::string     OSGSceneItemBase::_sfMatchedGlobalUrl
+    
+*/
+
+/*! \var Camera *        OSGSceneItemBase::_sfCamera
+    
+*/
+
+/*! \var std::string     OSGSceneItemBase::_sfActiveCamera
+    
+*/
+
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -104,7 +126,7 @@ VCORE_IMPORT_NAMESPACE;
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 PointerType FieldTraits<OSGSceneItem *, nsVCoRE>::_type(
     "OSGSceneItemPtr", 
-    "VCoreItemPtr", 
+    "ItemPtr", 
     OSGSceneItem::getClassType(),
     nsVCoRE);
 #endif
@@ -169,6 +191,66 @@ void OSGSceneItemBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleRoot));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new MFRecFieldContainerPtr::Description(
+        MFRecFieldContainerPtr::getClassType(),
+        "globals",
+        "",
+        GlobalsFieldId, GlobalsFieldMask,
+        false,
+        (Field::MFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGSceneItem::editHandleGlobals),
+        static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleGlobals));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new MFString::Description(
+        MFString::getClassType(),
+        "globalUrl",
+        "",
+        GlobalUrlFieldId, GlobalUrlFieldMask,
+        false,
+        (Field::MFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGSceneItem::editHandleGlobalUrl),
+        static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleGlobalUrl));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
+        "matchedGlobalUrl",
+        "",
+        MatchedGlobalUrlFieldId, MatchedGlobalUrlFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGSceneItem::editHandleMatchedGlobalUrl),
+        static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleMatchedGlobalUrl));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFUnrecCameraPtr::Description(
+        SFUnrecCameraPtr::getClassType(),
+        "camera",
+        "",
+        CameraFieldId, CameraFieldMask,
+        true,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGSceneItem::editHandleCamera),
+        static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleCamera));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
+        "activeCamera",
+        "",
+        ActiveCameraFieldId, ActiveCameraFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGSceneItem::editHandleActiveCamera),
+        static_cast<FieldGetMethodSig >(&OSGSceneItem::getHandleActiveCamera));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -187,7 +269,7 @@ OSGSceneItemBase::TypeObject OSGSceneItemBase::_type(
     "\n"
     "<FieldContainer\n"
     "    name=\"OSGSceneItem\"\n"
-    "    parent=\"VCoreItem\"\n"
+    "    parent=\"Item\"\n"
     "    library=\"VCoRESystem\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
@@ -224,6 +306,53 @@ OSGSceneItemBase::TypeObject OSGSceneItemBase::_type(
     "     category=\"pointer\"\n"
     "\t >\n"
     "  </Field>\n"
+    "\n"
+    "  <Field\n"
+    "      name=\"globals\"\n"
+    "      type=\"FieldContainer\"\n"
+    "      cardinality=\"multi\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      category=\"recpointer\"\n"
+    "      >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "      name=\"globalUrl\"\n"
+    "      type=\"std::string\"\n"
+    "      cardinality=\"multi\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "      name=\"matchedGlobalUrl\"\n"
+    "      type=\"std::string\"\n"
+    "      cardinality=\"single\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      >\n"
+    "  </Field>\n"
+    "\n"
+    "  <Field\n"
+    "\t name=\"camera\"\n"
+    "\t type=\"Camera\"\n"
+    "\t cardinality=\"single\"\n"
+    "\t visibility=\"internal\"\n"
+    "\t defaultValue=\"NULL\"\n"
+    "\t access=\"public\"\n"
+    "     category=\"pointer\"\n"
+    "\t >\n"
+    "  </Field>\n"
+    "\n"
+    "  <Field\n"
+    "      name=\"activeCamera\"\n"
+    "      type=\"std::string\"\n"
+    "      cardinality=\"single\"\n"
+    "      visibility=\"external\"\n"
+    "      access=\"public\"\n"
+    "      >\n"
+    "  </Field>\n"
+    "\n"
     "</FieldContainer>\n",
     ""
     );
@@ -287,15 +416,133 @@ SFUnrecNodePtr      *OSGSceneItemBase::editSFRoot           (void)
     return &_sfRoot;
 }
 
+//! Get the OSGSceneItem::_mfGlobals field.
+const MFRecFieldContainerPtr *OSGSceneItemBase::getMFGlobals(void) const
+{
+    return &_mfGlobals;
+}
 
+MFRecFieldContainerPtr *OSGSceneItemBase::editMFGlobals        (void)
+{
+    editMField(GlobalsFieldMask, _mfGlobals);
+
+    return &_mfGlobals;
+}
+
+MFString *OSGSceneItemBase::editMFGlobalUrl(void)
+{
+    editMField(GlobalUrlFieldMask, _mfGlobalUrl);
+
+    return &_mfGlobalUrl;
+}
+
+const MFString *OSGSceneItemBase::getMFGlobalUrl(void) const
+{
+    return &_mfGlobalUrl;
+}
+
+
+SFString *OSGSceneItemBase::editSFMatchedGlobalUrl(void)
+{
+    editSField(MatchedGlobalUrlFieldMask);
+
+    return &_sfMatchedGlobalUrl;
+}
+
+const SFString *OSGSceneItemBase::getSFMatchedGlobalUrl(void) const
+{
+    return &_sfMatchedGlobalUrl;
+}
+
+
+//! Get the OSGSceneItem::_sfCamera field.
+const SFUnrecCameraPtr *OSGSceneItemBase::getSFCamera(void) const
+{
+    return &_sfCamera;
+}
+
+SFUnrecCameraPtr    *OSGSceneItemBase::editSFCamera         (void)
+{
+    editSField(CameraFieldMask);
+
+    return &_sfCamera;
+}
+
+SFString *OSGSceneItemBase::editSFActiveCamera(void)
+{
+    editSField(ActiveCameraFieldMask);
+
+    return &_sfActiveCamera;
+}
+
+const SFString *OSGSceneItemBase::getSFActiveCamera(void) const
+{
+    return &_sfActiveCamera;
+}
+
+
+
+
+void OSGSceneItemBase::pushToGlobals(FieldContainer * const value)
+{
+    editMField(GlobalsFieldMask, _mfGlobals);
+
+    _mfGlobals.push_back(value);
+}
+
+void OSGSceneItemBase::assignGlobals  (const MFRecFieldContainerPtr &value)
+{
+    MFRecFieldContainerPtr::const_iterator elemIt  =
+        value.begin();
+    MFRecFieldContainerPtr::const_iterator elemEnd =
+        value.end  ();
+
+    static_cast<OSGSceneItem *>(this)->clearGlobals();
+
+    while(elemIt != elemEnd)
+    {
+        this->pushToGlobals(*elemIt);
+
+        ++elemIt;
+    }
+}
+
+void OSGSceneItemBase::removeFromGlobals(UInt32 uiIndex)
+{
+    if(uiIndex < _mfGlobals.size())
+    {
+        editMField(GlobalsFieldMask, _mfGlobals);
+
+        _mfGlobals.erase(uiIndex);
+    }
+}
+
+void OSGSceneItemBase::removeObjFromGlobals(FieldContainer * const value)
+{
+    Int32 iElemIdx = _mfGlobals.findIndex(value);
+
+    if(iElemIdx != -1)
+    {
+        editMField(GlobalsFieldMask, _mfGlobals);
+
+        _mfGlobals.erase(iElemIdx);
+    }
+}
+void OSGSceneItemBase::clearGlobals(void)
+{
+    editMField(GlobalsFieldMask, _mfGlobals);
+
+
+    _mfGlobals.clear();
+}
 
 
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 OSGSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT OSGSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (UrlFieldMask & whichField))
     {
@@ -308,6 +555,26 @@ UInt32 OSGSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
     if(FieldBits::NoField != (RootFieldMask & whichField))
     {
         returnValue += _sfRoot.getBinSize();
+    }
+    if(FieldBits::NoField != (GlobalsFieldMask & whichField))
+    {
+        returnValue += _mfGlobals.getBinSize();
+    }
+    if(FieldBits::NoField != (GlobalUrlFieldMask & whichField))
+    {
+        returnValue += _mfGlobalUrl.getBinSize();
+    }
+    if(FieldBits::NoField != (MatchedGlobalUrlFieldMask & whichField))
+    {
+        returnValue += _sfMatchedGlobalUrl.getBinSize();
+    }
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        returnValue += _sfCamera.getBinSize();
+    }
+    if(FieldBits::NoField != (ActiveCameraFieldMask & whichField))
+    {
+        returnValue += _sfActiveCamera.getBinSize();
     }
 
     return returnValue;
@@ -330,6 +597,26 @@ void OSGSceneItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfRoot.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (GlobalsFieldMask & whichField))
+    {
+        _mfGlobals.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (GlobalUrlFieldMask & whichField))
+    {
+        _mfGlobalUrl.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (MatchedGlobalUrlFieldMask & whichField))
+    {
+        _sfMatchedGlobalUrl.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        _sfCamera.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (ActiveCameraFieldMask & whichField))
+    {
+        _sfActiveCamera.copyToBin(pMem);
+    }
 }
 
 void OSGSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
@@ -351,6 +638,31 @@ void OSGSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(RootFieldMask);
         _sfRoot.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (GlobalsFieldMask & whichField))
+    {
+        editMField(GlobalsFieldMask, _mfGlobals);
+        _mfGlobals.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (GlobalUrlFieldMask & whichField))
+    {
+        editMField(GlobalUrlFieldMask, _mfGlobalUrl);
+        _mfGlobalUrl.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (MatchedGlobalUrlFieldMask & whichField))
+    {
+        editSField(MatchedGlobalUrlFieldMask);
+        _sfMatchedGlobalUrl.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+    {
+        editSField(CameraFieldMask);
+        _sfCamera.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (ActiveCameraFieldMask & whichField))
+    {
+        editSField(ActiveCameraFieldMask);
+        _sfActiveCamera.copyFromBin(pMem);
     }
 }
 
@@ -452,7 +764,12 @@ OSGSceneItemBase::OSGSceneItemBase(void) :
     Inherited(),
     _mfUrl                    (),
     _sfMatchedUrl             (),
-    _sfRoot                   (NULL)
+    _sfRoot                   (NULL),
+    _mfGlobals                (),
+    _mfGlobalUrl              (),
+    _sfMatchedGlobalUrl       (),
+    _sfCamera                 (NULL),
+    _sfActiveCamera           ()
 {
 }
 
@@ -460,7 +777,12 @@ OSGSceneItemBase::OSGSceneItemBase(const OSGSceneItemBase &source) :
     Inherited(source),
     _mfUrl                    (source._mfUrl                    ),
     _sfMatchedUrl             (source._sfMatchedUrl             ),
-    _sfRoot                   (NULL)
+    _sfRoot                   (NULL),
+    _mfGlobals                (),
+    _mfGlobalUrl              (source._mfGlobalUrl              ),
+    _sfMatchedGlobalUrl       (source._sfMatchedGlobalUrl       ),
+    _sfCamera                 (NULL),
+    _sfActiveCamera           (source._sfActiveCamera           )
 {
 }
 
@@ -480,6 +802,20 @@ void OSGSceneItemBase::onCreate(const OSGSceneItem *source)
         OSGSceneItem *pThis = static_cast<OSGSceneItem *>(this);
 
         pThis->setRoot(source->getRoot());
+
+        MFRecFieldContainerPtr::const_iterator GlobalsIt  =
+            source->_mfGlobals.begin();
+        MFRecFieldContainerPtr::const_iterator GlobalsEnd =
+            source->_mfGlobals.end  ();
+
+        while(GlobalsIt != GlobalsEnd)
+        {
+            pThis->pushToGlobals(*GlobalsIt);
+
+            ++GlobalsIt;
+        }
+
+        pThis->setCamera(source->getCamera());
     }
 }
 
@@ -561,6 +897,146 @@ EditFieldHandlePtr OSGSceneItemBase::editHandleRoot           (void)
     return returnValue;
 }
 
+GetFieldHandlePtr OSGSceneItemBase::getHandleGlobals         (void) const
+{
+    MFRecFieldContainerPtr::GetHandlePtr returnValue(
+        new  MFRecFieldContainerPtr::GetHandle(
+             &_mfGlobals,
+             this->getType().getFieldDesc(GlobalsFieldId),
+             const_cast<OSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGSceneItemBase::editHandleGlobals        (void)
+{
+    MFRecFieldContainerPtr::EditHandlePtr returnValue(
+        new  MFRecFieldContainerPtr::EditHandle(
+             &_mfGlobals,
+             this->getType().getFieldDesc(GlobalsFieldId),
+             this));
+
+    returnValue->setAddMethod(
+        boost::bind(&OSGSceneItem::pushToGlobals,
+                    static_cast<OSGSceneItem *>(this), _1));
+    returnValue->setRemoveMethod(
+        boost::bind(&OSGSceneItem::removeFromGlobals,
+                    static_cast<OSGSceneItem *>(this), _1));
+    returnValue->setRemoveObjMethod(
+        boost::bind(&OSGSceneItem::removeObjFromGlobals,
+                    static_cast<OSGSceneItem *>(this), _1));
+    returnValue->setClearMethod(
+        boost::bind(&OSGSceneItem::clearGlobals,
+                    static_cast<OSGSceneItem *>(this)));
+
+    editMField(GlobalsFieldMask, _mfGlobals);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr OSGSceneItemBase::getHandleGlobalUrl       (void) const
+{
+    MFString::GetHandlePtr returnValue(
+        new  MFString::GetHandle(
+             &_mfGlobalUrl,
+             this->getType().getFieldDesc(GlobalUrlFieldId),
+             const_cast<OSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGSceneItemBase::editHandleGlobalUrl      (void)
+{
+    MFString::EditHandlePtr returnValue(
+        new  MFString::EditHandle(
+             &_mfGlobalUrl,
+             this->getType().getFieldDesc(GlobalUrlFieldId),
+             this));
+
+
+    editMField(GlobalUrlFieldMask, _mfGlobalUrl);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr OSGSceneItemBase::getHandleMatchedGlobalUrl (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfMatchedGlobalUrl,
+             this->getType().getFieldDesc(MatchedGlobalUrlFieldId),
+             const_cast<OSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGSceneItemBase::editHandleMatchedGlobalUrl(void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfMatchedGlobalUrl,
+             this->getType().getFieldDesc(MatchedGlobalUrlFieldId),
+             this));
+
+
+    editSField(MatchedGlobalUrlFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr OSGSceneItemBase::getHandleCamera          (void) const
+{
+    SFUnrecCameraPtr::GetHandlePtr returnValue(
+        new  SFUnrecCameraPtr::GetHandle(
+             &_sfCamera,
+             this->getType().getFieldDesc(CameraFieldId),
+             const_cast<OSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGSceneItemBase::editHandleCamera         (void)
+{
+    SFUnrecCameraPtr::EditHandlePtr returnValue(
+        new  SFUnrecCameraPtr::EditHandle(
+             &_sfCamera,
+             this->getType().getFieldDesc(CameraFieldId),
+             this));
+
+    returnValue->setSetMethod(
+        boost::bind(&OSGSceneItem::setCamera,
+                    static_cast<OSGSceneItem *>(this), _1));
+
+    editSField(CameraFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr OSGSceneItemBase::getHandleActiveCamera    (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfActiveCamera,
+             this->getType().getFieldDesc(ActiveCameraFieldId),
+             const_cast<OSGSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGSceneItemBase::editHandleActiveCamera   (void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfActiveCamera,
+             this->getType().getFieldDesc(ActiveCameraFieldId),
+             this));
+
+
+    editSField(ActiveCameraFieldMask);
+
+    return returnValue;
+}
+
 
 #ifdef OSG_MT_CPTR_ASPECT
 void OSGSceneItemBase::execSyncV(      FieldContainer    &oFrom,
@@ -600,6 +1076,10 @@ void OSGSceneItemBase::resolveLinks(void)
 
     static_cast<OSGSceneItem *>(this)->setRoot(NULL);
 
+    static_cast<OSGSceneItem *>(this)->clearGlobals();
+
+    static_cast<OSGSceneItem *>(this)->setCamera(NULL);
+
 #ifdef OSG_MT_CPTR_ASPECT
     AspectOffsetStore oOffsets;
 
@@ -608,6 +1088,10 @@ void OSGSceneItemBase::resolveLinks(void)
 
 #ifdef OSG_MT_CPTR_ASPECT
     _mfUrl.terminateShare(Thread::getCurrentAspect(),
+                                      oOffsets);
+#endif
+#ifdef OSG_MT_CPTR_ASPECT
+    _mfGlobalUrl.terminateShare(Thread::getCurrentAspect(),
                                       oOffsets);
 #endif
 }

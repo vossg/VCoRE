@@ -1,6 +1,8 @@
 
 #include "OSGVCoREApp.h"
 
+#include "OSGVCoREVCNativeGLUTWindowHandler.h"
+
 int run(int argc, char **argv)
 {
 #ifdef WIN32
@@ -17,6 +19,8 @@ int run(int argc, char **argv)
 
         VCoRE::AppUnrecPtr pApp = VCoRE::App::create();
 
+        VCoRE::VCNativeGLUTWindowHandler::setupApp(*pApp);
+
         pApp->startFrom(argv[1]);
         
         // check if we can avoid this somehow !!
@@ -25,6 +29,8 @@ int run(int argc, char **argv)
         pApp->run();
 
         pApp = NULL;
+
+        OSG::osgExit();
     }
 
 	return 0;

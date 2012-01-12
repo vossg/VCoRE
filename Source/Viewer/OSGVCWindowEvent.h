@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGVCoreViewerDef.h"
+#include "OSGVCoREViewerDef.h"
 
 #include <vector>
 #include "boost/bind.hpp"
@@ -51,7 +51,9 @@
 
 #include "OSGMPBase.h"
 
-OSG_BEGIN_NAMESPACE
+VCORE_BEGIN_NAMESPACE
+
+OSG_IMPORT_NAMESPACE;
 
 // mother of all events
 class OSG_VCOREVIEWER_DLLMAPPING VCEvent: public MemoryObject
@@ -187,7 +189,7 @@ public:
 };
 OSG_GEN_MEMOBJPTR(VCKeyboardWindowEvent);
 
-OSG_END_NAMESPACE
+VCORE_END_NAMESPACE
 
 #include "OSGVCWindowEvent.inl"
 

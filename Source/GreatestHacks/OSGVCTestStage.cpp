@@ -157,7 +157,7 @@ ActionBase::ResultE VCTestStage::renderEnter(Action *action)
     FrameBufferObject *pTarget     = this->getRenderTarget   ();
     Camera            *pCam        = this->getCamera         ();
     Background        *pBack       = this->getBackground     ();
-    Viewport          *pView       = a   ->getViewport       ();
+    Viewarea          *pView       = a   ->getViewarea       ();
 
     if(pTarget == NULL && this->getInheritedTarget() == true)
     {
@@ -218,15 +218,15 @@ ActionBase::ResultE VCTestStage::renderLeave(Action *action)
 
 void VCTestStage::setupPartition(
      RenderPartition *pPart, Window     *pWin, FrameBufferObject *pTarget,
-     Camera          *pCam,  Background *pBack, Viewport *pViewport )
+     Camera          *pCam,  Background *pBack, Viewarea *pViewarea )
 {
     pPart->setRenderTarget(pTarget);
     pPart->setWindow      (pWin   );
 
-    Real32 left = pViewport->getLeft();
-    Real32 right = pViewport->getRight();
-    Real32 bottom = pViewport->getBottom();
-    Real32 top = pViewport->getTop();
+    Real32 left = pViewarea->getLeft();
+    Real32 right = pViewarea->getRight();
+    Real32 bottom = pViewarea->getBottom();
+    Real32 top = pViewarea->getTop();
 
     if(pTarget != NULL)
     {
