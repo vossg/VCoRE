@@ -41,36 +41,36 @@
 
 #include "OSGConfig.h"
 
-#include "OSGVCoREItem.h"
+#include "OSGVCoRECSMItem.h"
+#include "OSGVCoREItemController.h"
+
+#include "OSGNameAttachment.h"
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
 // Documentation for this class is emited in the
-// OSGVCoREItemBase.cpp file.
+// OSGVCoRECSMItemBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void Item::changed(ConstFieldMaskArg whichField,
-                   UInt32            origin,
-                   BitVector         details)
+void CSMItem::changed(ConstFieldMaskArg whichField,
+                      UInt32            origin,
+                      BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
 }
 
-void Item::tick(void)
-{
-}
 
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-void Item::dump(      UInt32    uiIndent,
-                const BitVector bvFlags) const
+void CSMItem::dump(      UInt32    uiIndent,
+                   const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -78,30 +78,72 @@ void Item::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-Item::Item(void) :
-    Inherited()
+CSMItem::CSMItem(void) :
+     Inherited      (    ),
+    _pItemController(NULL)
 {
 }
 
-Item::Item(const Item &source) :
-    Inherited(source)
+CSMItem::CSMItem(const CSMItem &source) :
+     Inherited      (source),
+    _pItemController(NULL  )
 {
 }
 
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-Item::~Item(void)
+CSMItem::~CSMItem(void)
 {
 }
 
 /*-------------------------------------------------------------------------*/
 /*                             Intersect                                   */
 
+void CSMItem::onCreate(const CSMItem *source)
+{
+    Inherited::onCreate(source);
+
+    // Don't add the prototype instances to the list
+    if(GlobalSystemState != Running)
+        return;
+
+    _pItemController = ItemController::create();
+    _pItemController->setCSMItem(this);
+}
+
+void CSMItem::onCreateAspect(const CSMItem *createAspect,
+                             const CSMItem *source      )
+{
+    Inherited::onCreateAspect(createAspect, source);
+
+    // Don't add the prototype instances to the list
+    if(GlobalSystemState != Running)
+        return;
+
+    if(createAspect != NULL)
+    {
+        _pItemController = createAspect->_pItemController;
+    }
+}
+
+void CSMItem::onDestroy(UInt32 uiContainerId)
+{
+    Inherited::onDestroy(uiContainerId);
+}
+
+void CSMItem::onDestroyAspect(UInt32 uiContainerId,
+                              UInt32 uiAspect     )
+{
+    Inherited::onDestroyAspect(uiContainerId, uiAspect);
+
+    _pItemController = NULL;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-void Item::initMethod(InitPhase ePhase)
+void CSMItem::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
@@ -110,30 +152,136 @@ void Item::initMethod(InitPhase ePhase)
     }
 }
 
-FieldContainer *Item::findNamedComponent(const Char8 *szName) const
+void CSMItem::setSyncBarrier(Barrier *pBarrier)
 {
+    _pItemController->setGlobalSyncBarrier(pBarrier);
+}
+
+void CSMItem::syncProducer(void)
+{
+    _pItemController->syncProducer();
+}
+
+FieldContainer *CSMItem::findNamedComponent(
+    const Char8 *szName) const
+{
+#if 0
+    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
+    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+
+    for(; wIt != wEnd; ++wIt)
+    {
+        const Char8 *szTmpName = OSG::getName(*wIt);
+
+        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        {
+            return *wIt;
+        }
+
+        FieldContainer *tmpVal = (*wIt)->findNamedComponent(szName);
+
+         if(tmpVal != NULL)
+             return tmpVal;
+    }
+
+
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        const Char8 *szTmpName = OSG::getName(*iIt);
+
+        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
+        {
+            return *iIt;
+        }
+
+        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
+
+         if(tmpVal != NULL)
+             return tmpVal;
+    }
+#endif
+
     return NULL;
 }
 
-bool Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)
+#if 0
+void CSMItem::tick(void)
 {
-    fprintf(stderr, "Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)\n");
+    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
+    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+
+    for(; wIt != wEnd; ++wIt)
+    {
+        (*wIt)->tick();
+    }
+
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        (*iIt)->tick();
+    }
+}
+
+bool CSMItem::init(UInt32 uiInitPhase, App *pApp)
+{
+    fprintf(stderr, "CSMItem::init %s (%x)\n",
+            getName(this),
+            uiInitPhase);
+
+    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
+    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
+
+    for(; wIt != wEnd; ++wIt)
+    {
+        (*wIt)->init(uiInitPhase, pApp);
+    }
+
+    MFItemsType::const_iterator iIt  = _mfItems.begin();
+    MFItemsType::const_iterator iEnd = _mfItems.end  ();
+
+    for(; iIt != iEnd; ++iIt)
+    {
+        (*iIt)->init(uiInitPhase, pApp);
+    }
+
+    return true;
+}
+#endif
+
+bool CSMItem::init(void)
+{
+    fprintf(stderr, "CSMItem::init\n");
+
+    if(_pItemController != NULL)
+    {
+        _pItemController->init(_sfAspect.getValue());
+    }
 
     return true;
 }
 
-bool Item::initialize(void)
+void CSMItem::frame(Time oTime, UInt32 uiFrame)
 {
-    fprintf(stderr, "Item::init(void)\n");
-
-    return true;
+    if(uiFrame < 10)
+    {
+        fprintf(stderr, "CSMItem::frame\n");
+    }
 }
 
-Node *Item::getRoot(void) const
+void CSMItem::shutdown(void)
 {
-    fprintf(stderr, "Item::getRoot(void)\n");
+    fprintf(stderr, "CSMItem::shutdown\n");
 
-    return NULL;
+    if(_pItemController != NULL)
+    {
+        _pItemController->shutdown();
+    }
 }
 
 VCORE_END_NAMESPACE

@@ -1,0 +1,28 @@
+#OSG V1.0 
+
+
+Node
+{
+  core Group {}
+
+  children
+  [
+    Node
+    {
+      core Inline
+      {
+        url "../Models/tie.wrl"
+#        url "../Models/tie_strip_shared.osg"
+      }
+    }
+
+    CSMItem
+    {
+      aspect 2
+      item OSGTestSceneItem
+      {
+#        url ["../Models/tie.wrl"]
+      }
+    }
+  ]
+}

@@ -36,28 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVCOREITEM_H_
-#define _OSGVCOREITEM_H_
+#ifndef _OSGVCORECSMITEM_H_
+#define _OSGVCORECSMITEM_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoREItemBase.h"
+#include "OSGVCoRECSMItemBase.h"
+#include "OSGVCoREItem.h"
 
 VCORE_BEGIN_NAMESPACE
 
-OSG_IMPORT_NAMESPACE;
+OSG_IMPORT_NAMESPACE; 
 
-class App;
+class ItemController;
 
-/*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
+OSG_GEN_MEMOBJPTR(ItemController);
+
+/*! \brief Arena is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
 
-class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
+class OSG_VCORECSM_DLLMAPPING CSMItem : public CSMItemBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -76,7 +79,21 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
-    virtual void tick(void);
+#if 0
+    void tick(void);
+#endif
+
+    virtual bool init    (void                      );
+    virtual void frame   (Time oTime, UInt32 uiFrame);
+    virtual void shutdown(void                      );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Action Callbacks                       */
+    /*! \{                                                                 */
+
+    virtual void setSyncBarrier(Barrier *pBarrier);
+    virtual void syncProducer  (void             );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -94,43 +111,52 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual bool  init      (UInt32      uiInitPhase,
-                             VCoRE::App *pApp       );
-
-    virtual bool  initialize(void                   );
-    virtual Node *getRoot   (void                   ) const;
+#if 0
+    virtual bool init(UInt32  uiInitPhase,
+                      App    *pApp       );
+#endif
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
-    protected:
+  protected:
 
-    typedef ItemBase Inherited;
+    typedef CSMItemBase Inherited;
+
+    ItemControllerRefPtr _pItemController;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Item(void);
-    Item(const Item &source);
+    CSMItem(void);
+    CSMItem(const CSMItem &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Item(void);
+    virtual ~CSMItem(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    void onCreate       (const CSMItem *source = NULL);
+    
+    void onCreateAspect (const CSMItem *createAspect,
+                         const CSMItem *source = NULL);
+    
+    void onDestroy      (      UInt32   uiContainerId);
+    
+    void onDestroyAspect(      UInt32   uiContainerId,
+                               UInt32   uiAspect     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,10 +176,10 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
   private:
 
     friend class FieldContainer;
-    friend class ItemBase;
+    friend class CSMItemBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const Item &source);
+    void operator =(const CSMItem &source);
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Python Related                         */
@@ -168,11 +194,11 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*---------------------------------------------------------------------*/
 };
 
-typedef Item *ItemP;
+typedef CSMItem *CSMItemP;
 
 VCORE_END_NAMESPACE
 
-#include "OSGVCoREItemBase.inl"
-#include "OSGVCoREItem.inl"
+#include "OSGVCoRECSMItemBase.inl"
+#include "OSGVCoRECSMItem.inl"
 
-#endif /* _OSGVCOREITEM_H_ */
+#endif /* _OSGVCORECSMITEM_H_ */

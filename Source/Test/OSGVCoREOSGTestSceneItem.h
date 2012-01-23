@@ -36,14 +36,17 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVCOREITEM_H_
-#define _OSGVCOREITEM_H_
+#ifndef _OSGVCOREOSGTESTSCENEITEM_H_
+#define _OSGVCOREOSGTESTSCENEITEM_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoREItemBase.h"
+#include "OSGVCoREOSGTestSceneItemBase.h"
+#include "OSGPathHandler.h"
+#include "OSGCamera.h"
+#include "OSGComponentTransform.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -51,13 +54,13 @@ OSG_IMPORT_NAMESPACE;
 
 class App;
 
-/*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
+/*! \brief OSGTestSceneItem is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
 
-class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
+class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -76,14 +79,14 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
-    virtual void tick(void);
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+    void postOSGLoading(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -100,37 +103,50 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual bool  init      (UInt32      uiInitPhase,
-                             VCoRE::App *pApp       );
+    virtual bool init      (UInt32  uiInitPhase,
+                            App    *pApp       );
 
-    virtual bool  initialize(void                   );
-    virtual Node *getRoot   (void                   ) const;
+    virtual bool initialize(void               );
+
+    /*! \}                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Field Access                          */
+    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
     protected:
 
-    typedef ItemBase Inherited;
+    typedef OSGTestSceneItemBase  Inherited;
+
+    static  PathHandler          _oPathHandler;
+    
+    ComponentTransform           *pTransform;
+    Real32                        fAngle;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Item(void);
-    Item(const Item &source);
+    OSGTestSceneItem(void);
+    OSGTestSceneItem(const OSGTestSceneItem &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Item(void);
+    virtual ~OSGTestSceneItem(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    virtual void tick(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,10 +166,10 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
   private:
 
     friend class FieldContainer;
-    friend class ItemBase;
+    friend class OSGTestSceneItemBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const Item &source);
+    void operator =(const OSGTestSceneItem &source);
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Python Related                         */
@@ -168,11 +184,11 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*---------------------------------------------------------------------*/
 };
 
-typedef Item *ItemP;
+typedef OSGTestSceneItem *OSGTestSceneItemP;
 
-VCORE_END_NAMESPACE
+OSG_END_NAMESPACE
 
-#include "OSGVCoREItemBase.inl"
-#include "OSGVCoREItem.inl"
+#include "OSGVCoREOSGTestSceneItemBase.inl"
+#include "OSGVCoREOSGTestSceneItem.inl"
 
-#endif /* _OSGVCOREITEM_H_ */
+#endif /* _OSGVCOREOSGTESTSCENEITEM_H_ */

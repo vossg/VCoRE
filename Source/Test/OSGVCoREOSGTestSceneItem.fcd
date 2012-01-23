@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="OSGTestSceneItem"
+    parent="Item"
+    library="VCoRETest"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="true"
+    docGroupBase="GrpVCoreSystem"
+    libnamespace="VCoRE"
+    >
+  <Field
+      name="url"
+      type="std::string"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+  <Field
+      name="matchedUrl"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+  <Field
+	 name="root"
+	 type="Node"
+	 cardinality="single"
+	 visibility="internal"
+	 defaultValue="NULL"
+	 access="public"
+     category="pointer"
+	 >
+  </Field>
+
+  <Field
+      name="globals"
+      type="FieldContainer"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      category="recpointer"
+      >
+  </Field>
+  <Field
+      name="globalUrl"
+      type="std::string"
+      cardinality="multi"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+  <Field
+      name="matchedGlobalUrl"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+
+  <Field
+	 name="camera"
+	 type="Camera"
+	 cardinality="single"
+	 visibility="internal"
+	 defaultValue="NULL"
+	 access="public"
+     category="pointer"
+	 >
+  </Field>
+
+  <Field
+      name="activeCamera"
+      type="std::string"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+  </Field>
+
+</FieldContainer>

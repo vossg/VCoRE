@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+    name="CSMItem"
+    parent="Node"
+    mixinparent="NodeProducerParent"
+    parentnamespace="OSG"
+    library="VCoRECSM"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="false"
+    isBundle="false"
+    docGroupBase="GrpVCoreCSM"
+    parentFields="single"
+    libnamespace="VCoRE"
+   >
+  <Field
+      name="item"
+      type="VCoRE::Item"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      category="childpointer"
+      childParentType="FieldContainer"
+      linkParentField="Parent"
+      >
+  </Field>
+  <Field
+      name="aspect"
+      type="UInt32"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      defaultValue="1"
+      >
+  </Field>
+</FieldContainer>

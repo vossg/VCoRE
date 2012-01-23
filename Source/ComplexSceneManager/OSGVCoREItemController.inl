@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,104 +34,12 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <cstdlib>
-#include <cstdio>
-
-#include "OSGConfig.h"
-
-#include "OSGVCoREItem.h"
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
-
-// Documentation for this class is emited in the
-// OSGVCoREItemBase.cpp file.
-// To modify it, please change the .fcd file (OSGPythonScript.fcd) and
-// regenerate the base file.
-
-/*-------------------------------------------------------------------------*/
-/*                               Sync                                      */
-
-void Item::changed(ConstFieldMaskArg whichField,
-                   UInt32            origin,
-                   BitVector         details)
-{
-    Inherited::changed(whichField, origin, details);
-}
-
-void Item::tick(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                               Dump                                      */
-
-void Item::dump(      UInt32    uiIndent,
-                const BitVector bvFlags) const
-{
-    Inherited::dump(uiIndent, bvFlags);
-}
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-Item::Item(void) :
-    Inherited()
-{
-}
-
-Item::Item(const Item &source) :
-    Inherited(source)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-Item::~Item(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Intersect                                   */
-
-/*-------------------------------------------------------------------------*/
-/*                                Init                                     */
-
-void Item::initMethod(InitPhase ePhase)
-{
-    Inherited::initMethod(ePhase);
-
-    if(ePhase == TypeObject::SystemPost)
-    {
-    }
-}
-
-FieldContainer *Item::findNamedComponent(const Char8 *szName) const
-{
-    return NULL;
-}
-
-bool Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)
-{
-    fprintf(stderr, "Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)\n");
-
-    return true;
-}
-
-bool Item::initialize(void)
-{
-    fprintf(stderr, "Item::init(void)\n");
-
-    return true;
-}
-
-Node *Item::getRoot(void) const
-{
-    fprintf(stderr, "Item::getRoot(void)\n");
-
-    return NULL;
-}
 
 VCORE_END_NAMESPACE

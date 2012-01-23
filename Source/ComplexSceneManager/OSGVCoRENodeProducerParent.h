@@ -36,104 +36,35 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <cstdlib>
-#include <cstdio>
+#ifndef _OSGNODEPRODUCERPARENT_H_
+#define _OSGNODEPRODUCERPARENT_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-#include "OSGConfig.h"
+#include "OSGNode.h"
+#include "OSGFrameTaskMixin.h"
+#include "OSGFrameProducerMixin.h"
 
-#include "OSGVCoREItem.h"
+OSG_BEGIN_NAMESPACE
 
-VCORE_BEGIN_NAMESPACE
+/*! \ingroup GrpDynamicsBaseObj
+    \nohierarchy
+*/
 
-OSG_IMPORT_NAMESPACE;
-
-// Documentation for this class is emited in the
-// OSGVCoREItemBase.cpp file.
-// To modify it, please change the .fcd file (OSGPythonScript.fcd) and
-// regenerate the base file.
-
-/*-------------------------------------------------------------------------*/
-/*                               Sync                                      */
-
-void Item::changed(ConstFieldMaskArg whichField,
-                   UInt32            origin,
-                   BitVector         details)
+struct NodeProducerMixinDesc
 {
-    Inherited::changed(whichField, origin, details);
-}
+    typedef Node                       ParentT;
+    typedef FieldContainer::TypeObject TypeObject;
+};
 
-void Item::tick(void)
-{
-}
+/*! \ingroup GrpDynamicsBaseObj
+ */
 
-/*-------------------------------------------------------------------------*/
-/*                               Dump                                      */
+typedef FrameProducerMixin<
+          FrameTaskMixin< 
+            ContainerMixinHead< NodeProducerMixinDesc > > > NodeProducerParent;
 
-void Item::dump(      UInt32    uiIndent,
-                const BitVector bvFlags) const
-{
-    Inherited::dump(uiIndent, bvFlags);
-}
+OSG_END_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-Item::Item(void) :
-    Inherited()
-{
-}
-
-Item::Item(const Item &source) :
-    Inherited(source)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-Item::~Item(void)
-{
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Intersect                                   */
-
-/*-------------------------------------------------------------------------*/
-/*                                Init                                     */
-
-void Item::initMethod(InitPhase ePhase)
-{
-    Inherited::initMethod(ePhase);
-
-    if(ePhase == TypeObject::SystemPost)
-    {
-    }
-}
-
-FieldContainer *Item::findNamedComponent(const Char8 *szName) const
-{
-    return NULL;
-}
-
-bool Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)
-{
-    fprintf(stderr, "Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)\n");
-
-    return true;
-}
-
-bool Item::initialize(void)
-{
-    fprintf(stderr, "Item::init(void)\n");
-
-    return true;
-}
-
-Node *Item::getRoot(void) const
-{
-    fprintf(stderr, "Item::getRoot(void)\n");
-
-    return NULL;
-}
-
-VCORE_END_NAMESPACE
+#endif /* _OSGNODEPRODUCERPARENT_H_ */

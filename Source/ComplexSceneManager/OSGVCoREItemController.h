@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,112 +36,142 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVCOREITEM_H_
-#define _OSGVCOREITEM_H_
+#ifndef _OSGVCOREITEMCONTROLLER_H_
+#define _OSGVCOREITEMCONTROLLER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGConfig.h"
-#include "OSGVCoREItemBase.h"
+#include "OSGVCoRECSMDef.h"
+#include "OSGMemoryObject.h"
+#include "OSGRefCountPtr.h"
+#include "OSGThread.h"
+#include "OSGBarrier.h"
+#include "OSGTime.h"
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
-class App;
+class ItemThread;
+class CSMItem;
 
-/*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
-    \ingroup GrpSystemNodeCoreGroupsCores
-    \ingroup GrpLibOSGSystem
-    \includebasedoc
- */
+OSG_GEN_MEMOBJPTR(ItemThread);
 
-class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
+/*! \brief CSMDrawer class. See \ref
+           PageContribCSMDrawer for a description.
+*/
+
+class OSG_VCORECSM_DLLMAPPING ItemController : public MemoryObject
 {
+  protected:
+
     /*==========================  PUBLIC  =================================*/
 
   public:
 
+    OSG_GEN_INTERNAL_MEMOBJPTR(ItemController);
+
+    typedef MemoryObject   Inherited;
+    typedef ItemController Self;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         detail);
+    void setCSMItem          (CSMItem *pCSMItem);
+    void setGlobalSyncBarrier(Barrier *pBarrier);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Type                                  */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void tick(void);
+    bool init        (UInt32 uiAspect);
+    void shutdown    (void           );
+
+    void syncProducer(void           );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Action Callbacks                       */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+    void postSync(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name                      Output                                  */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
+    virtual void resolveLinks       (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Field Access                          */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual bool  init      (UInt32      uiInitPhase,
-                             VCoRE::App *pApp       );
+    void frame(Time oTime, UInt32 uiFrame);
 
-    virtual bool  initialize(void                   );
-    virtual Node *getRoot   (void                   ) const;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static ObjTransitPtr create(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
-    protected:
+  protected:
 
-    typedef ItemBase Inherited;
+    // Variables should all be in CSMDrawerBase.
+
+    CSMItem             *_pCSMItem;
+    ItemThreadRefPtr     _pItemThread;
+
+    Thread              *_pSyncFromThread;
+    BarrierRefPtr        _pLocalSyncBarrier;
+    Barrier             *_pGlobalSyncBarrier;
+
+    UInt32               _uiLocalSyncCount;
+    UInt32               _uiSwapCount;
+    bool                 _bParallel;
+    bool                 _bRun;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    Item(void);
-    Item(const Item &source);
+    ItemController(void);
+    ItemController(const ItemController &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Item(void);
+    virtual ~ItemController(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Type                                  */
+    /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Init                                  */
-    /*! \{                                                                 */
-
-    static void initMethod(InitPhase ePhase);
+    void runParallel        (void               );
+    void setRunning         (bool   bVal        );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Action Callbacks                       */
+    /*! \name                      Init                                    */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
@@ -149,30 +179,102 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
 
   private:
 
-    friend class FieldContainer;
-    friend class ItemBase;
+    friend class ItemThread;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const Item &source);
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Python Related                         */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Python Related                         */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
+    void operator =(const ItemController &source);
 };
 
-typedef Item *ItemP;
+typedef ItemController *ItemControllerP;
 
-VCORE_END_NAMESPACE
+OSG_GEN_MEMOBJPTR(ItemController);
 
-#include "OSGVCoREItemBase.inl"
-#include "OSGVCoREItem.inl"
 
-#endif /* _OSGVCOREITEM_H_ */
+class OSG_VCORECSM_DLLMAPPING ItemThread : public Thread
+{
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    OSG_GEN_INTERNAL_MEMOBJPTR(ItemThread);
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
+    static ObjTransitPtr  get (Char8 *szName, bool bGlobal);
+    static ItemThread    *find(Char8 *szName);
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
+    void setController(ItemController *pController);
+    void setRunning   (bool            bVal       );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    typedef Thread        Inherited;
+
+    static  MPThreadType    _type;
+            ItemController *_pController;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
+    static BaseThread *create(const Char8  *szName, 
+                                    UInt32  uiId,
+                                    bool    bGlobal);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+ 
+    ItemThread(const Char8 *szName, UInt32 uiId, bool bGlobal);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~ItemThread(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual void workProc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+   /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    ItemThread(const ItemThread &source);
+    void operator =(const ItemThread &source);
+};
+
+
+OSG_END_NAMESPACE
+
+#include "OSGVCoREItemController.inl"
+
+#endif /* _OSGVCOREITEMCONTROLLER_H_ */
