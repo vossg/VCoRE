@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
+#include "OSGVCoRENativeGLUTDef.h"
 #include "OSGVCoREVCNativeWindowHandler.h"
 
 VCORE_BEGIN_NAMESPACE
@@ -58,7 +58,7 @@ class VCWindowDesc;
     \includebasedoc
  */
 
-class OSG_VCORESYSTEM_DLLMAPPING VCNativeGLUTWindowHandler : 
+class OSG_VCORENATIVEGLUT_DLLMAPPING VCNativeGLUTWindowHandler : 
     public VCNativeWindowHandler
 {
     /*==========================  PUBLIC  =================================*/

@@ -170,7 +170,7 @@ void OSGTestSceneItem::initMethod(InitPhase ePhase)
     if(ePhase == TypeObject::SystemPost)
     {
 #ifdef WIN32
-        typedef OSGTestSceneFileType::PostLoadingDispatcher<
+        typedef OSGSceneFileType::PostLoadingDispatcher<
                   OSGTestSceneItem> PLDOSGTestSceneItem;
 
         OSGSceneFileType::the().registerEndNodeCallback(

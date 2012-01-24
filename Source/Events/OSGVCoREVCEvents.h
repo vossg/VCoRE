@@ -77,7 +77,7 @@ OSG_GEN_MEMOBJPTR(VCEvent);
 // receives events and buffers them until they are removed via swapEventList
 
 template<class EventT>
-class OSG_VCOREEVENTS_DLLMAPPING VCEventSink
+class VCEventSink
 {
     
   public:
@@ -106,7 +106,7 @@ class OSG_VCOREEVENTS_DLLMAPPING VCEventSink
 // sends events to all subscribed EventSinks
 
 template<class EventT>
-class OSG_VCOREEVENTS_DLLMAPPING VCEventSource
+class VCEventSource
 {
   public:
   
