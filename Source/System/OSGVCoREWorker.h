@@ -84,8 +84,6 @@ class OSG_VCORESYSTEM_DLLMAPPING Worker : public WorkerBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */

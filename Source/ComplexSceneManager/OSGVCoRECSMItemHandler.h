@@ -36,28 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGVCOREITEM_H_
-#define _OSGVCOREITEM_H_
+#ifndef _OSGVCORECSMITEMHANDLER_H_
+#define _OSGVCORECSMITEMHANDLER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include "OSGConfig.h"
-#include "OSGVCoREItemBase.h"
+#include "OSGVCoRECSMItemHandlerBase.h"
+#include "OSGVCoREOSGBaseItem.h"
 
 VCORE_BEGIN_NAMESPACE
 
-OSG_IMPORT_NAMESPACE;
+OSG_IMPORT_NAMESPACE; 
 
-class App;
+class ItemController;
 
-/*! \brief VCoreItem is the basic NodeCore for inner nodes in the tree.
+OSG_GEN_MEMOBJPTR(ItemController);
+
+/*! \brief Arena is the basic NodeCore for inner nodes in the tree.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
 
-class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
+class OSG_VCORECSM_DLLMAPPING CSMItemHandler : public CSMItemHandlerBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -76,7 +79,17 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
-    virtual void tick(void);
+    virtual bool init    (void                      );
+    virtual void frame   (Time oTime, UInt32 uiFrame);
+    virtual void shutdown(void                      );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Action Callbacks                       */
+    /*! \{                                                                 */
+
+    virtual void setSyncBarrier(Barrier *pBarrier);
+    virtual void syncProducer  (UInt32   uiFrame );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -96,34 +109,43 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual bool init(UInt32      uiInitPhase,
-                      VCoRE::App *pApp       );
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
-    protected:
+  protected:
 
-    typedef ItemBase Inherited;
+    typedef CSMItemHandlerBase  Inherited;
+
+    ItemControllerRefPtr       _pItemController;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Item(void);
-    Item(const Item &source);
+    CSMItemHandler(void);
+    CSMItemHandler(const CSMItemHandler &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Item(void);
+    virtual ~CSMItemHandler(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Type                                  */
     /*! \{                                                                 */
+
+    void onCreate       (const CSMItemHandler *source = NULL);
+    
+    void onCreateAspect (const CSMItemHandler *createAspect,
+                         const CSMItemHandler *source = NULL);
+    
+    void onDestroy      (      UInt32   uiContainerId);
+    
+    void onDestroyAspect(      UInt32   uiContainerId,
+                               UInt32   uiAspect     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,10 +165,10 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
   private:
 
     friend class FieldContainer;
-    friend class ItemBase;
+    friend class CSMItemHandlerBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const Item &source);
+    void operator =(const CSMItemHandler &source);
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Python Related                         */
@@ -161,11 +183,11 @@ class OSG_VCOREBASE_DLLMAPPING Item : public ItemBase
     /*---------------------------------------------------------------------*/
 };
 
-typedef Item *ItemP;
+typedef CSMItemHandler *CSMItemHandlerP;
 
 VCORE_END_NAMESPACE
 
-#include "OSGVCoREItemBase.inl"
-#include "OSGVCoREItem.inl"
+#include "OSGVCoRECSMItemHandlerBase.inl"
+#include "OSGVCoRECSMItemHandler.inl"
 
-#endif /* _OSGVCOREITEM_H_ */
+#endif /* _OSGVCORECSMITEMHANDLER_H_ */

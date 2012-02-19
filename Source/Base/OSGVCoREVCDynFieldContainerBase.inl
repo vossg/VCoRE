@@ -75,31 +75,6 @@ OSG::UInt16 VCDynFieldContainerBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the VCDynFieldContainer::_sfPreDFMixinTestField field.
-
-inline
-Int32 &VCDynFieldContainerBase::editPreDFMixinTestField(void)
-{
-    editSField(PreDFMixinTestFieldFieldMask);
-
-    return _sfPreDFMixinTestField.getValue();
-}
-
-//! Get the value of the VCDynFieldContainer::_sfPreDFMixinTestField field.
-inline
-      Int32  VCDynFieldContainerBase::getPreDFMixinTestField(void) const
-{
-    return _sfPreDFMixinTestField.getValue();
-}
-
-//! Set the value of the VCDynFieldContainer::_sfPreDFMixinTestField field.
-inline
-void VCDynFieldContainerBase::setPreDFMixinTestField(const Int32 value)
-{
-    editSField(PreDFMixinTestFieldFieldMask);
-
-    _sfPreDFMixinTestField.setValue(value);
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -111,9 +86,6 @@ void VCDynFieldContainerBase::execSync (      VCDynFieldContainerBase *pFrom,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
-
-    if(FieldBits::NoField != (PreDFMixinTestFieldFieldMask & whichField))
-        _sfPreDFMixinTestField.syncWith(pFrom->_sfPreDFMixinTestField);
 }
 #endif
 

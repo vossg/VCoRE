@@ -75,31 +75,6 @@ OSG::UInt16 ItemBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the Item::_sfPostDFMixinTestField field.
-
-inline
-Int32 &ItemBase::editPostDFMixinTestField(void)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Get the value of the Item::_sfPostDFMixinTestField field.
-inline
-      Int32  ItemBase::getPostDFMixinTestField(void) const
-{
-    return _sfPostDFMixinTestField.getValue();
-}
-
-//! Set the value of the Item::_sfPostDFMixinTestField field.
-inline
-void ItemBase::setPostDFMixinTestField(const Int32 value)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    _sfPostDFMixinTestField.setValue(value);
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -114,9 +89,6 @@ void ItemBase::execSync (      ItemBase *pFrom,
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
         _sfParent.syncWith(pFrom->_sfParent);
-
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-        _sfPostDFMixinTestField.syncWith(pFrom->_sfPostDFMixinTestField);
 }
 #endif
 

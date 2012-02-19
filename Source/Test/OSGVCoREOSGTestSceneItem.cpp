@@ -71,60 +71,17 @@ void OSGTestSceneItem::changed(ConstFieldMaskArg whichField,
                                BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
-}
 
-FieldContainer *OSGTestSceneItem::findNamedComponent(const Char8 *szName) const
-{
-    MFGlobalsType::const_iterator gIt  = _mfGlobals.begin();
-    MFGlobalsType::const_iterator gEnd = _mfGlobals.end  ();
-
-          AttachmentContainer *pAttCnt     = NULL;
-    const Char8               *szTmpName   = NULL;
-
-
-    while(gIt != gEnd)
+    if(0x0000 != (whichField & RotationSpeedFieldMask))
     {
-#if 0
-        pNode = dynamic_cast<Node *>(*gIt);
-
-        if(pNode != NULL)
-        {
-            ElementFinder oFinder;
-
-            oFinder._szRefName = szName;
-
-            traverse(pNode, boost::bind(&ElementFinder::enter, &oFinder, _1));
-
-            if(oFinder._pResult != NULL)
-            {
-                return oFinder._pResult;
-            }
-         }
-#endif 
-       
-        pAttCnt = dynamic_cast<AttachmentContainer *>(*gIt);
-
-        if(pAttCnt != NULL)
-        {
-            szTmpName = OSG::getName(pAttCnt);
-           
-            if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-            {
-                return pAttCnt;
-            }
-            else
-            {
-                FieldContainer *tmpVal = pAttCnt->findNamedComponent(szName);
-                
-                if(tmpVal != NULL)
-                    return tmpVal;
-            }
-        }
-
-        ++gIt;
+        fprintf(stderr, "new rotation speed %f\n",
+                _sfRotationSpeed.getValue());
     }
 
-    return NULL;
+    if(0x0000 != (whichField & RootFieldMask))
+    {
+        fprintf(stderr, "new root %p\n", this->getRoot());
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -190,6 +147,7 @@ void OSGTestSceneItem::postOSGLoading(void)
 {
     fprintf(stderr, "OSGTestSceneItem::postOSGLoading\n");
 
+#if 0
     UInt32 i = 0;
 
     for(; i < _mfUrl.size(); ++i)
@@ -228,6 +186,7 @@ void OSGTestSceneItem::postOSGLoading(void)
             break;
         }
     }
+#endif
 }
 
 bool OSGTestSceneItem::init(UInt32 uiInitPhase, App *pApp)
@@ -236,6 +195,7 @@ bool OSGTestSceneItem::init(UInt32 uiInitPhase, App *pApp)
             getName(this),
             uiInitPhase);
 
+#if 0
     if(0x0000 != (uiInitPhase & InitPhase::LoadReferences))
     {
         if(_sfMatchedUrl.getValue().empty() == false)
@@ -330,26 +290,32 @@ bool OSGTestSceneItem::init(UInt32 uiInitPhase, App *pApp)
             }
         }
     }
+#endif
 
     return true;
 }
 
 bool OSGTestSceneItem::initialize(void)
 {
-    fprintf(stderr, "OSGTestSceneItem build scene\n");
+    Node *pItemRoot  = this->getRoot();
 
-    NodeUnrecPtr               pRoot = Node::create();
-    ComponentTransformUnrecPtr pTr   = ComponentTransform::create();
+    fprintf(stderr, "OSGTestSceneItem build scene : %p\n", pItemRoot);
 
-    pRoot->setCore(pTr);
+    if(pItemRoot != NULL)
+    {
+        NodeUnrecPtr                pLocalRoot = Node::create();
+        ComponentTransformUnrecPtr  pTr        = ComponentTransform::create();
 
-    pTransform = pTr;
+        pLocalRoot->setCore(pTr);
 
-    NodeUnrecPtr pScene = makeTorus(.5, 2, 16, 16);
+        pTransform = pTr;
 
-    pRoot->addChild(pScene);
+        NodeUnrecPtr pScene = makeTorus(.5, 2, 16, 16);
 
-    this->setRoot(pRoot);
+        pLocalRoot->addChild(pScene);
+
+        pItemRoot->addChild(pLocalRoot);
+    }
 
     return true;
 }
@@ -358,13 +324,16 @@ void OSGTestSceneItem::tick(void)
 {
 //    fprintf(stderr, " OSGTestSceneItem::tick\n");
 
-    Quaternion qRot;
+    if(pTransform != NULL)
+    {
+        Quaternion qRot;
 
-    qRot.setValueAsAxisRad(0.f, 1.f, 0.f, fAngle);
+        qRot.setValueAsAxisRad(0.f, 1.f, 0.f, fAngle);
 
-    pTransform->setRotation(qRot);
+        pTransform->setRotation(qRot);
 
-    fAngle += 0.01;
+        fAngle += 0.01 * _sfRotationSpeed.getValue();
+    }
 }
 
 VCORE_END_NAMESPACE

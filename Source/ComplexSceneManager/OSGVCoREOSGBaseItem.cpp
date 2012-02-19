@@ -41,36 +41,40 @@
 
 #include "OSGConfig.h"
 
-#include "OSGVCoREItem.h"
+#include "OSGVCoREOSGBaseItem.h"
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
 // Documentation for this class is emited in the
-// OSGVCoREItemBase.cpp file.
+// OSGVCoREOSGBaseItemBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
-void Item::changed(ConstFieldMaskArg whichField,
-                   UInt32            origin,
-                   BitVector         details)
+void OSGBaseItem::changed(ConstFieldMaskArg whichField,
+                          UInt32            origin,
+                          BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
 }
 
-void Item::tick(void)
+
+bool OSGBaseItem::initialize(void)
 {
+    fprintf(stderr, "OSGBaseItem::init(void)\n");
+
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-void Item::dump(      UInt32    uiIndent,
-                const BitVector bvFlags) const
+void OSGBaseItem::dump(      UInt32    uiIndent,
+                       const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
@@ -78,12 +82,12 @@ void Item::dump(      UInt32    uiIndent,
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-Item::Item(void) :
+OSGBaseItem::OSGBaseItem(void) :
     Inherited()
 {
 }
 
-Item::Item(const Item &source) :
+OSGBaseItem::OSGBaseItem(const OSGBaseItem &source) :
     Inherited(source)
 {
 }
@@ -91,7 +95,7 @@ Item::Item(const Item &source) :
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-Item::~Item(void)
+OSGBaseItem::~OSGBaseItem(void)
 {
 }
 
@@ -101,20 +105,13 @@ Item::~Item(void)
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
 
-void Item::initMethod(InitPhase ePhase)
+void OSGBaseItem::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
     if(ePhase == TypeObject::SystemPost)
     {
     }
-}
-
-bool Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)
-{
-    fprintf(stderr, "Item::init(UInt32 uiInitPhase, VCoRE::App *pApp)\n");
-
-    return true;
 }
 
 VCORE_END_NAMESPACE

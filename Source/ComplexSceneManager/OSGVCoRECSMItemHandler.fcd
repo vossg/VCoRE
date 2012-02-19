@@ -1,24 +1,23 @@
 <?xml version="1.0" ?>
 
 <FieldContainer
-    name="CSMItem"
-    parent="Node"
-    mixinparent="NodeProducerParent"
+    name="CSMItemHandler"
+    parent="NodeCore"
+    mixinparent="NodeCoreProducerParent"
     parentnamespace="OSG"
     library="VCoRECSM"
     structure="concrete"
     pointerfieldtypes="both"
     systemcomponent="true"
     parentsystemcomponent="true"
-    isNodeCore="false"
+    isNodeCore="true"
     isBundle="false"
     docGroupBase="GrpVCoreCSM"
-    parentFields="single"
     libnamespace="VCoRE"
    >
   <Field
       name="item"
-      type="VCoRE::Item"
+      type="VCoRE::OSGBaseItem"
       cardinality="single"
       visibility="external"
       access="public"

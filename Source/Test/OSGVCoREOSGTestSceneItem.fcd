@@ -2,7 +2,7 @@
 
 <FieldContainer
     name="OSGTestSceneItem"
-    parent="Item"
+    parent="OSGTreeItem"
     library="VCoRETest"
     structure="concrete"
     pointerfieldtypes="both"
@@ -14,76 +14,12 @@
     libnamespace="VCoRE"
     >
   <Field
-      name="url"
-      type="std::string"
-      cardinality="multi"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-  <Field
-      name="matchedUrl"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-  <Field
-	 name="root"
-	 type="Node"
+	 name="rotationSpeed"
+	 type="Real32"
 	 cardinality="single"
-	 visibility="internal"
-	 defaultValue="NULL"
+	 defaultValue="1.0f"
 	 access="public"
-     category="pointer"
 	 >
-  </Field>
-
-  <Field
-      name="globals"
-      type="FieldContainer"
-      cardinality="multi"
-      visibility="external"
-      access="public"
-      category="recpointer"
-      >
-  </Field>
-  <Field
-      name="globalUrl"
-      type="std::string"
-      cardinality="multi"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-  <Field
-      name="matchedGlobalUrl"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
-  </Field>
-
-  <Field
-	 name="camera"
-	 type="Camera"
-	 cardinality="single"
-	 visibility="internal"
-	 defaultValue="NULL"
-	 access="public"
-     category="pointer"
-	 >
-  </Field>
-
-  <Field
-      name="activeCamera"
-      type="std::string"
-      cardinality="single"
-      visibility="external"
-      access="public"
-      >
   </Field>
 
 </FieldContainer>

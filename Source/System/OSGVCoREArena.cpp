@@ -108,50 +108,6 @@ void Arena::initMethod(InitPhase ePhase)
     }
 }
 
-FieldContainer *Arena::findNamedComponent(
-    const Char8 *szName) const
-{
-    MFWorkerType::const_iterator wIt  = _mfWorker.begin();
-    MFWorkerType::const_iterator wEnd = _mfWorker.end  ();
-
-    for(; wIt != wEnd; ++wIt)
-    {
-        const Char8 *szTmpName = OSG::getName(*wIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-        {
-            return *wIt;
-        }
-
-        FieldContainer *tmpVal = (*wIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        const Char8 *szTmpName = OSG::getName(*iIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-        {
-            return *iIt;
-        }
-
-        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-    return NULL;
-}
-
 void Arena::tick(void)
 {
     MFWorkerType::const_iterator wIt  = _mfWorker.begin();

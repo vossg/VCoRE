@@ -133,8 +133,6 @@ class OSG_VCORESYSTEM_DLLMAPPING App : public AppBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 

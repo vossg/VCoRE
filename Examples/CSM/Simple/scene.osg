@@ -16,13 +16,26 @@ Node
       }
     }
 
-    CSMItem
+    Node
     {
-      aspect 2
-      item OSGTestSceneItem
+      core CSMItemHandler
       {
-#        url ["../Models/tie.wrl"]
+        aspect 2
+
+        item DEF OSGTestItem OSGTestSceneItem
+        {
+          root DEF ItemRoot Node {}
+          rotationSpeed 0.5
+#          url ["../Models/tie.wrl"]
+        }
       }
+
+      children
+      [
+        USE ItemRoot
+      ]
     }
   ]
 }
+
+ROUTE SpeedCounter.value TO OSGTestItem .rotationSpeed

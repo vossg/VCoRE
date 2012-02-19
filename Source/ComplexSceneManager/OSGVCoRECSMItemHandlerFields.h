@@ -48,8 +48,8 @@
 \*****************************************************************************/
 
 
-#ifndef _OSGCSMITEMFIELDS_H_
-#define _OSGCSMITEMFIELDS_H_
+#ifndef _OSGCSMITEMHANDLERFIELDS_H_
+#define _OSGCSMITEMHANDLERFIELDS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -66,9 +66,9 @@ VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
-class CSMItem;
+class CSMItemHandler;
 
-OSG_GEN_CONTAINERPTR(CSMItem);
+OSG_GEN_CONTAINERPTR(CSMItemHandler);
 
 VCORE_END_NAMESPACE
 
@@ -79,8 +79,8 @@ VCORE_IMPORT_NAMESPACE;
     \ingroup GrpLibOSGVCoRECSM
  */
 template <>
-struct FieldTraits<CSMItem *, nsVCoRE> :
-    public FieldTraitsFCPtrBase<CSMItem *, nsVCoRE>
+struct FieldTraits<CSMItemHandler *, nsVCoRE> :
+    public FieldTraitsFCPtrBase<CSMItemHandler *, nsVCoRE>
 {
   private:
 
@@ -88,7 +88,7 @@ struct FieldTraits<CSMItem *, nsVCoRE> :
 
   public:
 
-    typedef FieldTraits<CSMItem *, nsVCoRE>  Self;
+    typedef FieldTraits<CSMItemHandler *, nsVCoRE>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -103,86 +103,53 @@ struct FieldTraits<CSMItem *, nsVCoRE> :
 };
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getSName<RecordedRefCountPolicy>(void)
 {
-    return "SFRecCSMItemPtr"; 
+    return "SFRecCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getSName<UnrecordedRefCountPolicy>(void)
 {
-    return "SFUnrecCSMItemPtr"; 
+    return "SFUnrecCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getSName<WeakRefCountPolicy>(void)
 {
-    return "SFWeakCSMItemPtr"; 
+    return "SFWeakCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getSName<NoRefCountPolicy>(void)
 {
-    return "SFUnrefdCSMItemPtr"; 
+    return "SFUnrefdCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getMName<RecordedRefCountPolicy>(void)
 {
-    return "MFRecCSMItemPtr"; 
+    return "MFRecCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getMName<UnrecordedRefCountPolicy>(void)
 {
-    return "MFUnrecCSMItemPtr"; 
+    return "MFUnrecCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getMName<WeakRefCountPolicy>(void)
 {
-    return "MFWeakCSMItemPtr"; 
+    return "MFWeakCSMItemHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<CSMItem *, nsVCoRE>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<CSMItemHandler *, nsVCoRE>::getMName<NoRefCountPolicy>(void)
 {
-    return "MFUnrefdCSMItemPtr"; 
+    return "MFUnrefdCSMItemHandlerPtr"; 
 }
 
-
-/*! \ingroup GrpVCoreCSMFieldTraits
- */
-template <>
-struct FieldTraits<CSMItem *, nsVCoRE + 1> : 
-    public FieldTraitsFCPtrBase<CSMItem *, nsVCoRE + 1>
-{
-  private:
-
-    static  DataType                                _type;
-
-  public:
-
-    static const bool bIsPointerField = true;
-
-    typedef FieldTraits<CSMItem *, nsVCoRE + 1> Self;
-
-
-    enum             { Convertible = Self::NotConvertible };
-    
-    static OSG_VCORECSM_DLLMAPPING
-                 DataType &getType (void);
-
-    static const Char8    *getSName(void) 
-    {
-        return "SFParentCSMItemPtr"; 
-    }
-
-    static const Char8    *getMName(void) 
-    { 
-        return "MFParentCSMItemPtr"; 
-    }
-};
 
 OSG_END_NAMESPACE
 
@@ -192,89 +159,76 @@ OSG_IMPORT_NAMESPACE;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpVCoreCSMFieldSFields */
-typedef PointerSField<CSMItem *,
-                      RecordedRefCountPolicy, nsVCoRE  > SFRecCSMItemPtr;
+typedef PointerSField<CSMItemHandler *,
+                      RecordedRefCountPolicy, nsVCoRE  > SFRecCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldSFields */
-typedef PointerSField<CSMItem *,
-                      UnrecordedRefCountPolicy, nsVCoRE> SFUnrecCSMItemPtr;
+typedef PointerSField<CSMItemHandler *,
+                      UnrecordedRefCountPolicy, nsVCoRE> SFUnrecCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldSFields */
-typedef PointerSField<CSMItem *,
-                      WeakRefCountPolicy, nsVCoRE      > SFWeakCSMItemPtr;
+typedef PointerSField<CSMItemHandler *,
+                      WeakRefCountPolicy, nsVCoRE      > SFWeakCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldSFields */
-typedef PointerSField<CSMItem *,
-                      NoRefCountPolicy, nsVCoRE        > SFUncountedCSMItemPtr;
+typedef PointerSField<CSMItemHandler *,
+                      NoRefCountPolicy, nsVCoRE        > SFUncountedCSMItemHandlerPtr;
 
 
 /*! \ingroup GrpVCoreCSMFieldMFields */
-typedef PointerMField<CSMItem *,
-                      RecordedRefCountPolicy, nsVCoRE  > MFRecCSMItemPtr;
+typedef PointerMField<CSMItemHandler *,
+                      RecordedRefCountPolicy, nsVCoRE  > MFRecCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldMFields */
-typedef PointerMField<CSMItem *,
-                      UnrecordedRefCountPolicy, nsVCoRE> MFUnrecCSMItemPtr;
+typedef PointerMField<CSMItemHandler *,
+                      UnrecordedRefCountPolicy, nsVCoRE> MFUnrecCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldMFields */
-typedef PointerMField<CSMItem *,
-                      WeakRefCountPolicy, nsVCoRE      > MFWeakCSMItemPtr;
+typedef PointerMField<CSMItemHandler *,
+                      WeakRefCountPolicy, nsVCoRE      > MFWeakCSMItemHandlerPtr;
 /*! \ingroup GrpVCoreCSMFieldMFields */
-typedef PointerMField<CSMItem *,
-                      NoRefCountPolicy, nsVCoRE        > MFUncountedCSMItemPtr;
+typedef PointerMField<CSMItemHandler *,
+                      NoRefCountPolicy, nsVCoRE        > MFUncountedCSMItemHandlerPtr;
 
 
-
-/*! \ingroup GrpVCoreCSMFieldSFields */
-typedef ParentPointerSField<
-          CSMItem *, 
-          NoRefCountPolicy,
-          nsVCoRE + 1    > SFParentCSMItemPtr;
 
 
 #else // these are the doxygen hacks
 
 /*! \ingroup GrpVCoreCSMFieldSFields \ingroup GrpLibOSGVCoRECSM */
-struct SFRecCSMItemPtr : 
-    public PointerSField<CSMItem *,
+struct SFRecCSMItemHandlerPtr : 
+    public PointerSField<CSMItemHandler *,
                          RecordedRefCountPolicy> {};
 /*! \ingroup GrpVCoreCSMFieldSFields \ingroup GrpLibOSGVCoRECSM */
-struct SFUnrecCSMItemPtr : 
-    public PointerSField<CSMItem *,
+struct SFUnrecCSMItemHandlerPtr : 
+    public PointerSField<CSMItemHandler *,
                          UnrecordedRefCountPolicy> {};
 /*! \ingroup GrpVCoreCSMFieldSFields \ingroup GrpLibOSGVCoRECSM */
-struct SFWeakCSMItemPtr :
-    public PointerSField<CSMItem *,
+struct SFWeakCSMItemHandlerPtr :
+    public PointerSField<CSMItemHandler *,
                          WeakRefCountPolicy> {};
 /*! \ingroup GrpVCoreCSMFieldSFields \ingroup GrpLibOSGVCoRECSM */
-struct SFUncountedCSMItemPtr :
-    public PointerSField<CSMItem *,
+struct SFUncountedCSMItemHandlerPtr :
+    public PointerSField<CSMItemHandler *,
                          NoRefCountPolicy> {};
 
 
 /*! \ingroup GrpVCoreCSMFieldMFields \ingroup GrpLibOSGVCoRECSM */
-struct MFRecCSMItemPtr :
-    public PointerMField<CSMItem *,
+struct MFRecCSMItemHandlerPtr :
+    public PointerMField<CSMItemHandler *,
                          RecordedRefCountPolicy  > {};
 /*! \ingroup GrpVCoreCSMFieldMFields \ingroup GrpLibOSGVCoRECSM */
-struct MFUnrecCSMItemPtr :
-    public PointerMField<CSMItem *,
+struct MFUnrecCSMItemHandlerPtr :
+    public PointerMField<CSMItemHandler *,
                          UnrecordedRefCountPolicy> {};
 /*! \ingroup GrpVCoreCSMFieldMFields \ingroup GrpLibOSGVCoRECSM */
-struct MFWeakCSMItemPtr :
-    public PointerMField<CSMItem *,
+struct MFWeakCSMItemHandlerPtr :
+    public PointerMField<CSMItemHandler *,
                          WeakRefCountPolicy      > {};
 /*! \ingroup GrpVCoreCSMFieldMFields \ingroup GrpLibOSGVCoRECSM */
-struct MFUncountedCSMItemPtr :
-    public PointerMField<CSMItem *,
+struct MFUncountedCSMItemHandlerPtr :
+    public PointerMField<CSMItemHandler *,
                          NoRefCountPolicy        > {};
 
 
-
-/*! \ingroup GrpVCoreCSMFieldSFields \ingroup GrpLibOSGVCoRECSM */
-struct SFParentCSMItemPtr :
-    public ParentPointerSField<
-        CSMItem *, 
-        NoRefCountPolicy,
-        nsVCoRE + 1    > {};
 
 #endif // these are the doxygen hacks
 
 VCORE_END_NAMESPACE
 
-#endif /* _OSGCSMITEMFIELDS_H_ */
+#endif /* _OSGCSMITEMHANDLERFIELDS_H_ */

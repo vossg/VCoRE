@@ -36,35 +36,75 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGNODEPRODUCERPARENT_H_
-#define _OSGNODEPRODUCERPARENT_H_
-#ifdef __sgi
-#pragma once
-#endif
+#include <cstdlib>
+#include <cstdio>
 
-#include "OSGNode.h"
-#include "OSGFrameTaskMixin.h"
-#include "OSGFrameProducerMixin.h"
+#include "OSGConfig.h"
 
-OSG_BEGIN_NAMESPACE
+#include "OSGVCoREOSGTreeItem.h"
 
-/*! \ingroup GrpDynamicsBaseObj
-    \nohierarchy
-*/
+VCORE_BEGIN_NAMESPACE
 
-struct NodeProducerMixinDesc
+OSG_IMPORT_NAMESPACE;
+
+// Documentation for this class is emited in the
+// OSGVCoREOSGTreeItemBase.cpp file.
+// To modify it, please change the .fcd file (OSGPythonScript.fcd) and
+// regenerate the base file.
+
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
+
+void OSGTreeItem::changed(ConstFieldMaskArg whichField,
+                          UInt32            origin,
+                          BitVector         details)
 {
-    typedef Node                       ParentT;
-    typedef FieldContainer::TypeObject TypeObject;
-};
+    Inherited::changed(whichField, origin, details);
+}
 
-/*! \ingroup GrpDynamicsBaseObj
- */
 
-typedef FrameProducerMixin<
-          FrameTaskMixin< 
-            ContainerMixinHead< NodeProducerMixinDesc > > > NodeProducerParent;
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-OSG_END_NAMESPACE
+void OSGTreeItem::dump(      UInt32    uiIndent,
+                       const BitVector bvFlags) const
+{
+    Inherited::dump(uiIndent, bvFlags);
+}
 
-#endif /* _OSGNODEPRODUCERPARENT_H_ */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+OSGTreeItem::OSGTreeItem(void) :
+    Inherited()
+{
+}
+
+OSGTreeItem::OSGTreeItem(const OSGTreeItem &source) :
+    Inherited(source)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+OSGTreeItem::~OSGTreeItem(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Intersect                                   */
+
+/*-------------------------------------------------------------------------*/
+/*                                Init                                     */
+
+void OSGTreeItem::initMethod(InitPhase ePhase)
+{
+    Inherited::initMethod(ePhase);
+
+    if(ePhase == TypeObject::SystemPost)
+    {
+    }
+}
+
+VCORE_END_NAMESPACE

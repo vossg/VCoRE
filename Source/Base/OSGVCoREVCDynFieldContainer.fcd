@@ -14,13 +14,4 @@
    docGroupBase="GrpVCoreBase"
    libnamespace="VCoRE"
    >
-  <Field
-     name="preDFMixinTestField"
-     type="Int32"
-     cardinality="single"
-     visibility="external"
-     access="public"
-     defaultValue="5"
-     >
-  </Field>
 </FieldContainer>

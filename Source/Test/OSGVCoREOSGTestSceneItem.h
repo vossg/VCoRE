@@ -79,8 +79,6 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */

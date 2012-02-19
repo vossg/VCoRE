@@ -65,7 +65,6 @@
 
 #include "OSGAttachmentContainer.h" // Parent
 
-#include "OSGSysFields.h"               // PreDFMixinTestField type
 
 #include "OSGVCoREVCDynFieldContainerFields.h"
 
@@ -95,18 +94,6 @@ class OSG_VCOREBASE_DLLMAPPING VCDynFieldContainerBase : public VCDynFieldContai
 
   public:
 
-    enum
-    {
-        PreDFMixinTestFieldFieldId = Inherited::NextFieldId,
-        NextFieldId = PreDFMixinTestFieldFieldId + 1
-    };
-
-    static const OSG::BitVector PreDFMixinTestFieldFieldMask =
-        (TypeTraits<BitVector>::One << PreDFMixinTestFieldFieldId);
-    static const OSG::BitVector NextFieldMask =
-        (TypeTraits<BitVector>::One << NextFieldId);
-        
-    typedef SFInt32           SFPreDFMixinTestFieldType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -125,31 +112,6 @@ class OSG_VCOREBASE_DLLMAPPING VCDynFieldContainerBase : public VCDynFieldContai
     virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-
-                  SFInt32             *editSFPreDFMixinTestField(void);
-            const SFInt32             *getSFPreDFMixinTestField (void) const;
-
-
-                  Int32               &editPreDFMixinTestField(void);
-                  Int32                getPreDFMixinTestField (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-            void setPreDFMixinTestField(const Int32 value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -173,13 +135,6 @@ class OSG_VCOREBASE_DLLMAPPING VCDynFieldContainerBase : public VCDynFieldContai
     static       void   classDescInserter(TypeObject &oType);
     static const Char8 *getClassname     (void             );
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    SFInt32           _sfPreDFMixinTestField;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -205,8 +160,6 @@ class OSG_VCOREBASE_DLLMAPPING VCDynFieldContainerBase : public VCDynFieldContai
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandlePreDFMixinTestField (void) const;
-    EditFieldHandlePtr editHandlePreDFMixinTestField(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

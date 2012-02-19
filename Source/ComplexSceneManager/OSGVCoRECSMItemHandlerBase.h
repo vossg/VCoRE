@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CSMItem
+ **     class CSMItemHandler
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGCSMITEMBASE_H_
-#define _OSGCSMITEMBASE_H_
+#ifndef _OSGCSMITEMHANDLERBASE_H_
+#define _OSGCSMITEMHANDLERBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,34 +63,34 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGNode.h" // Parent
+#include "OSGNodeCore.h" // Parent
 
-#include "OSGVCoREItemFields.h"         // Item type
+#include "OSGVCoREOSGBaseItemFields.h"  // Item type
 #include "OSGSysFields.h"               // Aspect type
 
-#include "OSGVCoRECSMItemFields.h"
+#include "OSGVCoRECSMItemHandlerFields.h"
 
-#include "OSGVCoRENodeProducerParent.h"
+#include "OSGVCoRENodeCoreProducerParent.h"
 
 VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
-class CSMItem;
+class CSMItemHandler;
 
-//! \brief CSMItem Base Class.
+//! \brief CSMItemHandler Base Class.
 
-class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
+class OSG_VCORECSM_DLLMAPPING CSMItemHandlerBase : public NodeCoreProducerParent
 {
   public:
 
-    typedef NodeProducerParent Inherited;
-    typedef Node ParentContainer;
+    typedef NodeCoreProducerParent Inherited;
+    typedef NodeCore ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(CSMItem);
+    OSG_GEN_INTERNALPTR(CSMItemHandler);
 
     /*==========================  PUBLIC  =================================*/
 
@@ -110,7 +110,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef SFUnrecChildItemPtr SFItemType;
+    typedef SFUnrecChildOSGBaseItemPtr SFItemType;
     typedef SFUInt32          SFAspectType;
 
     /*---------------------------------------------------------------------*/
@@ -136,14 +136,14 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecChildItemPtr *getSFItem           (void) const;
-                  SFUnrecChildItemPtr *editSFItem           (void);
+            const SFUnrecChildOSGBaseItemPtr *getSFItem           (void) const;
+                  SFUnrecChildOSGBaseItemPtr *editSFItem           (void);
 
                   SFUInt32            *editSFAspect         (void);
             const SFUInt32            *getSFAspect          (void) const;
 
 
-                  Item * getItem           (void) const;
+                  OSGBaseItem * getItem           (void) const;
 
                   UInt32              &editAspect         (void);
                   UInt32               getAspect          (void) const;
@@ -153,7 +153,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setItem           (Item * const value);
+            void setItem           (OSGBaseItem * const value);
             void setAspect         (const UInt32 value);
 
     /*! \}                                                                 */
@@ -183,16 +183,16 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  CSMItemTransitPtr  create          (void);
-    static  CSMItem           *createEmpty     (void);
+    static  CSMItemHandlerTransitPtr  create          (void);
+    static  CSMItemHandler           *createEmpty     (void);
 
-    static  CSMItemTransitPtr  createLocal     (
+    static  CSMItemHandlerTransitPtr  createLocal     (
                                                BitVector bFlags = FCLocal::All);
 
-    static  CSMItem            *createEmptyLocal(
+    static  CSMItemHandler            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
-    static  CSMItemTransitPtr  createDependent  (BitVector bFlags);
+    static  CSMItemHandlerTransitPtr  createDependent  (BitVector bFlags);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -219,7 +219,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUnrecChildItemPtr _sfItem;
+    SFUnrecChildOSGBaseItemPtr _sfItem;
     SFUInt32          _sfAspect;
 
     /*! \}                                                                 */
@@ -227,22 +227,22 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    CSMItemBase(void);
-    CSMItemBase(const CSMItemBase &source);
+    CSMItemHandlerBase(void);
+    CSMItemHandlerBase(const CSMItemHandlerBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~CSMItemBase(void);
+    virtual ~CSMItemHandlerBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const CSMItem *source = NULL);
+    void onCreate(const CSMItemHandler *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -274,7 +274,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      CSMItemBase *pFrom,
+            void execSync (      CSMItemHandlerBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -314,11 +314,14 @@ class OSG_VCORECSM_DLLMAPPING CSMItemBase : public NodeProducerParent
     /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const CSMItemBase &source);
+    void operator =(const CSMItemHandlerBase &source);
 };
 
-typedef CSMItemBase *CSMItemBaseP;
+typedef CSMItemHandlerBase *CSMItemHandlerBaseP;
+
+typedef CoredNodeRefPtr  <CSMItemHandler> CSMItemHandlerNodeRefPtr;
+typedef CoredNodeMTRefPtr<CSMItemHandler> CSMItemHandlerNodeMTRefPtr;
 
 VCORE_END_NAMESPACE
 
-#endif /* _OSGCSMITEMBASE_H_ */
+#endif /* _OSGCSMITEMHANDLERBASE_H_ */

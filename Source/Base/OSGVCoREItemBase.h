@@ -66,7 +66,6 @@
 #include "OSGVCoREVCDynFieldContainer.h" // Parent
 
 #include "OSGFieldContainerFields.h"    // Parent type
-#include "OSGSysFields.h"               // PostDFMixinTestField type
 
 #include "OSGVCoREItemFields.h"
 
@@ -97,19 +96,15 @@ class OSG_VCOREBASE_DLLMAPPING ItemBase : public VCDynFieldContainer
     enum
     {
         ParentFieldId = Inherited::NextFieldId,
-        PostDFMixinTestFieldFieldId = ParentFieldId + 1,
-        NextFieldId = PostDFMixinTestFieldFieldId + 1
+        NextFieldId = ParentFieldId + 1
     };
 
     static const OSG::BitVector ParentFieldMask =
         (TypeTraits<BitVector>::One << ParentFieldId);
-    static const OSG::BitVector PostDFMixinTestFieldFieldMask =
-        (TypeTraits<BitVector>::One << PostDFMixinTestFieldFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFParentFieldContainerPtr SFParentType;
-    typedef SFInt32           SFPostDFMixinTestFieldType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -128,31 +123,6 @@ class OSG_VCOREBASE_DLLMAPPING ItemBase : public VCDynFieldContainer
     virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-
-                  SFInt32             *editSFPostDFMixinTestField(void);
-            const SFInt32             *getSFPostDFMixinTestField (void) const;
-
-
-                  Int32               &editPostDFMixinTestField(void);
-                  Int32                getPostDFMixinTestField (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-            void setPostDFMixinTestField(const Int32 value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,7 +178,6 @@ class OSG_VCOREBASE_DLLMAPPING ItemBase : public VCDynFieldContainer
     /*! \{                                                                 */
 
     SFParentFieldContainerPtr _sfParent;
-    SFInt32           _sfPostDFMixinTestField;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -257,8 +226,6 @@ class OSG_VCOREBASE_DLLMAPPING ItemBase : public VCDynFieldContainer
 
     GetFieldHandlePtr  getHandleParent          (void) const;
     EditFieldHandlePtr editHandleParent         (void);
-    GetFieldHandlePtr  getHandlePostDFMixinTestField (void) const;
-    EditFieldHandlePtr editHandlePostDFMixinTestField(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

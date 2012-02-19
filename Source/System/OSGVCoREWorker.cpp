@@ -119,31 +119,6 @@ void Worker::initMethod(InitPhase ePhase)
     }
 }
 
-FieldContainer *Worker::findNamedComponent(
-    const Char8 *szName) const
-{
-    MFItemsType::const_iterator iIt  = _mfItems.begin();
-    MFItemsType::const_iterator iEnd = _mfItems.end  ();
-
-
-    for(; iIt != iEnd; ++iIt)
-    {
-        const Char8 *szTmpName = OSG::getName(*iIt);
-
-        if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-        {
-            return *iIt;
-        }
-
-        FieldContainer *tmpVal = (*iIt)->findNamedComponent(szName);
-
-         if(tmpVal != NULL)
-             return tmpVal;
-    }
-
-    return NULL;
-}
-
 bool Worker::init(UInt32 uiInitPhase, App *pApp)
 {
     fprintf(stderr, "Worker::init %s (%x)\n", 

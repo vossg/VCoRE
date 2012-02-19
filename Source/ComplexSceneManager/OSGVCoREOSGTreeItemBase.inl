@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CSMItem!
+ **     class OSGTreeItem!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,20 +55,20 @@ OSG_IMPORT_NAMESPACE;
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &CSMItemBase::getClassType(void)
+OSG::FieldContainerType &OSGTreeItemBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 CSMItemBase::getClassTypeId(void)
+OSG::UInt32 OSGTreeItemBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 CSMItemBase::getClassGroupId(void)
+OSG::UInt16 OSGTreeItemBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
@@ -76,51 +76,26 @@ OSG::UInt16 CSMItemBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the CSMItem::_sfItem field.
+//! Get the value of the OSGTreeItem::_sfRoot field.
 inline
-Item * CSMItemBase::getItem(void) const
+Node * OSGTreeItemBase::getRoot(void) const
 {
-    return _sfItem.getValue();
+    return _sfRoot.getValue();
 }
 
-//! Set the value of the CSMItem::_sfItem field.
+//! Set the value of the OSGTreeItem::_sfRoot field.
 inline
-void CSMItemBase::setItem(Item * const value)
+void OSGTreeItemBase::setRoot(Node * const value)
 {
-    editSField(ItemFieldMask);
+    editSField(RootFieldMask);
 
-    _sfItem.setValue(value);
-}
-//! Get the value of the CSMItem::_sfAspect field.
-
-inline
-UInt32 &CSMItemBase::editAspect(void)
-{
-    editSField(AspectFieldMask);
-
-    return _sfAspect.getValue();
-}
-
-//! Get the value of the CSMItem::_sfAspect field.
-inline
-      UInt32  CSMItemBase::getAspect(void) const
-{
-    return _sfAspect.getValue();
-}
-
-//! Set the value of the CSMItem::_sfAspect field.
-inline
-void CSMItemBase::setAspect(const UInt32 value)
-{
-    editSField(AspectFieldMask);
-
-    _sfAspect.setValue(value);
+    _sfRoot.setValue(value);
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void CSMItemBase::execSync (      CSMItemBase *pFrom,
+void OSGTreeItemBase::execSync (      OSGTreeItemBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -128,21 +103,18 @@ void CSMItemBase::execSync (      CSMItemBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (ItemFieldMask & whichField))
-        _sfItem.syncWith(pFrom->_sfItem);
-
-    if(FieldBits::NoField != (AspectFieldMask & whichField))
-        _sfAspect.syncWith(pFrom->_sfAspect);
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pFrom->_sfRoot);
 }
 #endif
 
 
 inline
-const Char8 *CSMItemBase::getClassname(void)
+const Char8 *OSGTreeItemBase::getClassname(void)
 {
-    return "CSMItem";
+    return "OSGTreeItem";
 }
-OSG_GEN_CONTAINERPTR(CSMItem);
+OSG_GEN_CONTAINERPTR(OSGTreeItem);
 
 VCORE_END_NAMESPACE
 

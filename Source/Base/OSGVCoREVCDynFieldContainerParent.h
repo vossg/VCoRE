@@ -72,13 +72,6 @@ struct AttContainerVCoreDesc
     { 
         return "VCDynFieldContainerParent"; 
     }
-
-
-#if 0
-    static InitContainerF         getInitMethod(void) { return NULL; }
-
-    static FieldDescriptionBase **getDesc      (void) { return NULL; }
-#endif
 };
 
 /*! \ingroup GrpDynamicsBaseObj

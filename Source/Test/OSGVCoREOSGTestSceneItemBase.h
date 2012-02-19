@@ -63,12 +63,9 @@
 
 //#include "OSGBaseTypes.h"
 
-#include "OSGVCoREItem.h" // Parent
+#include "OSGVCoREOSGTreeItem.h" // Parent
 
-#include "OSGBaseFields.h"              // Url type
-#include "OSGNodeFields.h"              // Root type
-#include "OSGFieldContainerFields.h"    // Globals type
-#include "OSGCameraFields.h"            // Camera type
+#include "OSGSysFields.h"               // RotationSpeed type
 
 #include "OSGVCoREOSGTestSceneItemFields.h"
 
@@ -80,12 +77,12 @@ class OSGTestSceneItem;
 
 //! \brief OSGTestSceneItem Base Class.
 
-class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public Item
+class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
 {
   public:
 
-    typedef Item Inherited;
-    typedef Item ParentContainer;
+    typedef OSGTreeItem Inherited;
+    typedef OSGTreeItem ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -98,44 +95,16 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public Item
 
     enum
     {
-        UrlFieldId = Inherited::NextFieldId,
-        MatchedUrlFieldId = UrlFieldId + 1,
-        RootFieldId = MatchedUrlFieldId + 1,
-        GlobalsFieldId = RootFieldId + 1,
-        GlobalUrlFieldId = GlobalsFieldId + 1,
-        MatchedGlobalUrlFieldId = GlobalUrlFieldId + 1,
-        CameraFieldId = MatchedGlobalUrlFieldId + 1,
-        ActiveCameraFieldId = CameraFieldId + 1,
-        NextFieldId = ActiveCameraFieldId + 1
+        RotationSpeedFieldId = Inherited::NextFieldId,
+        NextFieldId = RotationSpeedFieldId + 1
     };
 
-    static const OSG::BitVector UrlFieldMask =
-        (TypeTraits<BitVector>::One << UrlFieldId);
-    static const OSG::BitVector MatchedUrlFieldMask =
-        (TypeTraits<BitVector>::One << MatchedUrlFieldId);
-    static const OSG::BitVector RootFieldMask =
-        (TypeTraits<BitVector>::One << RootFieldId);
-    static const OSG::BitVector GlobalsFieldMask =
-        (TypeTraits<BitVector>::One << GlobalsFieldId);
-    static const OSG::BitVector GlobalUrlFieldMask =
-        (TypeTraits<BitVector>::One << GlobalUrlFieldId);
-    static const OSG::BitVector MatchedGlobalUrlFieldMask =
-        (TypeTraits<BitVector>::One << MatchedGlobalUrlFieldId);
-    static const OSG::BitVector CameraFieldMask =
-        (TypeTraits<BitVector>::One << CameraFieldId);
-    static const OSG::BitVector ActiveCameraFieldMask =
-        (TypeTraits<BitVector>::One << ActiveCameraFieldId);
+    static const OSG::BitVector RotationSpeedFieldMask =
+        (TypeTraits<BitVector>::One << RotationSpeedFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
-    typedef MFString          MFUrlType;
-    typedef SFString          SFMatchedUrlType;
-    typedef SFUnrecNodePtr    SFRootType;
-    typedef MFRecFieldContainerPtr MFGlobalsType;
-    typedef MFString          MFGlobalUrlType;
-    typedef SFString          SFMatchedGlobalUrlType;
-    typedef SFUnrecCameraPtr  SFCameraType;
-    typedef SFString          SFActiveCameraType;
+    typedef SFReal32          SFRotationSpeedType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -161,75 +130,24 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public Item
     /*! \{                                                                 */
 
 
-                  MFString            *editMFUrl            (void);
-            const MFString            *getMFUrl             (void) const;
-
-                  SFString            *editSFMatchedUrl     (void);
-            const SFString            *getSFMatchedUrl      (void) const;
-            const SFUnrecNodePtr      *getSFRoot           (void) const;
-                  SFUnrecNodePtr      *editSFRoot           (void);
-            const MFRecFieldContainerPtr *getMFGlobals        (void) const;
-                  MFRecFieldContainerPtr *editMFGlobals        (void);
-
-                  MFString            *editMFGlobalUrl      (void);
-            const MFString            *getMFGlobalUrl       (void) const;
-
-                  SFString            *editSFMatchedGlobalUrl(void);
-            const SFString            *getSFMatchedGlobalUrl (void) const;
-            const SFUnrecCameraPtr    *getSFCamera         (void) const;
-                  SFUnrecCameraPtr    *editSFCamera         (void);
-
-                  SFString            *editSFActiveCamera   (void);
-            const SFString            *getSFActiveCamera    (void) const;
+                  SFReal32            *editSFRotationSpeed  (void);
+            const SFReal32            *getSFRotationSpeed   (void) const;
 
 
-                  std::string         &editUrl            (const UInt32 index);
-            const std::string         &getUrl             (const UInt32 index) const;
-
-                  std::string         &editMatchedUrl     (void);
-            const std::string         &getMatchedUrl      (void) const;
-
-                  Node * getRoot           (void) const;
-
-                  FieldContainer * getGlobals        (const UInt32 index) const;
-
-                  std::string         &editGlobalUrl      (const UInt32 index);
-            const std::string         &getGlobalUrl       (const UInt32 index) const;
-
-                  std::string         &editMatchedGlobalUrl(void);
-            const std::string         &getMatchedGlobalUrl (void) const;
-
-                  Camera * getCamera         (void) const;
-
-                  std::string         &editActiveCamera   (void);
-            const std::string         &getActiveCamera    (void) const;
+                  Real32              &editRotationSpeed  (void);
+                  Real32               getRotationSpeed   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setMatchedUrl     (const std::string &value);
-            void setRoot           (Node * const value);
-            void setMatchedGlobalUrl(const std::string &value);
-            void setCamera         (Camera * const value);
-            void setActiveCamera   (const std::string &value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr Field Set                                 */
-    /*! \{                                                                 */
+            void setRotationSpeed  (const Real32 value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
-    void pushToGlobals             (FieldContainer * const value   );
-    void assignGlobals            (const MFRecFieldContainerPtr &value);
-    void removeFromGlobals (UInt32               uiIndex );
-    void removeObjFromGlobals(FieldContainer * const value   );
-    void clearGlobals               (void                         );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -284,14 +202,7 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public Item
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFString          _mfUrl;
-    SFString          _sfMatchedUrl;
-    SFUnrecNodePtr    _sfRoot;
-    MFRecFieldContainerPtr _mfGlobals;
-    MFString          _mfGlobalUrl;
-    SFString          _sfMatchedGlobalUrl;
-    SFUnrecCameraPtr  _sfCamera;
-    SFString          _sfActiveCamera;
+    SFReal32          _sfRotationSpeed;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,29 +224,14 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public Item
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const OSGTestSceneItem *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleUrl             (void) const;
-    EditFieldHandlePtr editHandleUrl            (void);
-    GetFieldHandlePtr  getHandleMatchedUrl      (void) const;
-    EditFieldHandlePtr editHandleMatchedUrl     (void);
-    GetFieldHandlePtr  getHandleRoot            (void) const;
-    EditFieldHandlePtr editHandleRoot           (void);
-    GetFieldHandlePtr  getHandleGlobals         (void) const;
-    EditFieldHandlePtr editHandleGlobals        (void);
-    GetFieldHandlePtr  getHandleGlobalUrl       (void) const;
-    EditFieldHandlePtr editHandleGlobalUrl      (void);
-    GetFieldHandlePtr  getHandleMatchedGlobalUrl (void) const;
-    EditFieldHandlePtr editHandleMatchedGlobalUrl(void);
-    GetFieldHandlePtr  getHandleCamera          (void) const;
-    EditFieldHandlePtr editHandleCamera         (void);
-    GetFieldHandlePtr  getHandleActiveCamera    (void) const;
-    EditFieldHandlePtr editHandleActiveCamera   (void);
+    GetFieldHandlePtr  getHandleRotationSpeed   (void) const;
+    EditFieldHandlePtr editHandleRotationSpeed  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

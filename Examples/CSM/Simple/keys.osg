@@ -1,0 +1,28 @@
+#OSG V1.0 
+
+ContainerCollection
+{
+  containers
+  [
+    DEF CRUp KeySensor
+    {
+      key "R"
+      stateFlipFlop TRUE
+    }       
+
+    DEF CRDown KeySensor
+    {
+      key "r"
+      stateFlipFlop TRUE
+    }       
+
+    DEF SpeedCounter Real32Counter
+    {
+      value 1.0
+      step  0.01
+    }
+  ]
+}
+
+ROUTE CRUp        .signalPressed  TO SpeedCounter.incTrigger
+ROUTE CRDown      .signalPressed  TO SpeedCounter.decTrigger

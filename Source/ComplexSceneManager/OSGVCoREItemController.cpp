@@ -47,7 +47,7 @@
 
 #include "OSGVCoREItemController.h"
 #include "OSGThreadManager.h"
-#include "OSGVCoRECSMItem.h"
+#include "OSGVCoRECSMItemHandler.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -78,7 +78,7 @@ OSG_IMPORT_NAMESPACE;
 
 ItemController::ItemController(void) :
      Inherited         (     ),
-    _pCSMItem          (NULL ),
+    _pCSMItemHandler   (NULL ),
     _pItemThread       (NULL ),
     _pSyncFromThread   (NULL ),
     _pLocalSyncBarrier (NULL ),
@@ -94,7 +94,7 @@ ItemController::ItemController(void) :
 
 ItemController::ItemController(const ItemController &source) :
      Inherited         (source),
-    _pCSMItem          (NULL  ),
+    _pCSMItemHandler   (NULL  ),
     _pItemThread       (NULL  ),
     _pSyncFromThread   (NULL ),
     _pLocalSyncBarrier (NULL  ),
@@ -110,8 +110,6 @@ ItemController::ItemController(const ItemController &source) :
 
 ItemController::~ItemController(void)
 {
-    fprintf(stderr, "Destruct item controller\n");
-//    _pAction = NULL;
 }
 
 ItemController::ObjTransitPtr ItemController::create(void)
@@ -119,19 +117,6 @@ ItemController::ObjTransitPtr ItemController::create(void)
     return ObjTransitPtr(new ItemController());
 }
 
-
-void ItemController::postSync(void)
-{
-#if 0
-    MFUnrecChildCSMWindowPtr::const_iterator wIt  = getMFWindows()->begin();
-    MFUnrecChildCSMWindowPtr::const_iterator wEnd = getMFWindows()->end  ();
-
-    for(; wIt != wEnd; ++wIt)
-    {
-        (*wIt)->postSync();
-    }
-#endif
-}
 
 /*----------------------------- class specific ----------------------------*/
 
@@ -141,9 +126,9 @@ void ItemController::dump(      UInt32    ,
     SLOG << "Dump CSMDrawer NI" << std::endl;
 }
 
-void ItemController::setCSMItem(CSMItem *pCSMItem)
+void ItemController::setCSMItemHandler(CSMItemHandler *pCSMItemHandler)
 {
-    _pCSMItem = pCSMItem;
+    _pCSMItemHandler = pCSMItemHandler;
 }
 
 void ItemController::setGlobalSyncBarrier(Barrier *pBarrier)
@@ -165,26 +150,16 @@ bool ItemController::init(UInt32 uiAspect)
 
     _pItemThread->run(uiAspect);
 
+
+    // Sync back init changes
+
     _pLocalSyncBarrier->enter(_uiLocalSyncCount);
 
-//    Thread::getCurrentChangeList()->dump();
-
     _pItemThread->getChangeList()->applyNoClear();
-
-//    Thread::getCurrentChangeList()->dump();
 
     commitChanges();
 
     _pLocalSyncBarrier->enter(_uiLocalSyncCount);
-
-    fprintf(stderr, "sync back %p %p\n",
-            _pCSMItem->getItem(),
-            _pCSMItem->getItem()->getRoot());
-
-    if(_pCSMItem->getItem() != NULL && _pCSMItem->getItem()->getRoot() != NULL)
-    {
-        _pCSMItem->addChild(_pCSMItem->getItem()->getRoot());
-    }
 
     return returnValue;
 }
@@ -206,31 +181,19 @@ void ItemController::shutdown(void)
     }
 }
 
-void ItemController::syncProducer(void)
+void ItemController::syncProducer(UInt32 uiFrame)
 {
     _pLocalSyncBarrier->enter(_uiLocalSyncCount);
 
 //    fprintf(stderr, "sync item\n");
 
     _pItemThread->getChangeList()->applyNoClear();
+
+    _pLocalSyncBarrier->enter(_uiLocalSyncCount);
+
     commitChanges();
 
     _pGlobalSyncBarrier->enter();
-}
-
-void ItemController::frame(Time oTime, UInt32 uiFrame)
-{
-#if 0
-    MFUnrecChildCSMWindowPtr::const_iterator winIt  = getMFWindows()->begin();
-    MFUnrecChildCSMWindowPtr::const_iterator winEnd = getMFWindows()->end  ();
-
-    while(winIt != winEnd)
-    {
-        (*winIt)->render(_pAction);
-        
-        ++winIt;
-    }
-#endif
 }
 
 void ItemController::runParallel(void)
@@ -241,25 +204,16 @@ void ItemController::runParallel(void)
 
     fprintf(stderr, "basic init \n");
 
-//    _pSyncFromThread->getChangeList()->applyNoClear();
-//    commitChanges();
-
-    
-    CSMItemUnrecPtr pThreadLocalItem = 
-        Aspect::initializeFrom<CSMItem *>(_pCSMItem);
+    CSMItemHandlerUnrecPtr pThreadLocalItem = 
+        Aspect::initializeFrom<CSMItemHandler *>(_pCSMItemHandler);
 
     commitChanges();
     Thread::getCurrentChangeList()->clear();
 
-    fprintf(stderr, "Got local item %p\n", pThreadLocalItem.get());
-
     if(pThreadLocalItem != NULL)
     {
-        Item *pItem = pThreadLocalItem->getItem();
-
-        fprintf(stderr, "Has VCoreItem : %p\n",
-                pItem);
-        
+        OSGBaseItem *pItem = pThreadLocalItem->getItem();
+     
         if(pItem != NULL)
         {
             pItem->initialize();
@@ -284,13 +238,24 @@ void ItemController::runParallel(void)
         if(_bRun == false)
             break;
 
-//        fprintf(stderr, "wait for sync to finish\n");
+        _pLocalSyncBarrier ->enter(_uiLocalSyncCount);
+
+        if(_bRun == false)
+            break;
+
+        if(_pCSMItemHandler != NULL)
+        {
+            Item *pItem = _pCSMItemHandler->getItem();
+
+            Aspect::syncContainersFrom(pItem);
+        }
 
         _pGlobalSyncBarrier->enter();
 
+        commitChanges();
+
         Thread::getCurrentChangeList()->clear();
 
-//        osgSleep(100);
     }
 
     fprintf(stderr, "Item run par stop\n");

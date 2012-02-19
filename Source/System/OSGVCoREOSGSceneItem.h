@@ -78,8 +78,6 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
     /*! \name                        Type                                  */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */

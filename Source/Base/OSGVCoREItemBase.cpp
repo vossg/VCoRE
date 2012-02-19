@@ -88,10 +88,6 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
-/*! \var Int32           ItemBase::_sfPostDFMixinTestField
-    
-*/
-
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -159,18 +155,6 @@ void ItemBase::classDescInserter(TypeObject &oType)
         static_cast     <FieldGetMethodSig >(&Item::invalidGetField));
 
     oType.addInitialDesc(pDesc);
-
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "postDFMixinTestField",
-        "",
-        PostDFMixinTestFieldFieldId, PostDFMixinTestFieldFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&Item::editHandlePostDFMixinTestField),
-        static_cast<FieldGetMethodSig >(&Item::getHandlePostDFMixinTestField));
-
-    oType.addInitialDesc(pDesc);
 }
 
 
@@ -211,15 +195,6 @@ ItemBase::TypeObject ItemBase::_type(
     "      category=\"parentpointer\"\n"
     "      >\n"
     "  </Field>\n"
-    "  <Field\n"
-    "     name=\"postDFMixinTestField\"\n"
-    "     type=\"Int32\"\n"
-    "     cardinality=\"single\"\n"
-    "     visibility=\"external\"\n"
-    "     access=\"public\"\n"
-    "     defaultValue=\"10\"\n"
-    "     >\n"
-    "  </Field>\n"
     "</FieldContainer>\n",
     ""
     );
@@ -255,19 +230,6 @@ const ItemBase::TypeObject &ItemBase::getFinalType(void) const
 
 
 
-SFInt32 *ItemBase::editSFPostDFMixinTestField(void)
-{
-    editSField(PostDFMixinTestFieldFieldMask);
-
-    return &_sfPostDFMixinTestField;
-}
-
-const SFInt32 *ItemBase::getSFPostDFMixinTestField(void) const
-{
-    return &_sfPostDFMixinTestField;
-}
-
-
 
 
 
@@ -282,10 +244,6 @@ SizeT ItemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfParent.getBinSize();
     }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        returnValue += _sfPostDFMixinTestField.getBinSize();
-    }
 
     return returnValue;
 }
@@ -299,10 +257,6 @@ void ItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfParent.copyToBin(pMem);
     }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        _sfPostDFMixinTestField.copyToBin(pMem);
-    }
 }
 
 void ItemBase::copyFromBin(BinaryDataHandler &pMem,
@@ -314,11 +268,6 @@ void ItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(ParentFieldMask);
         _sfParent.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (PostDFMixinTestFieldFieldMask & whichField))
-    {
-        editSField(PostDFMixinTestFieldFieldMask);
-        _sfPostDFMixinTestField.copyFromBin(pMem);
     }
 }
 
@@ -445,15 +394,13 @@ FieldContainerTransitPtr ItemBase::shallowCopy(void) const
 
 ItemBase::ItemBase(void) :
     Inherited(),
-    _sfParent                 (NULL),
-    _sfPostDFMixinTestField   (Int32(10))
+    _sfParent                 (NULL)
 {
 }
 
 ItemBase::ItemBase(const ItemBase &source) :
     Inherited(source),
-    _sfParent                 (NULL),
-    _sfPostDFMixinTestField   (source._sfPostDFMixinTestField   )
+    _sfParent                 (NULL)
 {
 }
 
@@ -553,31 +500,6 @@ GetFieldHandlePtr ItemBase::getHandleParent          (void) const
 EditFieldHandlePtr ItemBase::editHandleParent         (void)
 {
     EditFieldHandlePtr returnValue;
-
-    return returnValue;
-}
-
-GetFieldHandlePtr ItemBase::getHandlePostDFMixinTestField (void) const
-{
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
-             const_cast<ItemBase *>(this)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr ItemBase::editHandlePostDFMixinTestField(void)
-{
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfPostDFMixinTestField,
-             this->getType().getFieldDesc(PostDFMixinTestFieldFieldId),
-             this));
-
-
-    editSField(PostDFMixinTestFieldFieldMask);
 
     return returnValue;
 }

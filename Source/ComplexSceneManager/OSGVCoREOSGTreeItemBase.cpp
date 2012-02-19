@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class OSGTestSceneItem!
+ **     class OSGTreeItem!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -57,9 +57,10 @@
 
 
 
+#include "OSGNode.h"                    // Root Class
 
-#include "OSGVCoREOSGTestSceneItemBase.h"
-#include "OSGVCoREOSGTestSceneItem.h"
+#include "OSGVCoREOSGTreeItemBase.h"
+#include "OSGVCoREOSGTreeItem.h"
 
 #include <boost/bind.hpp>
 
@@ -75,7 +76,7 @@ VCORE_IMPORT_NAMESPACE;
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class OSG::OSGTestSceneItem
+/*! \class OSG::OSGTreeItem
     
  */
 
@@ -83,7 +84,7 @@ VCORE_IMPORT_NAMESPACE;
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var Real32          OSGTestSceneItemBase::_sfRotationSpeed
+/*! \var Node *          OSGTreeItemBase::_sfRoot
     
 */
 
@@ -93,22 +94,39 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-PointerType FieldTraits<OSGTestSceneItem *, nsVCoRE>::_type(
-    "OSGTestSceneItemPtr", 
+PointerType FieldTraits<OSGTreeItem *, nsVCoRE>::_type(
     "OSGTreeItemPtr", 
-    OSGTestSceneItem::getClassType(),
+    "OSGBaseItemPtr", 
+    OSGTreeItem::getClassType(),
     nsVCoRE);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE_NS(OSGTestSceneItem *, nsVCoRE)
+OSG_FIELDTRAITS_GETTYPE_NS(OSGTreeItem *, nsVCoRE)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           OSGTestSceneItem *,
+                           OSGTreeItem *,
                            nsVCoRE);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           OSGTestSceneItem *,
+                           OSGTreeItem *,
                            nsVCoRE);
+
+DataType &FieldTraits<OSGTreeItem *, nsVCoRE + 1 >::getType(void)
+{
+    return FieldTraits<OSGTreeItem *, nsVCoRE>::getType();
+}
+
+
+OSG_SFIELDTYPE_INST(ParentPointerSField,
+                    OSGTreeItem *,
+                    NoRefCountPolicy,
+                    nsVCoRE + 1);
+
+OSG_FIELD_DLLEXPORT_DEF3(ParentPointerSField,
+                         OSGTreeItem *,
+                         NoRefCountPolicy,
+                         nsVCoRE + 1);
+
 
 OSG_END_NAMESPACE
 
@@ -120,96 +138,95 @@ VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
-void OSGTestSceneItemBase::classDescInserter(TypeObject &oType)
+void OSGTreeItemBase::classDescInserter(TypeObject &oType)
 {
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFReal32::Description(
-        SFReal32::getClassType(),
-        "rotationSpeed",
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
+        "root",
         "",
-        RotationSpeedFieldId, RotationSpeedFieldMask,
+        RootFieldId, RootFieldMask,
         false,
         (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&OSGTestSceneItem::editHandleRotationSpeed),
-        static_cast<FieldGetMethodSig >(&OSGTestSceneItem::getHandleRotationSpeed));
+        static_cast<FieldEditMethodSig>(&OSGTreeItem::editHandleRoot),
+        static_cast<FieldGetMethodSig >(&OSGTreeItem::getHandleRoot));
 
     oType.addInitialDesc(pDesc);
 }
 
 
-OSGTestSceneItemBase::TypeObject OSGTestSceneItemBase::_type(
-    OSGTestSceneItemBase::getClassname(),
+OSGTreeItemBase::TypeObject OSGTreeItemBase::_type(
+    OSGTreeItemBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
     nsVCoRE, //Namespace
-    reinterpret_cast<PrototypeCreateF>(&OSGTestSceneItemBase::createEmptyLocal),
-    OSGTestSceneItem::initMethod,
-    OSGTestSceneItem::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&OSGTestSceneItem::classDescInserter),
+    NULL,
+    OSGTreeItem::initMethod,
+    OSGTreeItem::exitMethod,
+    reinterpret_cast<InitalInsertDescFunc>(&OSGTreeItem::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "    name=\"OSGTestSceneItem\"\n"
-    "    parent=\"OSGTreeItem\"\n"
-    "    library=\"VCoRETest\"\n"
-    "    structure=\"concrete\"\n"
+    "    name=\"OSGTreeItem\"\n"
+    "    parent=\"OSGBaseItem\"\n"
+    "    library=\"VCoRECSM\"\n"
+    "    structure=\"abstract\"\n"
     "    pointerfieldtypes=\"both\"\n"
     "    systemcomponent=\"true\"\n"
     "    parentsystemcomponent=\"true\"\n"
-    "    isNodeCore=\"false\"\n"
-    "    isBundle=\"true\"\n"
-    "    docGroupBase=\"GrpVCoreSystem\"\n"
+    "    docGroupBase=\"GrpVCoreCSM\"\n"
+    "    parentFields=\"single\"\n"
     "    libnamespace=\"VCoRE\"\n"
-    "    >\n"
+    "   >\n"
     "  <Field\n"
-    "\t name=\"rotationSpeed\"\n"
-    "\t type=\"Real32\"\n"
+    "\t name=\"root\"\n"
+    "\t type=\"Node\"\n"
     "\t cardinality=\"single\"\n"
-    "\t defaultValue=\"1.0f\"\n"
+    "\t defaultValue=\"NULL\"\n"
     "\t access=\"public\"\n"
+    "     category=\"pointer\"\n"
     "\t >\n"
     "  </Field>\n"
-    "\n"
     "</FieldContainer>\n",
     ""
     );
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &OSGTestSceneItemBase::getType(void)
+FieldContainerType &OSGTreeItemBase::getType(void)
 {
     return _type;
 }
 
-const FieldContainerType &OSGTestSceneItemBase::getType(void) const
+const FieldContainerType &OSGTreeItemBase::getType(void) const
 {
     return _type;
 }
 
-UInt32 OSGTestSceneItemBase::getContainerSize(void) const
+UInt32 OSGTreeItemBase::getContainerSize(void) const
 {
-    return sizeof(OSGTestSceneItem);
+    return sizeof(OSGTreeItem);
 }
 
 /*------------------------- decorator get ------------------------------*/
 
 
-SFReal32 *OSGTestSceneItemBase::editSFRotationSpeed(void)
+//! Get the OSGTreeItem::_sfRoot field.
+const SFUnrecNodePtr *OSGTreeItemBase::getSFRoot(void) const
 {
-    editSField(RotationSpeedFieldMask);
-
-    return &_sfRotationSpeed;
+    return &_sfRoot;
 }
 
-const SFReal32 *OSGTestSceneItemBase::getSFRotationSpeed(void) const
+SFUnrecNodePtr      *OSGTreeItemBase::editSFRoot           (void)
 {
-    return &_sfRotationSpeed;
-}
+    editSField(RootFieldMask);
 
+    return &_sfRoot;
+}
 
 
 
@@ -217,128 +234,39 @@ const SFReal32 *OSGTestSceneItemBase::getSFRotationSpeed(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-SizeT OSGTestSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT OSGTreeItemBase::getBinSize(ConstFieldMaskArg whichField)
 {
     SizeT returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
+    if(FieldBits::NoField != (RootFieldMask & whichField))
     {
-        returnValue += _sfRotationSpeed.getBinSize();
+        returnValue += _sfRoot.getBinSize();
     }
 
     return returnValue;
 }
 
-void OSGTestSceneItemBase::copyToBin(BinaryDataHandler &pMem,
+void OSGTreeItemBase::copyToBin(BinaryDataHandler &pMem,
                                   ConstFieldMaskArg  whichField)
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
+    if(FieldBits::NoField != (RootFieldMask & whichField))
     {
-        _sfRotationSpeed.copyToBin(pMem);
+        _sfRoot.copyToBin(pMem);
     }
 }
 
-void OSGTestSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
+void OSGTreeItemBase::copyFromBin(BinaryDataHandler &pMem,
                                     ConstFieldMaskArg  whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
+    if(FieldBits::NoField != (RootFieldMask & whichField))
     {
-        editSField(RotationSpeedFieldMask);
-        _sfRotationSpeed.copyFromBin(pMem);
+        editSField(RootFieldMask);
+        _sfRoot.copyFromBin(pMem);
     }
-}
-
-//! create a new instance of the class
-OSGTestSceneItemTransitPtr OSGTestSceneItemBase::createLocal(BitVector bFlags)
-{
-    OSGTestSceneItemTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
-
-        fc = dynamic_pointer_cast<OSGTestSceneItem>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class, copy the container flags
-OSGTestSceneItemTransitPtr OSGTestSceneItemBase::createDependent(BitVector bFlags)
-{
-    OSGTestSceneItemTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
-
-        fc = dynamic_pointer_cast<OSGTestSceneItem>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
-OSGTestSceneItemTransitPtr OSGTestSceneItemBase::create(void)
-{
-    return createLocal();
-}
-
-OSGTestSceneItem *OSGTestSceneItemBase::createEmptyLocal(BitVector bFlags)
-{
-    OSGTestSceneItem *returnValue;
-
-    newPtr<OSGTestSceneItem>(returnValue, bFlags);
-
-    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
-
-    return returnValue;
-}
-
-//! create an empty new instance of the class, do not copy the prototype
-OSGTestSceneItem *OSGTestSceneItemBase::createEmpty(void)
-{
-    return createEmptyLocal();
-}
-
-
-FieldContainerTransitPtr OSGTestSceneItemBase::shallowCopyLocal(
-    BitVector bFlags) const
-{
-    OSGTestSceneItem *tmpPtr;
-
-    newPtr(tmpPtr, dynamic_cast<const OSGTestSceneItem *>(this), bFlags);
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
-
-    return returnValue;
-}
-
-FieldContainerTransitPtr OSGTestSceneItemBase::shallowCopyDependent(
-    BitVector bFlags) const
-{
-    OSGTestSceneItem *tmpPtr;
-
-    newPtr(tmpPtr, dynamic_cast<const OSGTestSceneItem *>(this), ~bFlags);
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
-
-    return returnValue;
-}
-
-FieldContainerTransitPtr OSGTestSceneItemBase::shallowCopy(void) const
-{
-    return shallowCopyLocal();
 }
 
 
@@ -346,62 +274,76 @@ FieldContainerTransitPtr OSGTestSceneItemBase::shallowCopy(void) const
 
 /*------------------------- constructors ----------------------------------*/
 
-OSGTestSceneItemBase::OSGTestSceneItemBase(void) :
+OSGTreeItemBase::OSGTreeItemBase(void) :
     Inherited(),
-    _sfRotationSpeed          (Real32(1.0f))
+    _sfRoot                   (NULL)
 {
 }
 
-OSGTestSceneItemBase::OSGTestSceneItemBase(const OSGTestSceneItemBase &source) :
+OSGTreeItemBase::OSGTreeItemBase(const OSGTreeItemBase &source) :
     Inherited(source),
-    _sfRotationSpeed          (source._sfRotationSpeed          )
+    _sfRoot                   (NULL)
 {
 }
 
 
 /*-------------------------- destructors ----------------------------------*/
 
-OSGTestSceneItemBase::~OSGTestSceneItemBase(void)
+OSGTreeItemBase::~OSGTreeItemBase(void)
 {
 }
 
-
-GetFieldHandlePtr OSGTestSceneItemBase::getHandleRotationSpeed   (void) const
+void OSGTreeItemBase::onCreate(const OSGTreeItem *source)
 {
-    SFReal32::GetHandlePtr returnValue(
-        new  SFReal32::GetHandle(
-             &_sfRotationSpeed,
-             this->getType().getFieldDesc(RotationSpeedFieldId),
-             const_cast<OSGTestSceneItemBase *>(this)));
+    Inherited::onCreate(source);
+
+    if(source != NULL)
+    {
+        OSGTreeItem *pThis = static_cast<OSGTreeItem *>(this);
+
+        pThis->setRoot(source->getRoot());
+    }
+}
+
+GetFieldHandlePtr OSGTreeItemBase::getHandleRoot            (void) const
+{
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
+             const_cast<OSGTreeItemBase *>(this)));
 
     return returnValue;
 }
 
-EditFieldHandlePtr OSGTestSceneItemBase::editHandleRotationSpeed  (void)
+EditFieldHandlePtr OSGTreeItemBase::editHandleRoot           (void)
 {
-    SFReal32::EditHandlePtr returnValue(
-        new  SFReal32::EditHandle(
-             &_sfRotationSpeed,
-             this->getType().getFieldDesc(RotationSpeedFieldId),
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
              this));
 
+    returnValue->setSetMethod(
+        boost::bind(&OSGTreeItem::setRoot,
+                    static_cast<OSGTreeItem *>(this), _1));
 
-    editSField(RotationSpeedFieldMask);
+    editSField(RootFieldMask);
 
     return returnValue;
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-void OSGTestSceneItemBase::execSyncV(      FieldContainer    &oFrom,
+void OSGTreeItemBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    OSGTestSceneItem *pThis = static_cast<OSGTestSceneItem *>(this);
+    OSGTreeItem *pThis = static_cast<OSGTreeItem *>(this);
 
-    pThis->execSync(static_cast<OSGTestSceneItem *>(&oFrom),
+    pThis->execSync(static_cast<OSGTreeItem *>(&oFrom),
                     whichField,
                     oOffsets,
                     syncMode,
@@ -410,23 +352,12 @@ void OSGTestSceneItemBase::execSyncV(      FieldContainer    &oFrom,
 #endif
 
 
-#ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *OSGTestSceneItemBase::createAspectCopy(
-    const FieldContainer *pRefAspect) const
-{
-    OSGTestSceneItem *returnValue;
 
-    newAspectCopy(returnValue,
-                  dynamic_cast<const OSGTestSceneItem *>(pRefAspect),
-                  dynamic_cast<const OSGTestSceneItem *>(this));
-
-    return returnValue;
-}
-#endif
-
-void OSGTestSceneItemBase::resolveLinks(void)
+void OSGTreeItemBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
+
+    static_cast<OSGTreeItem *>(this)->setRoot(NULL);
 
 
 }

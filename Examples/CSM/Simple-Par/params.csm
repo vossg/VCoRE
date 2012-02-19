@@ -1,5 +1,6 @@
 --global ../Common/default-setup.osg
 --system ../Common/system-native-par.osg
 #--data   ../Models/tie.wrl
+--global ../Simple/keys.osg
 --data ../Simple/scene.osg
 --global ../Common/simple_mouse.osg

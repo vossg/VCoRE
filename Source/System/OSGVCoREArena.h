@@ -85,8 +85,6 @@ class OSG_VCORESYSTEM_DLLMAPPING Arena : public ArenaBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */

@@ -45,7 +45,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class CSMItem!
+ **     class CSMItemHandler!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -57,10 +57,10 @@
 
 
 
-#include "OSGVCoREItem.h"               // Item Class
+#include "OSGVCoREOSGBaseItem.h"        // Item Class
 
-#include "OSGVCoRECSMItemBase.h"
-#include "OSGVCoRECSMItem.h"
+#include "OSGVCoRECSMItemHandlerBase.h"
+#include "OSGVCoRECSMItemHandler.h"
 
 #include <boost/bind.hpp>
 
@@ -76,7 +76,7 @@ VCORE_IMPORT_NAMESPACE;
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class OSG::CSMItem
+/*! \class OSG::CSMItemHandler
     
  */
 
@@ -84,11 +84,11 @@ VCORE_IMPORT_NAMESPACE;
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var Item *          CSMItemBase::_sfItem
+/*! \var OSGBaseItem *   CSMItemHandlerBase::_sfItem
     
 */
 
-/*! \var UInt32          CSMItemBase::_sfAspect
+/*! \var UInt32          CSMItemHandlerBase::_sfAspect
     
 */
 
@@ -98,39 +98,22 @@ VCORE_IMPORT_NAMESPACE;
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-PointerType FieldTraits<CSMItem *, nsVCoRE>::_type(
-    "CSMItemPtr", 
-    "NodePtr", 
-    CSMItem::getClassType(),
+PointerType FieldTraits<CSMItemHandler *, nsVCoRE>::_type(
+    "CSMItemHandlerPtr", 
+    "NodeCorePtr", 
+    CSMItemHandler::getClassType(),
     nsVCoRE);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE_NS(CSMItem *, nsVCoRE)
+OSG_FIELDTRAITS_GETTYPE_NS(CSMItemHandler *, nsVCoRE)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           CSMItem *,
+                           CSMItemHandler *,
                            nsVCoRE);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           CSMItem *,
+                           CSMItemHandler *,
                            nsVCoRE);
-
-DataType &FieldTraits<CSMItem *, nsVCoRE + 1 >::getType(void)
-{
-    return FieldTraits<CSMItem *, nsVCoRE>::getType();
-}
-
-
-OSG_SFIELDTYPE_INST(ParentPointerSField,
-                    CSMItem *,
-                    NoRefCountPolicy,
-                    nsVCoRE + 1);
-
-OSG_FIELD_DLLEXPORT_DEF3(ParentPointerSField,
-                         CSMItem *,
-                         NoRefCountPolicy,
-                         nsVCoRE + 1);
-
 
 OSG_END_NAMESPACE
 
@@ -142,22 +125,22 @@ VCORE_BEGIN_NAMESPACE
 
 OSG_IMPORT_NAMESPACE;
 
-void CSMItemBase::classDescInserter(TypeObject &oType)
+void CSMItemHandlerBase::classDescInserter(TypeObject &oType)
 {
     Inherited::classDescInserter(oType);
 
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFUnrecChildItemPtr::Description(
-        SFUnrecChildItemPtr::getClassType(),
+    pDesc = new SFUnrecChildOSGBaseItemPtr::Description(
+        SFUnrecChildOSGBaseItemPtr::getClassType(),
         "item",
         "",
         ItemFieldId, ItemFieldMask,
         false,
         (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&CSMItem::editHandleItem),
-        static_cast<FieldGetMethodSig >(&CSMItem::getHandleItem));
+        static_cast<FieldEditMethodSig>(&CSMItemHandler::editHandleItem),
+        static_cast<FieldGetMethodSig >(&CSMItemHandler::getHandleItem));
 
     oType.addInitialDesc(pDesc);
 
@@ -168,45 +151,44 @@ void CSMItemBase::classDescInserter(TypeObject &oType)
         AspectFieldId, AspectFieldMask,
         false,
         (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&CSMItem::editHandleAspect),
-        static_cast<FieldGetMethodSig >(&CSMItem::getHandleAspect));
+        static_cast<FieldEditMethodSig>(&CSMItemHandler::editHandleAspect),
+        static_cast<FieldGetMethodSig >(&CSMItemHandler::getHandleAspect));
 
     oType.addInitialDesc(pDesc);
 }
 
 
-CSMItemBase::TypeObject CSMItemBase::_type(
-    CSMItemBase::getClassname(),
+CSMItemHandlerBase::TypeObject CSMItemHandlerBase::_type(
+    CSMItemHandlerBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
     nsVCoRE, //Namespace
-    reinterpret_cast<PrototypeCreateF>(&CSMItemBase::createEmptyLocal),
-    CSMItem::initMethod,
-    CSMItem::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&CSMItem::classDescInserter),
+    reinterpret_cast<PrototypeCreateF>(&CSMItemHandlerBase::createEmptyLocal),
+    CSMItemHandler::initMethod,
+    CSMItemHandler::exitMethod,
+    reinterpret_cast<InitalInsertDescFunc>(&CSMItemHandler::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "    name=\"CSMItem\"\n"
-    "    parent=\"Node\"\n"
-    "    mixinparent=\"NodeProducerParent\"\n"
+    "    name=\"CSMItemHandler\"\n"
+    "    parent=\"NodeCore\"\n"
+    "    mixinparent=\"NodeCoreProducerParent\"\n"
     "    parentnamespace=\"OSG\"\n"
     "    library=\"VCoRECSM\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
     "    systemcomponent=\"true\"\n"
     "    parentsystemcomponent=\"true\"\n"
-    "    isNodeCore=\"false\"\n"
+    "    isNodeCore=\"true\"\n"
     "    isBundle=\"false\"\n"
     "    docGroupBase=\"GrpVCoreCSM\"\n"
-    "    parentFields=\"single\"\n"
     "    libnamespace=\"VCoRE\"\n"
     "   >\n"
     "  <Field\n"
     "      name=\"item\"\n"
-    "      type=\"VCoRE::Item\"\n"
+    "      type=\"VCoRE::OSGBaseItem\"\n"
     "      cardinality=\"single\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
@@ -230,45 +212,45 @@ CSMItemBase::TypeObject CSMItemBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &CSMItemBase::getType(void)
+FieldContainerType &CSMItemHandlerBase::getType(void)
 {
     return _type;
 }
 
-const FieldContainerType &CSMItemBase::getType(void) const
+const FieldContainerType &CSMItemHandlerBase::getType(void) const
 {
     return _type;
 }
 
-UInt32 CSMItemBase::getContainerSize(void) const
+UInt32 CSMItemHandlerBase::getContainerSize(void) const
 {
-    return sizeof(CSMItem);
+    return sizeof(CSMItemHandler);
 }
 
 /*------------------------- decorator get ------------------------------*/
 
 
-//! Get the CSMItem::_sfItem field.
-const SFUnrecChildItemPtr *CSMItemBase::getSFItem(void) const
+//! Get the CSMItemHandler::_sfItem field.
+const SFUnrecChildOSGBaseItemPtr *CSMItemHandlerBase::getSFItem(void) const
 {
     return &_sfItem;
 }
 
-SFUnrecChildItemPtr *CSMItemBase::editSFItem           (void)
+SFUnrecChildOSGBaseItemPtr *CSMItemHandlerBase::editSFItem           (void)
 {
     editSField(ItemFieldMask);
 
     return &_sfItem;
 }
 
-SFUInt32 *CSMItemBase::editSFAspect(void)
+SFUInt32 *CSMItemHandlerBase::editSFAspect(void)
 {
     editSField(AspectFieldMask);
 
     return &_sfAspect;
 }
 
-const SFUInt32 *CSMItemBase::getSFAspect(void) const
+const SFUInt32 *CSMItemHandlerBase::getSFAspect(void) const
 {
     return &_sfAspect;
 }
@@ -280,7 +262,7 @@ const SFUInt32 *CSMItemBase::getSFAspect(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-SizeT CSMItemBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT CSMItemHandlerBase::getBinSize(ConstFieldMaskArg whichField)
 {
     SizeT returnValue = Inherited::getBinSize(whichField);
 
@@ -296,7 +278,7 @@ SizeT CSMItemBase::getBinSize(ConstFieldMaskArg whichField)
     return returnValue;
 }
 
-void CSMItemBase::copyToBin(BinaryDataHandler &pMem,
+void CSMItemHandlerBase::copyToBin(BinaryDataHandler &pMem,
                                   ConstFieldMaskArg  whichField)
 {
     Inherited::copyToBin(pMem, whichField);
@@ -311,7 +293,7 @@ void CSMItemBase::copyToBin(BinaryDataHandler &pMem,
     }
 }
 
-void CSMItemBase::copyFromBin(BinaryDataHandler &pMem,
+void CSMItemHandlerBase::copyFromBin(BinaryDataHandler &pMem,
                                     ConstFieldMaskArg  whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
@@ -329,58 +311,58 @@ void CSMItemBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-CSMItemTransitPtr CSMItemBase::createLocal(BitVector bFlags)
+CSMItemHandlerTransitPtr CSMItemHandlerBase::createLocal(BitVector bFlags)
 {
-    CSMItemTransitPtr fc;
+    CSMItemHandlerTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
 
-        fc = dynamic_pointer_cast<CSMItem>(tmpPtr);
+        fc = dynamic_pointer_cast<CSMItemHandler>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class, copy the container flags
-CSMItemTransitPtr CSMItemBase::createDependent(BitVector bFlags)
+CSMItemHandlerTransitPtr CSMItemHandlerBase::createDependent(BitVector bFlags)
 {
-    CSMItemTransitPtr fc;
+    CSMItemHandlerTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyDependent(bFlags);
 
-        fc = dynamic_pointer_cast<CSMItem>(tmpPtr);
+        fc = dynamic_pointer_cast<CSMItemHandler>(tmpPtr);
     }
 
     return fc;
 }
 
 //! create a new instance of the class
-CSMItemTransitPtr CSMItemBase::create(void)
+CSMItemHandlerTransitPtr CSMItemHandlerBase::create(void)
 {
-    CSMItemTransitPtr fc;
+    CSMItemHandlerTransitPtr fc;
 
     if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
 
-        fc = dynamic_pointer_cast<CSMItem>(tmpPtr);
+        fc = dynamic_pointer_cast<CSMItemHandler>(tmpPtr);
     }
 
     return fc;
 }
 
-CSMItem *CSMItemBase::createEmptyLocal(BitVector bFlags)
+CSMItemHandler *CSMItemHandlerBase::createEmptyLocal(BitVector bFlags)
 {
-    CSMItem *returnValue;
+    CSMItemHandler *returnValue;
 
-    newPtr<CSMItem>(returnValue, bFlags);
+    newPtr<CSMItemHandler>(returnValue, bFlags);
 
     returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
@@ -388,11 +370,11 @@ CSMItem *CSMItemBase::createEmptyLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-CSMItem *CSMItemBase::createEmpty(void)
+CSMItemHandler *CSMItemHandlerBase::createEmpty(void)
 {
-    CSMItem *returnValue;
+    CSMItemHandler *returnValue;
 
-    newPtr<CSMItem>(returnValue, Thread::getCurrentLocalFlags());
+    newPtr<CSMItemHandler>(returnValue, Thread::getCurrentLocalFlags());
 
     returnValue->_pFieldFlags->_bNamespaceMask &=
         ~Thread::getCurrentLocalFlags();
@@ -401,12 +383,12 @@ CSMItem *CSMItemBase::createEmpty(void)
 }
 
 
-FieldContainerTransitPtr CSMItemBase::shallowCopyLocal(
+FieldContainerTransitPtr CSMItemHandlerBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    CSMItem *tmpPtr;
+    CSMItemHandler *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const CSMItem *>(this), bFlags);
+    newPtr(tmpPtr, dynamic_cast<const CSMItemHandler *>(this), bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -415,12 +397,12 @@ FieldContainerTransitPtr CSMItemBase::shallowCopyLocal(
     return returnValue;
 }
 
-FieldContainerTransitPtr CSMItemBase::shallowCopyDependent(
+FieldContainerTransitPtr CSMItemHandlerBase::shallowCopyDependent(
     BitVector bFlags) const
 {
-    CSMItem *tmpPtr;
+    CSMItemHandler *tmpPtr;
 
-    newPtr(tmpPtr, dynamic_cast<const CSMItem *>(this), ~bFlags);
+    newPtr(tmpPtr, dynamic_cast<const CSMItemHandler *>(this), ~bFlags);
 
     FieldContainerTransitPtr returnValue(tmpPtr);
 
@@ -429,12 +411,12 @@ FieldContainerTransitPtr CSMItemBase::shallowCopyDependent(
     return returnValue;
 }
 
-FieldContainerTransitPtr CSMItemBase::shallowCopy(void) const
+FieldContainerTransitPtr CSMItemHandlerBase::shallowCopy(void) const
 {
-    CSMItem *tmpPtr;
+    CSMItemHandler *tmpPtr;
 
     newPtr(tmpPtr,
-           dynamic_cast<const CSMItem *>(this),
+           dynamic_cast<const CSMItemHandler *>(this),
            Thread::getCurrentLocalFlags());
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
@@ -449,20 +431,20 @@ FieldContainerTransitPtr CSMItemBase::shallowCopy(void) const
 
 /*------------------------- constructors ----------------------------------*/
 
-CSMItemBase::CSMItemBase(void) :
+CSMItemHandlerBase::CSMItemHandlerBase(void) :
     Inherited(),
     _sfItem                   (this,
                           ItemFieldId,
-                          Item::ParentFieldId),
+                          OSGBaseItem::ParentFieldId),
     _sfAspect                 (UInt32(1))
 {
 }
 
-CSMItemBase::CSMItemBase(const CSMItemBase &source) :
+CSMItemHandlerBase::CSMItemHandlerBase(const CSMItemHandlerBase &source) :
     Inherited(source),
     _sfItem                   (this,
                           ItemFieldId,
-                          Item::ParentFieldId),
+                          OSGBaseItem::ParentFieldId),
     _sfAspect                 (source._sfAspect                 )
 {
 }
@@ -470,21 +452,21 @@ CSMItemBase::CSMItemBase(const CSMItemBase &source) :
 
 /*-------------------------- destructors ----------------------------------*/
 
-CSMItemBase::~CSMItemBase(void)
+CSMItemHandlerBase::~CSMItemHandlerBase(void)
 {
 }
 
 /*-------------------------------------------------------------------------*/
 /* Child linking                                                           */
 
-bool CSMItemBase::unlinkChild(
+bool CSMItemHandlerBase::unlinkChild(
     FieldContainer * const pChild,
     UInt16           const childFieldId)
 {
     if(childFieldId == ItemFieldId)
     {
-        Item * pTypedChild =
-            dynamic_cast<Item *>(pChild);
+        OSGBaseItem * pTypedChild =
+            dynamic_cast<OSGBaseItem *>(pChild);
 
         if(pTypedChild != NULL)
         {
@@ -517,58 +499,58 @@ bool CSMItemBase::unlinkChild(
     return Inherited::unlinkChild(pChild, childFieldId);
 }
 
-void CSMItemBase::onCreate(const CSMItem *source)
+void CSMItemHandlerBase::onCreate(const CSMItemHandler *source)
 {
     Inherited::onCreate(source);
 
     if(source != NULL)
     {
-        CSMItem *pThis = static_cast<CSMItem *>(this);
+        CSMItemHandler *pThis = static_cast<CSMItemHandler *>(this);
 
         pThis->setItem(source->getItem());
     }
 }
 
-GetFieldHandlePtr CSMItemBase::getHandleItem            (void) const
+GetFieldHandlePtr CSMItemHandlerBase::getHandleItem            (void) const
 {
-    SFUnrecChildItemPtr::GetHandlePtr returnValue(
-        new  SFUnrecChildItemPtr::GetHandle(
+    SFUnrecChildOSGBaseItemPtr::GetHandlePtr returnValue(
+        new  SFUnrecChildOSGBaseItemPtr::GetHandle(
              &_sfItem,
              this->getType().getFieldDesc(ItemFieldId),
-             const_cast<CSMItemBase *>(this)));
+             const_cast<CSMItemHandlerBase *>(this)));
 
     return returnValue;
 }
 
-EditFieldHandlePtr CSMItemBase::editHandleItem           (void)
+EditFieldHandlePtr CSMItemHandlerBase::editHandleItem           (void)
 {
-    SFUnrecChildItemPtr::EditHandlePtr returnValue(
-        new  SFUnrecChildItemPtr::EditHandle(
+    SFUnrecChildOSGBaseItemPtr::EditHandlePtr returnValue(
+        new  SFUnrecChildOSGBaseItemPtr::EditHandle(
              &_sfItem,
              this->getType().getFieldDesc(ItemFieldId),
              this));
 
     returnValue->setSetMethod(
-        boost::bind(&CSMItem::setItem,
-                    static_cast<CSMItem *>(this), _1));
+        boost::bind(&CSMItemHandler::setItem,
+                    static_cast<CSMItemHandler *>(this), _1));
 
     editSField(ItemFieldMask);
 
     return returnValue;
 }
 
-GetFieldHandlePtr CSMItemBase::getHandleAspect          (void) const
+GetFieldHandlePtr CSMItemHandlerBase::getHandleAspect          (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfAspect,
              this->getType().getFieldDesc(AspectFieldId),
-             const_cast<CSMItemBase *>(this)));
+             const_cast<CSMItemHandlerBase *>(this)));
 
     return returnValue;
 }
 
-EditFieldHandlePtr CSMItemBase::editHandleAspect         (void)
+EditFieldHandlePtr CSMItemHandlerBase::editHandleAspect         (void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
@@ -584,15 +566,15 @@ EditFieldHandlePtr CSMItemBase::editHandleAspect         (void)
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-void CSMItemBase::execSyncV(      FieldContainer    &oFrom,
+void CSMItemHandlerBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    CSMItem *pThis = static_cast<CSMItem *>(this);
+    CSMItemHandler *pThis = static_cast<CSMItemHandler *>(this);
 
-    pThis->execSync(static_cast<CSMItem *>(&oFrom),
+    pThis->execSync(static_cast<CSMItemHandler *>(&oFrom),
                     whichField,
                     oOffsets,
                     syncMode,
@@ -602,24 +584,24 @@ void CSMItemBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *CSMItemBase::createAspectCopy(
+FieldContainer *CSMItemHandlerBase::createAspectCopy(
     const FieldContainer *pRefAspect) const
 {
-    CSMItem *returnValue;
+    CSMItemHandler *returnValue;
 
     newAspectCopy(returnValue,
-                  dynamic_cast<const CSMItem *>(pRefAspect),
-                  dynamic_cast<const CSMItem *>(this));
+                  dynamic_cast<const CSMItemHandler *>(pRefAspect),
+                  dynamic_cast<const CSMItemHandler *>(this));
 
     return returnValue;
 }
 #endif
 
-void CSMItemBase::resolveLinks(void)
+void CSMItemHandlerBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<CSMItem *>(this)->setItem(NULL);
+    static_cast<CSMItemHandler *>(this)->setItem(NULL);
 
 
 }

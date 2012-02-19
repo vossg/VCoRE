@@ -83,10 +83,6 @@ VCORE_IMPORT_NAMESPACE;
  *                        Field Documentation                              *
 \***************************************************************************/
 
-/*! \var Int32           VCDynFieldContainerBase::_sfPreDFMixinTestField
-    
-*/
-
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -124,20 +120,6 @@ void VCDynFieldContainerBase::classDescInserter(TypeObject &oType)
 {
     Inherited::classDescInserter(oType);
 
-    FieldDescriptionBase *pDesc = NULL;
-
-
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "preDFMixinTestField",
-        "",
-        PreDFMixinTestFieldFieldId, PreDFMixinTestFieldFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&VCDynFieldContainer::editHandlePreDFMixinTestField),
-        static_cast<FieldGetMethodSig >(&VCDynFieldContainer::getHandlePreDFMixinTestField));
-
-    oType.addInitialDesc(pDesc);
 }
 
 
@@ -168,15 +150,6 @@ VCDynFieldContainerBase::TypeObject VCDynFieldContainerBase::_type(
     "   docGroupBase=\"GrpVCoreBase\"\n"
     "   libnamespace=\"VCoRE\"\n"
     "   >\n"
-    "  <Field\n"
-    "     name=\"preDFMixinTestField\"\n"
-    "     type=\"Int32\"\n"
-    "     cardinality=\"single\"\n"
-    "     visibility=\"external\"\n"
-    "     access=\"public\"\n"
-    "     defaultValue=\"5\"\n"
-    "     >\n"
-    "  </Field>\n"
     "</FieldContainer>\n",
     ""
     );
@@ -201,19 +174,6 @@ UInt32 VCDynFieldContainerBase::getContainerSize(void) const
 /*------------------------- decorator get ------------------------------*/
 
 
-SFInt32 *VCDynFieldContainerBase::editSFPreDFMixinTestField(void)
-{
-    editSField(PreDFMixinTestFieldFieldMask);
-
-    return &_sfPreDFMixinTestField;
-}
-
-const SFInt32 *VCDynFieldContainerBase::getSFPreDFMixinTestField(void) const
-{
-    return &_sfPreDFMixinTestField;
-}
-
-
 
 
 
@@ -224,10 +184,6 @@ SizeT VCDynFieldContainerBase::getBinSize(ConstFieldMaskArg whichField)
 {
     SizeT returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (PreDFMixinTestFieldFieldMask & whichField))
-    {
-        returnValue += _sfPreDFMixinTestField.getBinSize();
-    }
 
     return returnValue;
 }
@@ -237,10 +193,6 @@ void VCDynFieldContainerBase::copyToBin(BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PreDFMixinTestFieldFieldMask & whichField))
-    {
-        _sfPreDFMixinTestField.copyToBin(pMem);
-    }
 }
 
 void VCDynFieldContainerBase::copyFromBin(BinaryDataHandler &pMem,
@@ -248,11 +200,6 @@ void VCDynFieldContainerBase::copyFromBin(BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (PreDFMixinTestFieldFieldMask & whichField))
-    {
-        editSField(PreDFMixinTestFieldFieldMask);
-        _sfPreDFMixinTestField.copyFromBin(pMem);
-    }
 }
 
 
@@ -261,14 +208,12 @@ void VCDynFieldContainerBase::copyFromBin(BinaryDataHandler &pMem,
 /*------------------------- constructors ----------------------------------*/
 
 VCDynFieldContainerBase::VCDynFieldContainerBase(void) :
-    Inherited(),
-    _sfPreDFMixinTestField    (Int32(5))
+    Inherited()
 {
 }
 
 VCDynFieldContainerBase::VCDynFieldContainerBase(const VCDynFieldContainerBase &source) :
-    Inherited(source),
-    _sfPreDFMixinTestField    (source._sfPreDFMixinTestField    )
+    Inherited(source)
 {
 }
 
@@ -279,31 +224,6 @@ VCDynFieldContainerBase::~VCDynFieldContainerBase(void)
 {
 }
 
-
-GetFieldHandlePtr VCDynFieldContainerBase::getHandlePreDFMixinTestField (void) const
-{
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfPreDFMixinTestField,
-             this->getType().getFieldDesc(PreDFMixinTestFieldFieldId),
-             const_cast<VCDynFieldContainerBase *>(this)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr VCDynFieldContainerBase::editHandlePreDFMixinTestField(void)
-{
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfPreDFMixinTestField,
-             this->getType().getFieldDesc(PreDFMixinTestFieldFieldId),
-             this));
-
-
-    editSField(PreDFMixinTestFieldFieldMask);
-
-    return returnValue;
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

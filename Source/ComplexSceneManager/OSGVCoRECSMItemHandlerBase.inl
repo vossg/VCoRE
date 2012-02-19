@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class OSGTestSceneItem!
+ **     class CSMItemHandler!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,56 +55,72 @@ OSG_IMPORT_NAMESPACE;
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &OSGTestSceneItemBase::getClassType(void)
+OSG::FieldContainerType &CSMItemHandlerBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 OSGTestSceneItemBase::getClassTypeId(void)
+OSG::UInt32 CSMItemHandlerBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 OSGTestSceneItemBase::getClassGroupId(void)
+OSG::UInt16 CSMItemHandlerBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the OSGTestSceneItem::_sfRotationSpeed field.
 
+//! Get the value of the CSMItemHandler::_sfItem field.
 inline
-Real32 &OSGTestSceneItemBase::editRotationSpeed(void)
+OSGBaseItem * CSMItemHandlerBase::getItem(void) const
 {
-    editSField(RotationSpeedFieldMask);
-
-    return _sfRotationSpeed.getValue();
+    return _sfItem.getValue();
 }
 
-//! Get the value of the OSGTestSceneItem::_sfRotationSpeed field.
+//! Set the value of the CSMItemHandler::_sfItem field.
 inline
-      Real32  OSGTestSceneItemBase::getRotationSpeed(void) const
+void CSMItemHandlerBase::setItem(OSGBaseItem * const value)
 {
-    return _sfRotationSpeed.getValue();
+    editSField(ItemFieldMask);
+
+    _sfItem.setValue(value);
+}
+//! Get the value of the CSMItemHandler::_sfAspect field.
+
+inline
+UInt32 &CSMItemHandlerBase::editAspect(void)
+{
+    editSField(AspectFieldMask);
+
+    return _sfAspect.getValue();
 }
 
-//! Set the value of the OSGTestSceneItem::_sfRotationSpeed field.
+//! Get the value of the CSMItemHandler::_sfAspect field.
 inline
-void OSGTestSceneItemBase::setRotationSpeed(const Real32 value)
+      UInt32  CSMItemHandlerBase::getAspect(void) const
 {
-    editSField(RotationSpeedFieldMask);
+    return _sfAspect.getValue();
+}
 
-    _sfRotationSpeed.setValue(value);
+//! Set the value of the CSMItemHandler::_sfAspect field.
+inline
+void CSMItemHandlerBase::setAspect(const UInt32 value)
+{
+    editSField(AspectFieldMask);
+
+    _sfAspect.setValue(value);
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void OSGTestSceneItemBase::execSync (      OSGTestSceneItemBase *pFrom,
+void CSMItemHandlerBase::execSync (      CSMItemHandlerBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -112,18 +128,21 @@ void OSGTestSceneItemBase::execSync (      OSGTestSceneItemBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
-        _sfRotationSpeed.syncWith(pFrom->_sfRotationSpeed);
+    if(FieldBits::NoField != (ItemFieldMask & whichField))
+        _sfItem.syncWith(pFrom->_sfItem);
+
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+        _sfAspect.syncWith(pFrom->_sfAspect);
 }
 #endif
 
 
 inline
-const Char8 *OSGTestSceneItemBase::getClassname(void)
+const Char8 *CSMItemHandlerBase::getClassname(void)
 {
-    return "OSGTestSceneItem";
+    return "CSMItemHandler";
 }
-OSG_GEN_CONTAINERPTR(OSGTestSceneItem);
+OSG_GEN_CONTAINERPTR(CSMItemHandler);
 
 VCORE_END_NAMESPACE
 

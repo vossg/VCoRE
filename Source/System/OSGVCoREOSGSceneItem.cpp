@@ -69,60 +69,6 @@ void OSGSceneItem::changed(ConstFieldMaskArg whichField,
     Inherited::changed(whichField, origin, details);
 }
 
-FieldContainer *OSGSceneItem::findNamedComponent(const Char8 *szName) const
-{
-    MFGlobalsType::const_iterator gIt  = _mfGlobals.begin();
-    MFGlobalsType::const_iterator gEnd = _mfGlobals.end  ();
-
-          AttachmentContainer *pAttCnt     = NULL;
-    const Char8               *szTmpName   = NULL;
-
-
-    while(gIt != gEnd)
-    {
-#if 0
-        pNode = dynamic_cast<Node *>(*gIt);
-
-        if(pNode != NULL)
-        {
-            ElementFinder oFinder;
-
-            oFinder._szRefName = szName;
-
-            traverse(pNode, boost::bind(&ElementFinder::enter, &oFinder, _1));
-
-            if(oFinder._pResult != NULL)
-            {
-                return oFinder._pResult;
-            }
-         }
-#endif 
-       
-        pAttCnt = dynamic_cast<AttachmentContainer *>(*gIt);
-
-        if(pAttCnt != NULL)
-        {
-            szTmpName = OSG::getName(pAttCnt);
-           
-            if(szTmpName != NULL && osgStringCmp(szTmpName, szName) == 0)
-            {
-                return pAttCnt;
-            }
-            else
-            {
-                FieldContainer *tmpVal = pAttCnt->findNamedComponent(szName);
-                
-                if(tmpVal != NULL)
-                    return tmpVal;
-            }
-        }
-
-        ++gIt;
-    }
-
-    return NULL;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 

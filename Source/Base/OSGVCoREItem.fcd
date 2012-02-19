@@ -24,13 +24,4 @@
       category="parentpointer"
       >
   </Field>
-  <Field
-     name="postDFMixinTestField"
-     type="Int32"
-     cardinality="single"
-     visibility="external"
-     access="public"
-     defaultValue="10"
-     >
-  </Field>
 </FieldContainer>
