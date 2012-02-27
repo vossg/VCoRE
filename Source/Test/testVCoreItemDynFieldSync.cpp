@@ -19,7 +19,7 @@ void dumpAspect(VCoRE::Item *pFC, OSG::UInt32 uiAspect)
     OSG::Thread::setAspectTo(uiAspect);
 
 #ifdef OSG_MT_CPTR_ASPECT
-    VCoRE::Item *pAFC = OSG::convertToCurrentAspect(pFC);
+    VCoRE::Item *pAFC = OSG::Aspect::convertToCurrent(pFC);
 #else
     VCoRE::Item *pAFC = getCPtr(pFC);
 #endif
