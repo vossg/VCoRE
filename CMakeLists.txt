@@ -2,7 +2,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 IF(OSG_BUILD_ACTIVE)
-    INCLUDE(./CMakeLists.Lib.VCore.txt)
+    INCLUDE(./CMakeLists.Lib.VCoRE.txt)
 ELSE(OSG_BUILD_ACTIVE)
     INCLUDE(./CMakeLists.standalone.txt)
 ENDIF(OSG_BUILD_ACTIVE)

@@ -3,7 +3,7 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreNativeGLUT")
+OSG_ADD_PROJECT("VCoRENativeGLUT")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,7 +11,7 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreSystem OSGWindowGLUT)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoRESystem OSGWindowGLUT)
 
 #SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup 
 #                                     OSGDynamics 

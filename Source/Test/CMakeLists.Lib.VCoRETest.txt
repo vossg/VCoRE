@@ -3,7 +3,12 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreBase")
+IF(NOT QT4_FOUND)
+    MESSAGE(STATUS "Dependency (Qt4) not found, can not build (${PROJECT_NAME}).\n")
+    SET(OSGBUILD_${PROJECT_NAME} OFF)
+ENDIF(NOT QT4_FOUND)
+
+OSG_ADD_PROJECT("VCoRETest")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,12 +16,12 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase)
 
-#SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup 
-#                                     OSGDynamics 
-#                                     OSGUtil 
-#                                     OSGWindowGLUT)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT 
+                                     VCoRECSM OSGFileIO OSGImageFileIO OSGSystem
+                                     OSGDrawable OSGGroup OSGState 
+                                     OSGText OSGUtil OSGWindow OSGContribCSM)
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
@@ -30,9 +35,30 @@ SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
 # dependencies - Additional
 # SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
 
+# dependencies - External
+SET(${PROJECT_NAME}_DEP_TEST_LIB QT_QTCORE_LIBRARY
+                            QT_QTGUI_LIBRARY
+                            QT_QTOPENGL_LIBRARY)
+SET(${PROJECT_NAME}_DEP_TEST_LIBDIR OSG_QT4_LIB_DIR)
+SET(${PROJECT_NAME}_DEP_TEST_INCDIR OSG_QT4_INC_DIR)
+
+# dependencies - Additional
+# SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
+SET(${PROJECT_NAME}_DEP_DEFS "QT_THREAD_SUPPORT"
+                             "QT_ACCESSIBILITY_SUPPORT"
+                             "QT_CLEAN_NAMESPACE"
+                             "QT_CORE_LIB"
+                             "QT_GUI_LIB"
+                             "QT_OPENGL_LIB")
+
 OSG_ADD_GLUTPACKAGE(TRUE)
 
 SET(${PROJECT_NAME}_NO_DOC TRUE)
+
+IF(NOT OSG_WITH_QT)
+  SET(${PROJECT_NAME}_EXCL_FILES 
+      ${CMAKE_CURRENT_SOURCE_DIR}/testThreadQT.cpp)
+ENDIF()
 
 OSG_STORE_PROJECT_DEPENDENCIES()
 
@@ -54,4 +80,4 @@ SET(${PROJECT_NAME}_NO_PYTHON TRUE)
 # setup build
 ##############################################################################
 
-OSG_SETUP_PROJECT("OSG_COMPILEVCOREBASELIB")
+OSG_SETUP_PROJECT("OSG_COMPILEVCORETESTLIB")

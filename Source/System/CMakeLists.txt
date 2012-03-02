@@ -2,4 +2,4 @@
 # CMake's ADD_SUBDIRECTORY only looks for CMakeLists.txt, so we include
 # the real file here
 
-INCLUDE("CMakeLists.Lib.VCoreSystem.txt")
+INCLUDE("CMakeLists.Lib.VCoRESystem.txt")

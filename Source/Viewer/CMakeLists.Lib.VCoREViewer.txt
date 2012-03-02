@@ -3,7 +3,7 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreViewer")
+OSG_ADD_PROJECT("VCoREViewer")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,18 +11,18 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase 
-                                VCoreGreatestHacks 
-                                VCoreRenderer 
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoREBase 
+                                VCoREGreatestHacks 
+                                VCoRERenderer 
                                 OSGSystem 
                                 OSGUtil 
                                 OSGWindowGLUT 
                                 OSGEffectGroups)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase 
-                                     VCoreGreatestHacks 
-                                     VCoreRenderer 
-                                     VCoreViewer 
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREBase 
+                                     VCoREGreatestHacks 
+                                     VCoRERenderer 
+                                     VCoREViewer 
                                      OSGSystem 
                                      OSGUtil 
                                      OSGWindowGLUT 

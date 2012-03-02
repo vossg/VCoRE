@@ -3,7 +3,7 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreGreatestHacks")
+OSG_ADD_PROJECT("VCoREGreatestHacks")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,9 +11,9 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase OSGSystem OSGUtil)
+SET(${PROJECT_NAME}_DEP_OSG_LIB VCoREBase OSGSystem OSGUtil)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoreBase VCoreGreatestHacks OSGSystem OSGUtil)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREGreatestHacks OSGSystem OSGUtil)
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)

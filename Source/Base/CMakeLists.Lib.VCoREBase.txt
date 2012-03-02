@@ -3,7 +3,7 @@ IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
   RETURN()
 ENDIF()
 
-OSG_ADD_PROJECT("VCoreEvents")
+OSG_ADD_PROJECT("VCoREBase")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
@@ -11,7 +11,7 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase)
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
 
 #SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup 
 #                                     OSGDynamics 
@@ -30,7 +30,7 @@ SET(${PROJECT_NAME}_DEP_OSG_LIB VCoreBase)
 # dependencies - Additional
 # SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
 
-#OSG_ADD_GLUTPACKAGE(FALSE)
+OSG_ADD_GLUTPACKAGE(TRUE)
 
 SET(${PROJECT_NAME}_NO_DOC TRUE)
 
@@ -54,4 +54,4 @@ SET(${PROJECT_NAME}_NO_PYTHON TRUE)
 # setup build
 ##############################################################################
 
-OSG_SETUP_PROJECT("OSG_COMPILEVCOREEVENTSLIB")
+OSG_SETUP_PROJECT("OSG_COMPILEVCOREBASELIB")
