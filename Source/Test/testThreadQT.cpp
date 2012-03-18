@@ -1,6 +1,9 @@
 #include <math.h>
 #include <vector>
 
+#include "OSGConfig.h"
+#include "OSGGL.h"
+
 #include <QtGui/QApplication>
 #include <QtOpenGL/QGLWidget>
 #include <QtGui/QMouseEvent>
@@ -9,7 +12,6 @@
 #pragma warning(disable:4305) // init: truncation from const double to float
 #endif
 
-#include "OSGConfig.h"
 #include "OSGSceneFileHandler.h"
 #include "OSGSimpleGeometry.h"
 #include "OSGPassiveWindow.h"
