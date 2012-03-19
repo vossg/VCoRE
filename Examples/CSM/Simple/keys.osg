@@ -16,6 +16,18 @@ ContainerCollection
       stateFlipFlop TRUE
     }       
 
+    DEF AnimSensorA KeySensor
+    {
+      key "a"
+      stateFlipFlop TRUE
+    }       
+
+    DEF AnimSensorS KeySensor
+    {
+      key "s"
+      stateFlipFlop FALSE
+    }       
+
     DEF SpeedCounter Real32Counter
     {
       value 1.0

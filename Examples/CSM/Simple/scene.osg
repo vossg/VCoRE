@@ -39,3 +39,5 @@ Node
 }
 
 ROUTE SpeedCounter.value TO OSGTestItem .rotationSpeed
+ROUTE AnimSensorA.stateFlipFlop TO OSGTestItem.animate
+ROUTE AnimSensorS.stateFlipFlop TO OSGTestItem.animate

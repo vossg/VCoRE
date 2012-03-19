@@ -21,5 +21,13 @@
 	 access="public"
 	 >
   </Field>
+  <Field
+	 name="animate"
+	 type="bool"
+	 cardinality="single"
+	 defaultValue="true"
+	 access="public"
+	 >
+  </Field>
 
 </FieldContainer>

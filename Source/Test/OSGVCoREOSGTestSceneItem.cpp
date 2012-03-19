@@ -78,6 +78,12 @@ void OSGTestSceneItem::changed(ConstFieldMaskArg whichField,
                 _sfRotationSpeed.getValue());
     }
 
+    if(0x0000 != (whichField & AnimateFieldMask))
+    {
+        fprintf(stderr, "new animate %d\n",
+                UInt32(_sfAnimate.getValue()));
+    }
+
     if(0x0000 != (whichField & RootFieldMask))
     {
         fprintf(stderr, "new root %p\n", this->getRoot());
@@ -324,7 +330,7 @@ void OSGTestSceneItem::tick(void)
 {
 //    fprintf(stderr, " OSGTestSceneItem::tick\n");
 
-    if(pTransform != NULL)
+    if(pTransform != NULL && _sfAnimate.getValue() == true)
     {
         Quaternion qRot;
 

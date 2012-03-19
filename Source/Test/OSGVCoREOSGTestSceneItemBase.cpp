@@ -87,6 +87,10 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
+/*! \var bool            OSGTestSceneItemBase::_sfAnimate
+    
+*/
+
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -136,6 +140,18 @@ void OSGTestSceneItemBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&OSGTestSceneItem::getHandleRotationSpeed));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new SFBool::Description(
+        SFBool::getClassType(),
+        "animate",
+        "",
+        AnimateFieldId, AnimateFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&OSGTestSceneItem::editHandleAnimate),
+        static_cast<FieldGetMethodSig >(&OSGTestSceneItem::getHandleAnimate));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -170,6 +186,14 @@ OSGTestSceneItemBase::TypeObject OSGTestSceneItemBase::_type(
     "\t type=\"Real32\"\n"
     "\t cardinality=\"single\"\n"
     "\t defaultValue=\"1.0f\"\n"
+    "\t access=\"public\"\n"
+    "\t >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "\t name=\"animate\"\n"
+    "\t type=\"bool\"\n"
+    "\t cardinality=\"single\"\n"
+    "\t defaultValue=\"true\"\n"
     "\t access=\"public\"\n"
     "\t >\n"
     "  </Field>\n"
@@ -211,6 +235,19 @@ const SFReal32 *OSGTestSceneItemBase::getSFRotationSpeed(void) const
 }
 
 
+SFBool *OSGTestSceneItemBase::editSFAnimate(void)
+{
+    editSField(AnimateFieldMask);
+
+    return &_sfAnimate;
+}
+
+const SFBool *OSGTestSceneItemBase::getSFAnimate(void) const
+{
+    return &_sfAnimate;
+}
+
+
 
 
 
@@ -225,6 +262,10 @@ SizeT OSGTestSceneItemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfRotationSpeed.getBinSize();
     }
+    if(FieldBits::NoField != (AnimateFieldMask & whichField))
+    {
+        returnValue += _sfAnimate.getBinSize();
+    }
 
     return returnValue;
 }
@@ -238,6 +279,10 @@ void OSGTestSceneItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfRotationSpeed.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (AnimateFieldMask & whichField))
+    {
+        _sfAnimate.copyToBin(pMem);
+    }
 }
 
 void OSGTestSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
@@ -249,6 +294,11 @@ void OSGTestSceneItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(RotationSpeedFieldMask);
         _sfRotationSpeed.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (AnimateFieldMask & whichField))
+    {
+        editSField(AnimateFieldMask);
+        _sfAnimate.copyFromBin(pMem);
     }
 }
 
@@ -348,13 +398,15 @@ FieldContainerTransitPtr OSGTestSceneItemBase::shallowCopy(void) const
 
 OSGTestSceneItemBase::OSGTestSceneItemBase(void) :
     Inherited(),
-    _sfRotationSpeed          (Real32(1.0f))
+    _sfRotationSpeed          (Real32(1.0f)),
+    _sfAnimate                (bool(true))
 {
 }
 
 OSGTestSceneItemBase::OSGTestSceneItemBase(const OSGTestSceneItemBase &source) :
     Inherited(source),
-    _sfRotationSpeed          (source._sfRotationSpeed          )
+    _sfRotationSpeed          (source._sfRotationSpeed          ),
+    _sfAnimate                (source._sfAnimate                )
 {
 }
 
@@ -387,6 +439,31 @@ EditFieldHandlePtr OSGTestSceneItemBase::editHandleRotationSpeed  (void)
 
 
     editSField(RotationSpeedFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr OSGTestSceneItemBase::getHandleAnimate         (void) const
+{
+    SFBool::GetHandlePtr returnValue(
+        new  SFBool::GetHandle(
+             &_sfAnimate,
+             this->getType().getFieldDesc(AnimateFieldId),
+             const_cast<OSGTestSceneItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr OSGTestSceneItemBase::editHandleAnimate        (void)
+{
+    SFBool::EditHandlePtr returnValue(
+        new  SFBool::EditHandle(
+             &_sfAnimate,
+             this->getType().getFieldDesc(AnimateFieldId),
+             this));
+
+
+    editSField(AnimateFieldMask);
 
     return returnValue;
 }

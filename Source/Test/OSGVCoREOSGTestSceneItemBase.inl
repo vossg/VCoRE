@@ -100,6 +100,31 @@ void OSGTestSceneItemBase::setRotationSpeed(const Real32 value)
 
     _sfRotationSpeed.setValue(value);
 }
+//! Get the value of the OSGTestSceneItem::_sfAnimate field.
+
+inline
+bool &OSGTestSceneItemBase::editAnimate(void)
+{
+    editSField(AnimateFieldMask);
+
+    return _sfAnimate.getValue();
+}
+
+//! Get the value of the OSGTestSceneItem::_sfAnimate field.
+inline
+      bool  OSGTestSceneItemBase::getAnimate(void) const
+{
+    return _sfAnimate.getValue();
+}
+
+//! Set the value of the OSGTestSceneItem::_sfAnimate field.
+inline
+void OSGTestSceneItemBase::setAnimate(const bool value)
+{
+    editSField(AnimateFieldMask);
+
+    _sfAnimate.setValue(value);
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -114,6 +139,9 @@ void OSGTestSceneItemBase::execSync (      OSGTestSceneItemBase *pFrom,
 
     if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
         _sfRotationSpeed.syncWith(pFrom->_sfRotationSpeed);
+
+    if(FieldBits::NoField != (AnimateFieldMask & whichField))
+        _sfAnimate.syncWith(pFrom->_sfAnimate);
 }
 #endif
 

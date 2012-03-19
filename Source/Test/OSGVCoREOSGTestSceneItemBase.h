@@ -96,15 +96,19 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
     enum
     {
         RotationSpeedFieldId = Inherited::NextFieldId,
-        NextFieldId = RotationSpeedFieldId + 1
+        AnimateFieldId = RotationSpeedFieldId + 1,
+        NextFieldId = AnimateFieldId + 1
     };
 
     static const OSG::BitVector RotationSpeedFieldMask =
         (TypeTraits<BitVector>::One << RotationSpeedFieldId);
+    static const OSG::BitVector AnimateFieldMask =
+        (TypeTraits<BitVector>::One << AnimateFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFReal32          SFRotationSpeedType;
+    typedef SFBool            SFAnimateType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -133,9 +137,15 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
                   SFReal32            *editSFRotationSpeed  (void);
             const SFReal32            *getSFRotationSpeed   (void) const;
 
+                  SFBool              *editSFAnimate        (void);
+            const SFBool              *getSFAnimate         (void) const;
+
 
                   Real32              &editRotationSpeed  (void);
                   Real32               getRotationSpeed   (void) const;
+
+                  bool                &editAnimate        (void);
+                  bool                 getAnimate         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,6 +153,7 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
     /*! \{                                                                 */
 
             void setRotationSpeed  (const Real32 value);
+            void setAnimate        (const bool value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,6 +214,7 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
     /*! \{                                                                 */
 
     SFReal32          _sfRotationSpeed;
+    SFBool            _sfAnimate;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,6 +244,8 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItemBase : public OSGTreeItem
 
     GetFieldHandlePtr  getHandleRotationSpeed   (void) const;
     EditFieldHandlePtr editHandleRotationSpeed  (void);
+    GetFieldHandlePtr  getHandleAnimate         (void) const;
+    EditFieldHandlePtr editHandleAnimate        (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
