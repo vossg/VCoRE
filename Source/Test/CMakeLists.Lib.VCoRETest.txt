@@ -16,11 +16,12 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase)
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase
+                                VCoREItemSofa OSGEffectGroups)
 
 SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT 
-                                     VCoRECSM OSGFileIO OSGImageFileIO OSGSystem
-                                     OSGDrawable OSGGroup OSGState 
+                                     VCoRECSM OSGFileIO OSGImageFileIO 
+                                     OSGSystem OSGDrawable OSGGroup OSGState 
                                      OSGText OSGUtil OSGWindow OSGContribCSM)
 
 # dependencies - External
@@ -50,6 +51,7 @@ SET(${PROJECT_NAME}_DEP_DEFS "QT_THREAD_SUPPORT"
                              "QT_CORE_LIB"
                              "QT_GUI_LIB"
                              "QT_OPENGL_LIB")
+
 
 OSG_ADD_GLUTPACKAGE(TRUE)
 
