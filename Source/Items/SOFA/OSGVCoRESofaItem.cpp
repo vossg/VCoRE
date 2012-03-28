@@ -74,11 +74,13 @@
 #include "OSGContainerCollection.h"
 #include "OSGVCoRESystemDef.h"
 
+#include "OSGCSMWindow.h"
+#include "OSGLine.h"
 #include "OSGNode.h"
 #include "OSGSimpleGeometry.h"
 
 //SOFA
-#include "OSGSofaVisualModelPolicy.h"
+
 #include "OSGSofaVisualVisitor.h"
 
 VCORE_BEGIN_NAMESPACE
@@ -95,6 +97,8 @@ PathHandler SofaItem::_oPathHandler;
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
+// Do not change anything that affects the SOFA part here
+
 void SofaItem::changed(ConstFieldMaskArg whichField,
                        UInt32            origin,
                        BitVector         details)
@@ -109,43 +113,22 @@ void SofaItem::changed(ConstFieldMaskArg whichField,
 
     if(0x0000 != (whichField & AnimateFieldMask))
     {
-        fprintf(stderr, "new animation %i\n",
+        fprintf(stderr, "Animation %i\n",
                 _sfAnimate.getValue());
 
-        if(_pGRoot != NULL)
-        {
-            _pGRoot->setAnimate(!_sfAnimate.getValue());
-        }
     }
 
     if(0x0000 != (whichField & ResetFieldMask))
     {
-        fprintf(stderr, "reset animation %i\n",
-                _sfReset.getValue());
+        fprintf(stderr, "Reset animation \n");
 
-        if(_pGRoot != NULL)
-        {
-            sofa::simulation::getSimulation()->reset(_pGRoot.get());
-        }
+        _bResetAnimation = true;
     }
 
-    if(0x0000 != (whichField & ShadowModeFieldMask))
-    {
-        if(_pShadowStage) 
-        {
-            _pShadowStage->setShadowMode(
-                OSG::ShadowStage::NO_SHADOW + _sfShadowMode.getValue());
-        }
-
-//        if(_pShadowStage != NULL) 
-//            _pShadowStage->setShadowMode(OSG::ShadowStage::STD_SHADOW_MAP);
-
-        if(_pShadowStage != NULL)
-            fprintf(stderr, "new ShadowMode %d\n", _sfShadowMode.getValue());
-    }
     if(0x0000 != (whichField & MouseDataFieldMask))
     {
-//        printMouse();
+        _bPicking = true;
+        //printMouse();
     }
 
     if(0x0000 != (whichField & RootFieldMask))
@@ -167,14 +150,16 @@ void SofaItem::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 SofaItem::SofaItem(void) :
-     Inherited          (    ),
-    _pTransform         (NULL),
-    _fAngle             (0.f ),
-    _pGRoot             (NULL),
-    _oPick              (    ),
-    _pShadowStage       (NULL),
-    _pChunkOverrideGroup(NULL),
-    _pScene             (NULL)
+     Inherited          (     ),
+    _pTransform         (NULL ),
+    _fAngle             (0.f  ),
+    _pGRoot             (NULL ),
+    _oPick              (     ),
+    _bPicking           (false),
+    _bResetAnimation    (false),
+    _pShadowStage       (NULL ),
+    _pChunkOverrideGroup(NULL ),
+    _pScene             (NULL )
 {
     initDefaults();
 }
@@ -185,6 +170,8 @@ SofaItem::SofaItem(const SofaItem &source) :
     _fAngle             (0.f   ),
     _pGRoot             (NULL  ),
     _oPick              (      ),
+    _bPicking           (false),
+    _bResetAnimation    (false),
     _pShadowStage       (NULL  ),
     _pChunkOverrideGroup(NULL  ),
     _pScene             (NULL  )
@@ -297,7 +284,6 @@ void SofaItem::postOSGLoading(void)
 
 bool SofaItem::init(UInt32 uiInitPhase, App *pApp)
 {
-// NOT CALLED
     fprintf(stderr, "SofaItem::init %s (%x)\n",
             getName(this),
             uiInitPhase);
@@ -494,8 +480,7 @@ bool SofaItem::initialize(void)
 
     sofa::helper::BackTrace::autodump();
 
-    sofa::gui::qt::viewer::OSGModelPolicy policy; 
-    policy.load();
+    _loadPolicy.load();
 
     sofa::core::ExecParams::defaultInstance()->setAspectID(0);
 
@@ -505,6 +490,15 @@ bool SofaItem::initialize(void)
     sofa::component::init();
 
     sofa::simulation::xml::initXml();
+
+
+    if (_sfSofaDataPath.getValue().empty() == false)
+    {
+        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue());
+        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue() + "/examples");
+        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue() + "/share");
+
+    }
 
     std::string fileName = 
         sofa::helper::system::DataRepository.getFile(
@@ -564,10 +558,8 @@ bool SofaItem::initialize(void)
                                               _sfIgnoreSofaLights.getValue());
 
 
-    if(_sfAnimate.getValue()) 
-        _pGRoot->setAnimate(true );
-    else 
-        _pGRoot->setAnimate(false);
+    _pGRoot->setAnimate(_sfAnimate.getValue() );
+    _oPick.init(_pGRoot.get());
 
 
     //pScene->updateVolume();
@@ -579,6 +571,8 @@ bool SofaItem::initialize(void)
     pLocalRoot->addChild(pScene);
 
     pItemRoot->addChild(pLocalRoot);
+
+    printHelp();
 
     return true;
 }
@@ -609,7 +603,21 @@ void SofaItem::tick(void)
     //}
 
     SReal dt = _pGRoot->getDt();
-//fprintf(stderr, " SofaItem::TICK animate\n");
+
+    _pGRoot->setAnimate(_sfAnimate.getValue());
+
+    if (_bResetAnimation == true && _sfAnimate.getValue() == true)
+    {
+        fprintf(stderr, " SofaItem::reset animate\n");
+        sofa::simulation::getSimulation()->reset(_pGRoot.get());
+    }
+    _bResetAnimation = false;
+
+    if (_bPicking)
+    {
+        //handleMouse(_sfMouseData.getValue());
+        //_bPicking = false;
+    }
 
     if(_sfAnimate.getValue() == true)
     {
@@ -627,6 +635,8 @@ void SofaItem::destroySofaSCN(void)
         sofa::simulation::getSimulation()->unload(_pGRoot);
 
         _pGRoot = NULL;
+
+        _loadPolicy.unload();
     }
 }
 
@@ -648,65 +658,197 @@ void SofaItem::resolveLinks(void)
     Inherited::resolveLinks();
 }
 
+// WIP
+void SofaItem::handleMouse(const MouseData& mousedata) 
+{
+    
+    if (!_pGRoot) return;
+
+   
+
+
+    _bPicking - true;
+
+    Window* window = mousedata.getWindow();
+    if (!window) return;
+    // currently assume viewport 0
+    Viewport* viewport = window->getPort(0);
+    if (!viewport) return;
+    Camera* camera = viewport->getCamera();
+    if (!camera) return;
+
+    Int32 modifier = mousedata.getModifier();
+    bool bInteractive = false;
+    if (modifier != MouseData::ShiftActive) return;
+
+    //std::cerr << "Handle Picking" << "\n";    
+
+    //printMouse();
+    //return;
+
+    bInteractive = true;
+
+
+    sofa::gui::MousePosition mousepos;
+    Int32 state    = mousedata.getState();
+    Int32 button   = mousedata.getButton();
+    Real32 x       = mousedata.getX();
+    Real32 y       = mousedata.getY();
+
+    mousepos.screenWidth = viewport->calcPixelWidth();
+    mousepos.screenHeight = viewport->calcPixelHeight();
+
+    mousepos.x = mousedata.getX();
+    mousepos.y = mousedata.getY();
+
+    Line l;
+    bool hit = camera->calcViewRay(l, mousedata.getX(),
+                                      mousedata.getY(),
+                                      *viewport       );
+    if (!hit) return;
+
+    Pnt3f p = l.getPosition();
+    Vec3f d = l.getDirection();
+
+    // OpenSG has Vec3d as well ... be careful
+    ::sofa::defaulttype::Vec3d pos, dir;
+    pos[0] = p[0]; 
+    pos[1] = p[1]; 
+    pos[2] = p[2]; 
+    dir[0] = d[0]; 
+    dir[1] = d[1]; 
+    dir[2] = d[2];
+
+
+    _oPick.activateRay(mousepos.screenWidth,mousepos.screenHeight, _pGRoot.get());
+
+    _oPick.updateRay(pos, dir);
+    _oPick.updateMouse2D(mousepos);
+
+
+
+
+    switch (state)
+    {
+        case MouseData::ButtonDown:
+                if (button == MouseData::LeftButton)
+                {
+                    _oPick.handleMouseEvent(sofa::gui::PRESSED, sofa::gui::LEFT);
+                }
+                // Shift+Rightclick to remove triangles
+                else if (button == MouseData::RightButton) 
+                {
+                    _oPick.handleMouseEvent(sofa::gui::PRESSED, sofa::gui::RIGHT);
+                } 
+                // Shift+Midclick (by 2 steps defining 2 input points) 
+                // to cut from one point to another
+                else if (button == MouseData::MiddleButton)
+                {
+                    _oPick.handleMouseEvent(sofa::gui::PRESSED, sofa::gui::MIDDLE);
+                }
+                break;
+            case MouseData::ButtonUp:
+
+                if (button == MouseData::LeftButton)
+                {
+                    _oPick.handleMouseEvent(sofa::gui::RELEASED, sofa::gui::LEFT);
+                }
+                else if (button == MouseData::RightButton)
+                {
+                    _oPick.handleMouseEvent(sofa::gui::RELEASED, sofa::gui::RIGHT);
+                }
+                else if (button == MouseData::MiddleButton)
+                {
+                    _oPick.handleMouseEvent(sofa::gui::RELEASED, sofa::gui::MIDDLE);
+                }
+                break;
+        
+                default:
+                break;
+     }
+
+
+    hit = camera->calcViewRay(l, mousedata.getX(),
+                                      mousedata.getY(),
+                                      *viewport       );
+    if (!hit) return;
+
+    p = l.getPosition();
+    d = l.getDirection();
+
+    pos[0] = p[0]; 
+    pos[1] = p[1]; 
+    pos[2] = p[2]; 
+    dir[0] = d[0]; 
+    dir[1] = d[1]; 
+    dir[2] = d[2];
+
+    _oPick.updateRay(pos, dir);
+    
+}
+
 void SofaItem::printMouse(void) const
 {
-    UInt32  button   = _sfMouseData.getValue().getButton();
-    UInt32  state    = _sfMouseData.getValue().getState();
-    UInt32  modifier = _sfMouseData.getValue().getModifier();
-    Real32  x        = _sfMouseData.getValue().getX();
-    Real32  y        = _sfMouseData.getValue().getY();
-//    Window *window   = _sfMouseData.getValue().getWindow();
-    UInt32  mode     = _sfMouseData.getValue().getMode();
+    const MouseData& mdata = _sfMouseData.getValue();
+    Int32 button   = mdata.getButton();
+    Int32 state    = mdata.getState();
+    Int32 modifier = mdata.getModifier();
+    Real32 x       = mdata.getX();
+    Real32 y       = mdata.getY();
+    UInt32 mode    = mdata.getMode();
+    Window* window = mdata.getWindow();
+    Viewport* viewport = NULL;
+    if (window) viewport = window->getPort(0);
+    Camera* camera = NULL;
+    if (viewport) camera = viewport->getCamera();
+
+
+    
 
     std::string whichbutton;
-
-    if(button == MouseData::LeftButton) 
-        whichbutton += "LeftButton ";
-    else if(button == MouseData::MiddleButton) 
-        whichbutton += "MiddleButton ";
-    else if(button == MouseData::RightButton) 
-        whichbutton += "RightButton ";
-
+    if (button == MouseData::LeftButton) whichbutton += "LeftButton ";
+    else if (button == MouseData::MiddleButton) whichbutton += "MiddleButton ";
+    else if (button == MouseData::RightButton) whichbutton += "RightButton ";
     whichbutton += "\n";
     
     std::string whichmodifier;
-
-    if(modifier == MouseData::NoModifier) 
-        whichmodifier += "NoModifier ";
-    else if(modifier == MouseData::ShiftActive) 
-        whichmodifier += "Shift ";
-    else if(modifier == MouseData::CtrlActive) 
-        whichmodifier += "Ctrl ";
-    else if(modifier == MouseData::AltActive) 
-        whichmodifier += "Alt ";
-
+    if (modifier == MouseData::NoModifier) whichmodifier += "NoModifier ";
+    else if (modifier == MouseData::ShiftActive) whichmodifier += "Shift ";
+    else if (modifier == MouseData::CtrlActive) whichmodifier += "Ctrl ";
+    else if (modifier == MouseData::AltActive) whichmodifier += "Alt ";
     whichmodifier += "\n";
 
     std::string whichmode;
-
-    if(mode == MouseData::AbsValues) 
-        whichmode += "AbsValues ";
-    else 
-        whichmode += "RelValues ";
-
+    if (mode == MouseData::AbsValues) whichmode += "AbsValues ";
+    else whichmode += "RelValues ";
     whichmode += "\n";
 
     std::string whichstate;
-
-    if(state == MouseData::ButtonDown) 
-        whichstate += "Button DOWN";
-    else
-        whichstate += "Button UP";
-
+    if (state == MouseData::ButtonDown) whichstate += "Button DOWN";
+    else  whichstate += "Button UP";
     whichstate += "\n";
 
     std::cerr << "======= Mouse =============" << "\n";
-    std::cerr << "X : "        << x << " Y : " << y << "\n";
-    std::cerr << "Buttons "    << whichbutton << "\n";
-    std::cerr << "State "      << whichstate << "\n";
+    std::cerr << "X : " << x << " Y : " << y << "\n";
+    std::cerr << "Buttons "  << whichbutton << "\n";
+    std::cerr << "State "  << whichstate << "\n";
     std::cerr << "Modifiers "  << whichmodifier << "\n";
-    std::cerr << "Mode "       << whichmode << "\n";
+    std::cerr << "Mode "  << whichmode << "\n";
+    std::cerr << "Window : " << window << "\n";
+    std::cerr << "Viewport : " << viewport << "\n";
+    std::cerr << "Camera : " << camera << "\n";
     std::cerr << "====================" << "\n";
 }
+
+void SofaItem::printHelp(void) const
+{
+    std::cerr << "===== Help  ===== " << "\n";
+    std::cerr << "a  - Toggle Animation" << "\n";
+    std::cerr << "r  - Reset Animation" << "\n";
+    std::cerr << "q  - Fit Scene to Screen" << "\n";
+    std::cerr << "===== End ===== " << "\n";
+
+}
+
 
 VCORE_END_NAMESPACE

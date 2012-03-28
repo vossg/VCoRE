@@ -58,6 +58,7 @@
 #include "OSGShadowStage.h"
 #include "OSGChunkOverrideGroup.h"
 #include "OSGSofaShadowGraph.h"
+#include "OSGSofaVisualModelPolicy.h"
 
 
 // SOFA
@@ -143,7 +144,14 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
 
     // SOFA
     sofa::simulation::Node::SPtr                   _pGRoot;
+    bool                                           _bResetAnimation;
+
     sofa::gui::PickHandler                         _oPick;
+    bool                                           _bPicking;
+    MouseData                                      _mousePressBuffer;
+    MouseData                                      _mouseMoveBuffer;
+    MouseData                                      _mouseReleaseBuffer;
+    
 
     ShadowStageUnrecPtr                            _pShadowStage;
     ChunkOverrideGroupUnrecPtr                     _pChunkOverrideGroup;
@@ -152,6 +160,8 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     // Shadow scene graph
     // to replace the above after testing
     sofa::component::visualmodel::OSG2_ShadowGraph _pShadowGraph;
+
+    sofa::gui::qt::viewer::OSGModelPolicy _loadPolicy; 
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -197,8 +207,10 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     NodeTransitPtr buildSceneGraph  (sofa::simulation::Node::SPtr pRoot);
     void           destroySofaSCN   (void                              );
     void           destroySceneGraph(void                              );
+    void           handleMouse      (const MouseData&                  ); 
 
     void           printMouse       (void                              ) const;
+    void           printHelp        (void                              ) const;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

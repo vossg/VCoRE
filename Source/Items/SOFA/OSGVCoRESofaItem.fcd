@@ -22,6 +22,14 @@
 	 >
   </Field>
   <Field
+	 name="sofaDataPath"
+	 type="std::string"
+	 cardinality="single"
+	 defaultValue=""
+	 access="public"
+	 >
+  </Field>
+  <Field
 	 name="sofaSceneFile"
 	 type="std::string"
 	 cardinality="single"
@@ -50,14 +58,6 @@
 	 type="bool"
 	 cardinality="single"
 	 defaultValue="false"
-	 access="public"
-	 >
-  </Field>
-  <Field
-	 name="shadowMode"
-	 type="UInt32"
-	 cardinality="single"
-	 defaultValue="0x0000"
 	 access="public"
 	 >
   </Field>

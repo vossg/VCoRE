@@ -100,6 +100,31 @@ void SofaItemBase::setRotationSpeed(const Real32 value)
 
     _sfRotationSpeed.setValue(value);
 }
+//! Get the value of the SofaItem::_sfSofaDataPath field.
+
+inline
+std::string &SofaItemBase::editSofaDataPath(void)
+{
+    editSField(SofaDataPathFieldMask);
+
+    return _sfSofaDataPath.getValue();
+}
+
+//! Get the value of the SofaItem::_sfSofaDataPath field.
+inline
+const std::string &SofaItemBase::getSofaDataPath(void) const
+{
+    return _sfSofaDataPath.getValue();
+}
+
+//! Set the value of the SofaItem::_sfSofaDataPath field.
+inline
+void SofaItemBase::setSofaDataPath(const std::string &value)
+{
+    editSField(SofaDataPathFieldMask);
+
+    _sfSofaDataPath.setValue(value);
+}
 //! Get the value of the SofaItem::_sfSofaSceneFile field.
 
 inline
@@ -200,31 +225,6 @@ void SofaItemBase::setReset(const bool value)
 
     _sfReset.setValue(value);
 }
-//! Get the value of the SofaItem::_sfShadowMode field.
-
-inline
-UInt32 &SofaItemBase::editShadowMode(void)
-{
-    editSField(ShadowModeFieldMask);
-
-    return _sfShadowMode.getValue();
-}
-
-//! Get the value of the SofaItem::_sfShadowMode field.
-inline
-      UInt32  SofaItemBase::getShadowMode(void) const
-{
-    return _sfShadowMode.getValue();
-}
-
-//! Set the value of the SofaItem::_sfShadowMode field.
-inline
-void SofaItemBase::setShadowMode(const UInt32 value)
-{
-    editSField(ShadowModeFieldMask);
-
-    _sfShadowMode.setValue(value);
-}
 //! Get the value of the SofaItem::_sfMouseData field.
 
 inline
@@ -265,6 +265,9 @@ void SofaItemBase::execSync (      SofaItemBase *pFrom,
     if(FieldBits::NoField != (RotationSpeedFieldMask & whichField))
         _sfRotationSpeed.syncWith(pFrom->_sfRotationSpeed);
 
+    if(FieldBits::NoField != (SofaDataPathFieldMask & whichField))
+        _sfSofaDataPath.syncWith(pFrom->_sfSofaDataPath);
+
     if(FieldBits::NoField != (SofaSceneFileFieldMask & whichField))
         _sfSofaSceneFile.syncWith(pFrom->_sfSofaSceneFile);
 
@@ -276,9 +279,6 @@ void SofaItemBase::execSync (      SofaItemBase *pFrom,
 
     if(FieldBits::NoField != (ResetFieldMask & whichField))
         _sfReset.syncWith(pFrom->_sfReset);
-
-    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
-        _sfShadowMode.syncWith(pFrom->_sfShadowMode);
 
     if(FieldBits::NoField != (MouseDataFieldMask & whichField))
         _sfMouseData.syncWith(pFrom->_sfMouseData);

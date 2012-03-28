@@ -87,6 +87,10 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
+/*! \var std::string     SofaItemBase::_sfSofaDataPath
+    
+*/
+
 /*! \var std::string     SofaItemBase::_sfSofaSceneFile
     
 */
@@ -100,10 +104,6 @@ VCORE_IMPORT_NAMESPACE;
 */
 
 /*! \var bool            SofaItemBase::_sfReset
-    
-*/
-
-/*! \var UInt32          SofaItemBase::_sfShadowMode
     
 */
 
@@ -163,6 +163,18 @@ void SofaItemBase::classDescInserter(TypeObject &oType)
 
     pDesc = new SFString::Description(
         SFString::getClassType(),
+        "sofaDataPath",
+        "",
+        SofaDataPathFieldId, SofaDataPathFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&SofaItem::editHandleSofaDataPath),
+        static_cast<FieldGetMethodSig >(&SofaItem::getHandleSofaDataPath));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
         "sofaSceneFile",
         "",
         SofaSceneFileFieldId, SofaSceneFileFieldMask,
@@ -206,18 +218,6 @@ void SofaItemBase::classDescInserter(TypeObject &oType)
         (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&SofaItem::editHandleReset),
         static_cast<FieldGetMethodSig >(&SofaItem::getHandleReset));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFUInt32::Description(
-        SFUInt32::getClassType(),
-        "shadowMode",
-        "",
-        ShadowModeFieldId, ShadowModeFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&SofaItem::editHandleShadowMode),
-        static_cast<FieldGetMethodSig >(&SofaItem::getHandleShadowMode));
 
     oType.addInitialDesc(pDesc);
 
@@ -270,6 +270,14 @@ SofaItemBase::TypeObject SofaItemBase::_type(
     "\t >\n"
     "  </Field>\n"
     "  <Field\n"
+    "\t name=\"sofaDataPath\"\n"
+    "\t type=\"std::string\"\n"
+    "\t cardinality=\"single\"\n"
+    "\t defaultValue=\"\"\n"
+    "\t access=\"public\"\n"
+    "\t >\n"
+    "  </Field>\n"
+    "  <Field\n"
     "\t name=\"sofaSceneFile\"\n"
     "\t type=\"std::string\"\n"
     "\t cardinality=\"single\"\n"
@@ -298,14 +306,6 @@ SofaItemBase::TypeObject SofaItemBase::_type(
     "\t type=\"bool\"\n"
     "\t cardinality=\"single\"\n"
     "\t defaultValue=\"false\"\n"
-    "\t access=\"public\"\n"
-    "\t >\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t name=\"shadowMode\"\n"
-    "\t type=\"UInt32\"\n"
-    "\t cardinality=\"single\"\n"
-    "\t defaultValue=\"0x0000\"\n"
     "\t access=\"public\"\n"
     "\t >\n"
     "  </Field>\n"
@@ -353,6 +353,19 @@ SFReal32 *SofaItemBase::editSFRotationSpeed(void)
 const SFReal32 *SofaItemBase::getSFRotationSpeed(void) const
 {
     return &_sfRotationSpeed;
+}
+
+
+SFString *SofaItemBase::editSFSofaDataPath(void)
+{
+    editSField(SofaDataPathFieldMask);
+
+    return &_sfSofaDataPath;
+}
+
+const SFString *SofaItemBase::getSFSofaDataPath(void) const
+{
+    return &_sfSofaDataPath;
 }
 
 
@@ -408,19 +421,6 @@ const SFBool *SofaItemBase::getSFReset(void) const
 }
 
 
-SFUInt32 *SofaItemBase::editSFShadowMode(void)
-{
-    editSField(ShadowModeFieldMask);
-
-    return &_sfShadowMode;
-}
-
-const SFUInt32 *SofaItemBase::getSFShadowMode(void) const
-{
-    return &_sfShadowMode;
-}
-
-
 SFMouseData *SofaItemBase::editSFMouseData(void)
 {
     editSField(MouseDataFieldMask);
@@ -448,6 +448,10 @@ SizeT SofaItemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfRotationSpeed.getBinSize();
     }
+    if(FieldBits::NoField != (SofaDataPathFieldMask & whichField))
+    {
+        returnValue += _sfSofaDataPath.getBinSize();
+    }
     if(FieldBits::NoField != (SofaSceneFileFieldMask & whichField))
     {
         returnValue += _sfSofaSceneFile.getBinSize();
@@ -463,10 +467,6 @@ SizeT SofaItemBase::getBinSize(ConstFieldMaskArg whichField)
     if(FieldBits::NoField != (ResetFieldMask & whichField))
     {
         returnValue += _sfReset.getBinSize();
-    }
-    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
-    {
-        returnValue += _sfShadowMode.getBinSize();
     }
     if(FieldBits::NoField != (MouseDataFieldMask & whichField))
     {
@@ -485,6 +485,10 @@ void SofaItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfRotationSpeed.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (SofaDataPathFieldMask & whichField))
+    {
+        _sfSofaDataPath.copyToBin(pMem);
+    }
     if(FieldBits::NoField != (SofaSceneFileFieldMask & whichField))
     {
         _sfSofaSceneFile.copyToBin(pMem);
@@ -501,10 +505,6 @@ void SofaItemBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfReset.copyToBin(pMem);
     }
-    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
-    {
-        _sfShadowMode.copyToBin(pMem);
-    }
     if(FieldBits::NoField != (MouseDataFieldMask & whichField))
     {
         _sfMouseData.copyToBin(pMem);
@@ -520,6 +520,11 @@ void SofaItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(RotationSpeedFieldMask);
         _sfRotationSpeed.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (SofaDataPathFieldMask & whichField))
+    {
+        editSField(SofaDataPathFieldMask);
+        _sfSofaDataPath.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SofaSceneFileFieldMask & whichField))
     {
@@ -540,11 +545,6 @@ void SofaItemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(ResetFieldMask);
         _sfReset.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
-    {
-        editSField(ShadowModeFieldMask);
-        _sfShadowMode.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (MouseDataFieldMask & whichField))
     {
@@ -650,11 +650,11 @@ FieldContainerTransitPtr SofaItemBase::shallowCopy(void) const
 SofaItemBase::SofaItemBase(void) :
     Inherited(),
     _sfRotationSpeed          (Real32(1.0f)),
+    _sfSofaDataPath           (),
     _sfSofaSceneFile          (),
     _sfIgnoreSofaLights       (bool(false)),
     _sfAnimate                (bool(false)),
     _sfReset                  (bool(false)),
-    _sfShadowMode             (UInt32(0x0000)),
     _sfMouseData              ()
 {
 }
@@ -662,11 +662,11 @@ SofaItemBase::SofaItemBase(void) :
 SofaItemBase::SofaItemBase(const SofaItemBase &source) :
     Inherited(source),
     _sfRotationSpeed          (source._sfRotationSpeed          ),
+    _sfSofaDataPath           (source._sfSofaDataPath           ),
     _sfSofaSceneFile          (source._sfSofaSceneFile          ),
     _sfIgnoreSofaLights       (source._sfIgnoreSofaLights       ),
     _sfAnimate                (source._sfAnimate                ),
     _sfReset                  (source._sfReset                  ),
-    _sfShadowMode             (source._sfShadowMode             ),
     _sfMouseData              (source._sfMouseData              )
 {
 }
@@ -700,6 +700,31 @@ EditFieldHandlePtr SofaItemBase::editHandleRotationSpeed  (void)
 
 
     editSField(RotationSpeedFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr SofaItemBase::getHandleSofaDataPath    (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfSofaDataPath,
+             this->getType().getFieldDesc(SofaDataPathFieldId),
+             const_cast<SofaItemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr SofaItemBase::editHandleSofaDataPath   (void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfSofaDataPath,
+             this->getType().getFieldDesc(SofaDataPathFieldId),
+             this));
+
+
+    editSField(SofaDataPathFieldMask);
 
     return returnValue;
 }
@@ -800,31 +825,6 @@ EditFieldHandlePtr SofaItemBase::editHandleReset          (void)
 
 
     editSField(ResetFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr SofaItemBase::getHandleShadowMode      (void) const
-{
-    SFUInt32::GetHandlePtr returnValue(
-        new  SFUInt32::GetHandle(
-             &_sfShadowMode,
-             this->getType().getFieldDesc(ShadowModeFieldId),
-             const_cast<SofaItemBase *>(this)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr SofaItemBase::editHandleShadowMode     (void)
-{
-    SFUInt32::EditHandlePtr returnValue(
-        new  SFUInt32::EditHandle(
-             &_sfShadowMode,
-             this->getType().getFieldDesc(ShadowModeFieldId),
-             this));
-
-
-    editSField(ShadowModeFieldMask);
 
     return returnValue;
 }

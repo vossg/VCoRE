@@ -66,7 +66,7 @@
 #include "OSGVCoREOSGTreeItem.h" // Parent
 
 #include "OSGSysFields.h"               // RotationSpeed type
-#include "OSGBaseFields.h"              // SofaSceneFile type
+#include "OSGBaseFields.h"              // SofaDataPath type
 #include "OSGMouseDataFields.h"         // MouseData type
 
 #include "OSGVCoRESofaItemFields.h"
@@ -98,17 +98,19 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
     enum
     {
         RotationSpeedFieldId = Inherited::NextFieldId,
-        SofaSceneFileFieldId = RotationSpeedFieldId + 1,
+        SofaDataPathFieldId = RotationSpeedFieldId + 1,
+        SofaSceneFileFieldId = SofaDataPathFieldId + 1,
         IgnoreSofaLightsFieldId = SofaSceneFileFieldId + 1,
         AnimateFieldId = IgnoreSofaLightsFieldId + 1,
         ResetFieldId = AnimateFieldId + 1,
-        ShadowModeFieldId = ResetFieldId + 1,
-        MouseDataFieldId = ShadowModeFieldId + 1,
+        MouseDataFieldId = ResetFieldId + 1,
         NextFieldId = MouseDataFieldId + 1
     };
 
     static const OSG::BitVector RotationSpeedFieldMask =
         (TypeTraits<BitVector>::One << RotationSpeedFieldId);
+    static const OSG::BitVector SofaDataPathFieldMask =
+        (TypeTraits<BitVector>::One << SofaDataPathFieldId);
     static const OSG::BitVector SofaSceneFileFieldMask =
         (TypeTraits<BitVector>::One << SofaSceneFileFieldId);
     static const OSG::BitVector IgnoreSofaLightsFieldMask =
@@ -117,19 +119,17 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
         (TypeTraits<BitVector>::One << AnimateFieldId);
     static const OSG::BitVector ResetFieldMask =
         (TypeTraits<BitVector>::One << ResetFieldId);
-    static const OSG::BitVector ShadowModeFieldMask =
-        (TypeTraits<BitVector>::One << ShadowModeFieldId);
     static const OSG::BitVector MouseDataFieldMask =
         (TypeTraits<BitVector>::One << MouseDataFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFReal32          SFRotationSpeedType;
+    typedef SFString          SFSofaDataPathType;
     typedef SFString          SFSofaSceneFileType;
     typedef SFBool            SFIgnoreSofaLightsType;
     typedef SFBool            SFAnimateType;
     typedef SFBool            SFResetType;
-    typedef SFUInt32          SFShadowModeType;
     typedef SFMouseData       SFMouseDataType;
 
     /*---------------------------------------------------------------------*/
@@ -159,6 +159,9 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
                   SFReal32            *editSFRotationSpeed  (void);
             const SFReal32            *getSFRotationSpeed   (void) const;
 
+                  SFString            *editSFSofaDataPath   (void);
+            const SFString            *getSFSofaDataPath    (void) const;
+
                   SFString            *editSFSofaSceneFile  (void);
             const SFString            *getSFSofaSceneFile   (void) const;
 
@@ -171,15 +174,15 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
                   SFBool              *editSFReset          (void);
             const SFBool              *getSFReset           (void) const;
 
-                  SFUInt32            *editSFShadowMode     (void);
-            const SFUInt32            *getSFShadowMode      (void) const;
-
                   SFMouseData         *editSFMouseData      (void);
             const SFMouseData         *getSFMouseData       (void) const;
 
 
                   Real32              &editRotationSpeed  (void);
                   Real32               getRotationSpeed   (void) const;
+
+                  std::string         &editSofaDataPath   (void);
+            const std::string         &getSofaDataPath    (void) const;
 
                   std::string         &editSofaSceneFile  (void);
             const std::string         &getSofaSceneFile   (void) const;
@@ -193,9 +196,6 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
                   bool                &editReset          (void);
                   bool                 getReset           (void) const;
 
-                  UInt32              &editShadowMode     (void);
-                  UInt32               getShadowMode      (void) const;
-
                   MouseData           &editMouseData      (void);
             const MouseData           &getMouseData       (void) const;
 
@@ -205,11 +205,11 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
     /*! \{                                                                 */
 
             void setRotationSpeed  (const Real32 value);
+            void setSofaDataPath   (const std::string &value);
             void setSofaSceneFile  (const std::string &value);
             void setIgnoreSofaLights(const bool value);
             void setAnimate        (const bool value);
             void setReset          (const bool value);
-            void setShadowMode     (const UInt32 value);
             void setMouseData      (const MouseData &value);
 
     /*! \}                                                                 */
@@ -271,11 +271,11 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
     /*! \{                                                                 */
 
     SFReal32          _sfRotationSpeed;
+    SFString          _sfSofaDataPath;
     SFString          _sfSofaSceneFile;
     SFBool            _sfIgnoreSofaLights;
     SFBool            _sfAnimate;
     SFBool            _sfReset;
-    SFUInt32          _sfShadowMode;
     SFMouseData       _sfMouseData;
 
     /*! \}                                                                 */
@@ -306,6 +306,8 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
 
     GetFieldHandlePtr  getHandleRotationSpeed   (void) const;
     EditFieldHandlePtr editHandleRotationSpeed  (void);
+    GetFieldHandlePtr  getHandleSofaDataPath    (void) const;
+    EditFieldHandlePtr editHandleSofaDataPath   (void);
     GetFieldHandlePtr  getHandleSofaSceneFile   (void) const;
     EditFieldHandlePtr editHandleSofaSceneFile  (void);
     GetFieldHandlePtr  getHandleIgnoreSofaLights (void) const;
@@ -314,8 +316,6 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItemBase : public OSGTreeItem
     EditFieldHandlePtr editHandleAnimate        (void);
     GetFieldHandlePtr  getHandleReset           (void) const;
     EditFieldHandlePtr editHandleReset          (void);
-    GetFieldHandlePtr  getHandleShadowMode      (void) const;
-    EditFieldHandlePtr editHandleShadowMode     (void);
     GetFieldHandlePtr  getHandleMouseData       (void) const;
     EditFieldHandlePtr editHandleMouseData      (void);
 
