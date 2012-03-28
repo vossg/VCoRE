@@ -572,7 +572,7 @@ bool SofaItem::initialize(void)
 
     pItemRoot->addChild(pLocalRoot);
 
-    printHelp();
+    //printHelp();
 
     return true;
 }

@@ -27,6 +27,12 @@ Node
           root DEF ItemRoot Node {}
           rotationSpeed 0.5
 
+          # SOFA data path
+          # Demos and tutorials use a lot of relative paths in the scn files
+          # themselves, so the sofa data path should be set to the directory
+          # where the examples sub-directory resides in 
+          sofaDataPath "/home/gerrit/Projects/Inria/Packaged/Sofa.git"
+
           # Whether to ignore sofa lights in SCN, default is false
           # Load-time only, run-time change not supported
           #ignoreSofaLights TRUE
@@ -42,9 +48,9 @@ Node
           #sofaSceneFile "Demos/liverConfiguration.scn"
 #          sofaSceneFile "Demos/caduceus.scn"
 #          sofaSceneFile "/home/gerrit/Projects/Inria/Packaged/Sofa.git/examples/Demos/caduceus.scn" 
-          sofaSceneFile "/home/gerrit/Projects/Inria/Packaged/Sofa.git/examples/Demos/chainHybrid.scn"
+          #sofaSceneFile "/home/gerrit/Projects/Inria/Packaged/Sofa.git/examples/Demos/chainHybrid.scn"
          #sofaSceneFile "Demos/caduceus_penalty.scn"
-          #sofaSceneFile "Demos/chainHybrid.scn"
+          sofaSceneFile "Demos/chainHybrid.scn"
           #sofaSceneFile "Demos/chainHybridNoGroup.scn"
           #sofaSceneFile "Demos/chainAll.scn"
           #sofaSceneFile "Demos/collisionMultiple.scn"
@@ -74,7 +80,7 @@ Node
           #sofaSceneFile "Tutorials/StepByStep/Visual/2_Visual.scn"
           #sofaSceneFile "Tutorials/StepByStep/Visual/3_Visual.scn"
           #sofaSceneFile "Tutorials/StepByStep/Visual/5_Visual.scn"
-          #sofaSceneFile "Tutorials/StepByStep/Visual/6_Visual.scn"
+          sofaSceneFile "Tutorials/StepByStep/Visual/6_Visual.scn"
          
           # SIMULATION 
           #sofaSceneFile "Tutorials/StepByStep/Dentistry_Haptics/dentalSurgery_08.scn"
