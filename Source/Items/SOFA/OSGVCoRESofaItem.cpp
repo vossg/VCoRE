@@ -161,7 +161,6 @@ SofaItem::SofaItem(void) :
     _pChunkOverrideGroup(NULL ),
     _pScene             (NULL )
 {
-    initDefaults();
 }
 
 SofaItem::SofaItem(const SofaItem &source) :
@@ -176,7 +175,6 @@ SofaItem::SofaItem(const SofaItem &source) :
     _pChunkOverrideGroup(NULL  ),
     _pScene             (NULL  )
 {
-    initDefaults();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -191,7 +189,7 @@ SofaItem::~SofaItem(void)
 
 /*-------------------------------------------------------------------------*/
 /*                                Init                                     */
-void SofaItem::initDefaults()
+void SofaItem::initPickHandler()
 {
     // Picking
     _oPick.setPickingMethod(sofa::gui::PickHandler::RAY_CASTING);
@@ -205,8 +203,6 @@ void SofaItem::initDefaults()
     _oPick.changeOperation(sofa::gui::LEFT,   "Attach");
     _oPick.changeOperation(sofa::gui::MIDDLE, "Incise");
     _oPick.changeOperation(sofa::gui::RIGHT,  "Remove");
-    
-    sofa::gui::RegisterOperation("Attach").add< sofa::gui::AttachOperation >();
 }
 
 
@@ -559,6 +555,7 @@ bool SofaItem::initialize(void)
 
 
     _pGRoot->setAnimate(_sfAnimate.getValue() );
+    initPickHandler();
     _oPick.init(_pGRoot.get());
 
 
@@ -667,7 +664,7 @@ void SofaItem::handleMouse(const MouseData& mousedata)
    
 
 
-    _bPicking - true;
+    _bPicking = true;
 
     Window* window = mousedata.getWindow();
     if (!window) return;

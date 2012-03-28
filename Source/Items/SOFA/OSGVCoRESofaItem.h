@@ -159,7 +159,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
 
     // Shadow scene graph
     // to replace the above after testing
-    sofa::component::visualmodel::OSG2_ShadowGraph _pShadowGraph;
+    sofa::component::visualmodel::OSGSofaShadowGraph _pShadowGraph;
 
     sofa::gui::qt::viewer::OSGModelPolicy _loadPolicy; 
 
@@ -190,6 +190,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     /*! \{                                                                 */
 
     static void initMethod(InitPhase ePhase);
+    void        initPickHandler(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,7 +204,6 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    void           initDefaults     (void                              );
     NodeTransitPtr buildSceneGraph  (sofa::simulation::Node::SPtr pRoot);
     void           destroySofaSCN   (void                              );
     void           destroySceneGraph(void                              );
