@@ -154,9 +154,12 @@ SofaItem::SofaItem(void) :
     _pTransform         (NULL ),
     _fAngle             (0.f  ),
     _pGRoot             (NULL ),
+    _bResetAnimation    (false),
     _oPick              (     ),
     _bPicking           (false),
-    _bResetAnimation    (false),
+    _mousePressBuffer   (     ),
+    _mouseMoveBuffer    (     ),
+    _mouseReleaseBuffer (     ),
     _pShadowStage       (NULL ),
     _pChunkOverrideGroup(NULL ),
     _pScene             (NULL )
@@ -168,9 +171,12 @@ SofaItem::SofaItem(const SofaItem &source) :
     _pTransform         (NULL  ),
     _fAngle             (0.f   ),
     _pGRoot             (NULL  ),
+    _bResetAnimation    (false ),
     _oPick              (      ),
-    _bPicking           (false),
-    _bResetAnimation    (false),
+    _bPicking           (false ),
+    _mousePressBuffer   (      ),
+    _mouseMoveBuffer    (      ),
+    _mouseReleaseBuffer (      ),
     _pShadowStage       (NULL  ),
     _pChunkOverrideGroup(NULL  ),
     _pScene             (NULL  )
@@ -675,7 +681,9 @@ void SofaItem::handleMouse(const MouseData& mousedata)
     if (!camera) return;
 
     Int32 modifier = mousedata.getModifier();
+#if 0 // GV unused
     bool bInteractive = false;
+#endif
     if (modifier != MouseData::ShiftActive) return;
 
     //std::cerr << "Handle Picking" << "\n";    
@@ -683,14 +691,17 @@ void SofaItem::handleMouse(const MouseData& mousedata)
     //printMouse();
     //return;
 
+#if 0 // GV unused
     bInteractive = true;
-
+#endif
 
     sofa::gui::MousePosition mousepos;
     Int32 state    = mousedata.getState();
     Int32 button   = mousedata.getButton();
+#if 0 // GV unused
     Real32 x       = mousedata.getX();
     Real32 y       = mousedata.getY();
+#endif
 
     mousepos.screenWidth = viewport->calcPixelWidth();
     mousepos.screenHeight = viewport->calcPixelHeight();

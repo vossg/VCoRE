@@ -161,7 +161,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     // to replace the above after testing
     sofa::component::visualmodel::OSGSofaShadowGraph _pShadowGraph;
 
-    sofa::gui::qt::viewer::OSGModelPolicy _loadPolicy; 
+    sofa::gui::qt::viewer::OSGModelPolicy          _loadPolicy; 
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
