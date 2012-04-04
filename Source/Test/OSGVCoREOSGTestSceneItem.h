@@ -47,6 +47,7 @@
 #include "OSGPathHandler.h"
 #include "OSGCamera.h"
 #include "OSGComponentTransform.h"
+#include "OSGFileContextHandlerMixin.h"
 
 VCORE_BEGIN_NAMESPACE
 
@@ -60,7 +61,8 @@ class App;
     \includebasedoc
  */
 
-class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
+class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : 
+    public FileContextHandlerMixin<OSGTestSceneItemBase, OSGTestSceneItem>
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -84,7 +86,7 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    void postOSGLoading(void);
+    void postOSGLoading(FileContextAttachment * const pContext);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -118,12 +120,13 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
 
     protected:
 
-    typedef OSGTestSceneItemBase  Inherited;
+    typedef FileContextHandlerMixin<OSGTestSceneItemBase, 
+                                    OSGTestSceneItem    >  Inherited;
 
-    static  PathHandler          _oPathHandler;
+    static  PathHandler                                    _oPathHandler;
     
-    ComponentTransform           *pTransform;
-    Real32                        fAngle;
+    ComponentTransform                                    *pTransform;
+    Real32                                                 fAngle;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -165,6 +168,8 @@ class OSG_VCORETEST_DLLMAPPING OSGTestSceneItem : public OSGTestSceneItemBase
 
     friend class FieldContainer;
     friend class OSGTestSceneItemBase;
+    friend class FileContextHandlerMixin<OSGTestSceneItemBase, 
+                                         OSGTestSceneItem    >;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const OSGTestSceneItem &source);

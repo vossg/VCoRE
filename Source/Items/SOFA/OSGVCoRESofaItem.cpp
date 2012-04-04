@@ -219,7 +219,7 @@ void SofaItem::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
-#ifdef WIN32
+#ifdef WIN32_X
         fprintf(stderr, "SofaItem::initMETHOD\n");
 
         typedef OSGSceneFileType::PostLoadingDispatcher<
@@ -229,18 +229,15 @@ void SofaItem::initMethod(InitPhase ePhase)
             SofaItem::getClassType(),
             boost::bind(&PLDSofaItem::dispatch,
                         PLDSofaItem(), _1)); 
-#else
-        OSGSceneFileType::the().registerEndNodeCallback(
-            SofaItem::getClassType(),
-            reinterpret_cast<OSGSceneFileType::Callback>(
-                &SofaItem::postOSGLoading));
 #endif
     }
 }
 
-void SofaItem::postOSGLoading(void)
+void SofaItem::postOSGLoading(FileContextAttachment * const pContext)
 {
     fprintf(stderr, "SofaItem::postOSGLoading\n");
+
+    Inherited::postOSGLoading(pContext);
 
 #if 0
     UInt32 i = 0;

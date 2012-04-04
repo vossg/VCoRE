@@ -1,6 +1,10 @@
 
 MESSAGE(STATUS "Prepare VCore")
 
+#############
+#### BOOST
+#############
+
 IF(Boost_FOUND)
   FIND_PACKAGE(Boost COMPONENTS thread)
 

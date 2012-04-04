@@ -38,14 +38,13 @@
 
 #ifndef _OSGVCOREOSGSCENEITEM_H_
 #define _OSGVCOREOSGSCENEITEM_H_
-#ifdef __sgi
-#pragma once
-#endif
 
 #include "OSGConfig.h"
 #include "OSGVCoREOSGSceneItemBase.h"
 #include "OSGPathHandler.h"
 #include "OSGCamera.h"
+#include "OSGFileContextHandlerMixin.h"
+
 
 VCORE_BEGIN_NAMESPACE
 
@@ -59,7 +58,8 @@ class App;
     \includebasedoc
  */
 
-class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
+class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : 
+    public FileContextHandlerMixin<OSGSceneItemBase, OSGSceneItem>
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -83,7 +83,7 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    void postOSGLoading(void);
+    void postOSGLoading(FileContextAttachment * const pContext);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -108,9 +108,10 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
 
     protected:
 
-    typedef OSGSceneItemBase  Inherited;
+    typedef FileContextHandlerMixin<OSGSceneItemBase, 
+                                    OSGSceneItem    >  Inherited;
 
-    static  PathHandler      _oPathHandler;
+    static  PathHandler                               _oPathHandler;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -150,6 +151,7 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItem : public OSGSceneItemBase
 
     friend class FieldContainer;
     friend class OSGSceneItemBase;
+    friend class FileContextHandlerMixin<OSGSceneItemBase, OSGSceneItem>;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const OSGSceneItem &source);

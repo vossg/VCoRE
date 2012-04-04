@@ -40,9 +40,6 @@
 
 #ifndef _OSGVCORESOFAITEM_H_
 #define _OSGVCORESOFAITEM_H_
-#ifdef __sgi
-#pragma once
-#endif
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 //#pragma GCC diagnostic warning "-Wold-style-cast"
@@ -59,6 +56,7 @@
 #include "OSGChunkOverrideGroup.h"
 #include "OSGSofaShadowGraph.h"
 #include "OSGSofaVisualModelPolicy.h"
+#include "OSGFileContextHandlerMixin.h"
 
 
 // SOFA
@@ -77,7 +75,8 @@ class App;
     \includebasedoc
  */
 
-class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
+class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : 
+    public FileContextHandlerMixin<SofaItemBase, SofaItem>
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -101,7 +100,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    void postOSGLoading(void);
+    void postOSGLoading(FileContextAttachment * const pContext);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -135,9 +134,9 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
 
     protected:
 
-    typedef SofaItemBase                            Inherited;
+    typedef FileContextHandlerMixin<SofaItemBase, SofaItem>  Inherited;
 
-    static  PathHandler                            _oPathHandler;
+    static  PathHandler                                     _oPathHandler;
     
     ComponentTransform                            *_pTransform;
     Real32                                         _fAngle;
@@ -219,6 +218,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem : public SofaItemBase
 
     friend class FieldContainer;
     friend class SofaItemBase;
+    friend class FileContextHandlerMixin<SofaItemBase, SofaItem>;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const SofaItem &source);

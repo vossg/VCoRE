@@ -111,7 +111,7 @@ void OSGSceneItem::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
-#ifdef WIN32
+#ifdef WIN32_X
         typedef OSGSceneFileType::PostLoadingDispatcher<
                   OSGSceneItem> PLDOSGSceneItem;
 
@@ -119,18 +119,15 @@ void OSGSceneItem::initMethod(InitPhase ePhase)
             OSGSceneItem::getClassType(),
             boost::bind(&PLDOSGSceneItem::dispatch,
                         PLDOSGSceneItem(), _1)); 
-#else
-        OSGSceneFileType::the().registerEndNodeCallback(
-            OSGSceneItem::getClassType(),
-            reinterpret_cast<OSGSceneFileType::Callback>(
-                &OSGSceneItem::postOSGLoading));
 #endif
     }
 }
 
-void OSGSceneItem::postOSGLoading(void)
+void OSGSceneItem::postOSGLoading(FileContextAttachment * const pContext)
 {
     fprintf(stderr, "OSGSceneItem::postOSGLoading\n");
+
+    Inherited::postOSGLoading(pContext);
 
     UInt32 i = 0;
 

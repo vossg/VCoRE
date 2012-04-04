@@ -132,7 +132,7 @@ void OSGTestSceneItem::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
-#ifdef WIN32
+#ifdef WIN32_X
         typedef OSGSceneFileType::PostLoadingDispatcher<
                   OSGTestSceneItem> PLDOSGTestSceneItem;
 
@@ -140,18 +140,15 @@ void OSGTestSceneItem::initMethod(InitPhase ePhase)
             OSGTestSceneItem::getClassType(),
             boost::bind(&PLDOSGTestSceneItem::dispatch,
                         PLDOSGTestSceneItem(), _1)); 
-#else
-        OSGSceneFileType::the().registerEndNodeCallback(
-            OSGTestSceneItem::getClassType(),
-            reinterpret_cast<OSGSceneFileType::Callback>(
-                &OSGTestSceneItem::postOSGLoading));
 #endif
     }
 }
 
-void OSGTestSceneItem::postOSGLoading(void)
+void OSGTestSceneItem::postOSGLoading(FileContextAttachment * const pContext)
 {
     fprintf(stderr, "OSGTestSceneItem::postOSGLoading\n");
+
+    Inherited::postOSGLoading(pContext);
 
 #if 0
     UInt32 i = 0;

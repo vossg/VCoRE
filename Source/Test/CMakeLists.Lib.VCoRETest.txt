@@ -17,7 +17,12 @@ OSG_SELECT_PROJECT()
 
 # dependencies - OpenSG
 SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase
-                                VCoREItemSofa OSGEffectGroups)
+                                OSGEffectGroups)
+
+IF(TARGET VCoREItemSofa)
+  LIST(APPEND ${PROJECT_NAME}_DEP_OSG_LIB VCoREItemSofa)
+ENDIF()
+
 
 SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT 
                                      VCoRECSM OSGFileIO OSGImageFileIO 

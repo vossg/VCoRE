@@ -13,7 +13,9 @@ INCLUDE(ExternalProjectHelper)
 
 SET(OSG_COMPONENTS OSGBase OSGSystem OSGState OSGGroup OSGDrawable OSGWindow
                    OSGText OSGUtil OSGWindowGLUT OSGFileIO OSGImageFileIO
-                   OSGDynamics OSGContribCSM OSGEffectGroups)
+                   OSGDynamics OSGContribCSM OSGEffectGroups OSGWindowQT4)
+
+SET(OSG_OPTIONAL_COMPONENTS OSGWindowQT4)
 
 IF(UNIX)
   IF(APPLE)
