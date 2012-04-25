@@ -22,7 +22,7 @@ Node
       
       children
       [
-        Node
+        Node[ClusterLocal]
         {
           core CSMItemHandler
           {

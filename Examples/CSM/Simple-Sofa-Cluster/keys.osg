@@ -1,0 +1,82 @@
+#OSG V1.0 
+
+ContainerCollection
+{
+  containers
+  [
+    DEF Key1 KeySensor
+    {
+      key "1"
+      stateFlipFlop TRUE
+    }
+    DEF ReduceSpeedSensor KeySensor
+    {
+      key "s"
+      stateFlipFlop TRUE
+    }       
+    DEF IncreaseSpeedSensor KeySensor
+    {
+      key "S"
+      stateFlipFlop TRUE
+    }       
+    DEF StartAnimateSensor KeySensor
+    {
+      key "a"
+      stateFlipFlop FALSE
+    }       
+    DEF ResetAnimateSensor KeySensor
+    {
+      key "r"
+      stateFlipFlop FALSE
+    }       
+
+    DEF SpeedCounter Real32Counter
+    {
+      value 1.0
+      step  0.01
+    }
+
+
+    DEF ShadowModeCounter LimitedUInt32Counter
+    {
+      value 1
+      step  1
+
+      lowerLimit  0x0000
+      upperLimit  0x0006
+    }
+
+    DEF ShadowModeUp KeySensor
+    {
+      key "M"
+      stateFlipFlop TRUE
+    }       
+
+    DEF ShadowModeDown KeySensor
+    {
+      key "m"
+      stateFlipFlop TRUE
+    } 
+  ]
+}
+
+ROUTE Key1.stateFlipFlop TO SceneEffect1.on
+ROUTE Key2.stateFlipFlop TO SceneEffect2.on
+ROUTE Key3.stateFlipFlop TO SceneEffect3.on
+ROUTE Key4.stateFlipFlop TO SceneEffect4.on
+ROUTE Key5.stateFlipFlop TO SceneEffect5.on
+ROUTE Key6.stateFlipFlop TO SceneEffect6.on
+ROUTE Key7.stateFlipFlop TO SceneEffect7.on
+
+ROUTE IncreaseSpeedSensor        .signalPressed  TO SpeedCounter.incTrigger
+ROUTE ReduceSpeedSensor      .signalPressed  TO SpeedCounter.decTrigger
+
+ROUTE ShadowModeUp  .signalPressed  TO ShadowModeCounter.incTrigger
+ROUTE ShadowModeDown .signalPressed  TO ShadowModeCounter.decTrigger
+
+ROUTE ShadowModeCounter.value    TO GlobalEffect2.shadowMode
+
+ROUTE KeyC.stateFlipFlop TO GlobalEffect1/colorFilter.enabled
+
+
+
