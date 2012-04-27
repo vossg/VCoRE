@@ -13,9 +13,11 @@ INCLUDE(ExternalProjectHelper)
 
 SET(OSG_COMPONENTS OSGBase OSGSystem OSGState OSGGroup OSGDrawable OSGWindow
                    OSGText OSGUtil OSGWindowGLUT OSGFileIO OSGImageFileIO
-                   OSGDynamics OSGContribCSM OSGEffectGroups OSGWindowQT4)
+                   OSGDynamics OSGContribCSM OSGEffectGroups OSGWindowQT4
+                   OSGContribWebInterface)
 
-SET(OSG_OPTIONAL_COMPONENTS OSGWindowQT4)
+LIST(APPEND OSG_OPTIONAL_COMPONENTS OSGWindowQT4)
+LIST(APPEND OSG_OPTIONAL_COMPONENTS OSGContribWebInterface)
 
 IF(UNIX)
   IF(APPLE)
@@ -41,4 +43,16 @@ SET(OSG_BUILD_ACTIVE TRUE)
 # MAIN BUILD STEPS
 ##############################################################################
 
-OSG_COLLECT_LIBS(TRUE)
+
+IF(OSG_ADDONS_ROOT)
+
+  SET(OSG_VCORE_ROOT ${CMAKE_SOURCE_DIR})
+
+  SET(OSG_COLLECT_LIST OSG_ADDONS_ROOT;FALSE;OSG_VCORE_ROOT;TRUE)
+
+  OSG_DOCOLLECT_LIBS(${OSG_COLLECT_LIST})
+
+ELSE()
+  OSG_COLLECT_LIBS(TRUE)
+ENDIF()
+

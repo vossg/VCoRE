@@ -29,6 +29,10 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT
                                      OSGSystem OSGDrawable OSGGroup OSGState 
                                      OSGText OSGUtil OSGWindow OSGContribCSM)
 
+IF(OSGBUILD_VCoRESofaItem)
+  LIST(APPEND ${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREItemSofa)
+ENDIF()
+
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
 # SET(${PROJECT_NAME}_DEP_LIBDIR)
