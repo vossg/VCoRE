@@ -37,3 +37,14 @@ ln -s <OpenSG Src Dir>/Examples/CSM/Models <VCoRE Src Dir/Examples/CSM/Models
 
 or the mklink equivalent under Win7 and up.
 
+appVCoRECSM in the simplest form takes one argument, the directory where
+it loads the parameter configuration (params.csm) file from, e.g. it can
+be run as
+
+appVCoRECSM Examples/CSM/Simple
+
+or 
+
+appVCoRECSM Examples/CSM/Simple-Sofa
+
+
