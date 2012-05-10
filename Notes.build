@@ -22,3 +22,18 @@ during the very first cmake run. Changing it and rerunning cmake will
 not include the latest changes. For this you must start over, e.g.
 clear/recreate the build directory or delete the cmake cache inside
 the build directory.
+
+
+Running the appVCoreCSM examples:
+
+The appVCoRECSM setup requires access to common files provided by
+OpenSG itself in the OpenSG/Examples/CSM/Common and OpenSG/Examples/CSM/Models
+subdirectories. Both are expected to be available as VCoRE/Examples/CSM/Common
+and VCoRE/Examples/CSM/Models. The easiest way to achive this is linking
+the directories from OpenSG, e.g.
+
+ln -s <OpenSG Src Dir>/Examples/CSM/Common <VCoRE Src Dir/Examples/CSM/Common
+ln -s <OpenSG Src Dir>/Examples/CSM/Models <VCoRE Src Dir/Examples/CSM/Models
+
+or the mklink equivalent under Win7 and up.
+

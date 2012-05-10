@@ -493,10 +493,28 @@ bool SofaItem::initialize(void)
 
     if (_sfSofaDataPath.getValue().empty() == false)
     {
-        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue());
-        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue() + "/examples");
-        sofa::helper::system::DataRepository.addFirstPath(_sfSofaDataPath.getValue() + "/share");
+        sofa::helper::system::DataRepository.addFirstPath(
+            _sfSofaDataPath.getValue());
+        sofa::helper::system::DataRepository.addFirstPath(
+            _sfSofaDataPath.getValue() + "/examples");
+        sofa::helper::system::DataRepository.addFirstPath(
+            _sfSofaDataPath.getValue() + "/share");
+    }
 
+    char *sofaDir = getenv("SOFA_DIR");
+
+    if(sofaDir != NULL)
+    {
+        std::string szSofaDir = sofaDir;
+            
+        sofa::helper::system::DataRepository.addFirstPath(
+            szSofaDir);
+
+        sofa::helper::system::DataRepository.addFirstPath(
+            szSofaDir + "/examples");
+
+        sofa::helper::system::DataRepository.addFirstPath(
+            szSofaDir + "/share");
     }
 
     std::string fileName = 

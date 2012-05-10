@@ -19,7 +19,7 @@ OSG_SELECT_PROJECT()
 SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase
                                 OSGEffectGroups)
 
-IF(TARGET VCoREItemSofa)
+IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_OSG_LIB VCoREItemSofa)
 ENDIF()
 
@@ -29,9 +29,12 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT
                                      OSGSystem OSGDrawable OSGGroup OSGState 
                                      OSGText OSGUtil OSGWindow OSGContribCSM)
 
-IF(OSGBUILD_VCoRESofaItem)
+IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREItemSofa)
 ENDIF()
+
+MESSAGE("FOOO ${${PROJECT_NAME}_DEP_OSG_LIB}")
+MESSAGE("BAAR ${${PROJECT_NAME}_DEP_TEST_OSG_LIB}")
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
