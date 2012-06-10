@@ -28,7 +28,7 @@
   </Field>
   <Field
       name="aspect"
-      type="UInt32"
+      type="AspectId"
       cardinality="single"
       visibility="external"
       access="public"

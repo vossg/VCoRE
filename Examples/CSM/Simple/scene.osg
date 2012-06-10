@@ -20,7 +20,7 @@ Node
     {
       core CSMItemHandler
       {
-        aspect 2
+        aspect SofaAspect
 
         item DEF OSGTestItem OSGTestSceneItem
         {

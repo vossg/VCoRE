@@ -66,7 +66,7 @@
 #include "OSGNodeCore.h" // Parent
 
 #include "OSGVCoREOSGBaseItemFields.h"  // Item type
-#include "OSGSysFields.h"               // Aspect type
+#include "OSGAspectIdFields.h"          // Aspect type
 
 #include "OSGVCoRECSMItemHandlerFields.h"
 
@@ -111,7 +111,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemHandlerBase : public NodeCoreProducerParent
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFUnrecChildOSGBaseItemPtr SFItemType;
-    typedef SFUInt32          SFAspectType;
+    typedef SFAspectId        SFAspectType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -139,14 +139,14 @@ class OSG_VCORECSM_DLLMAPPING CSMItemHandlerBase : public NodeCoreProducerParent
             const SFUnrecChildOSGBaseItemPtr *getSFItem           (void) const;
                   SFUnrecChildOSGBaseItemPtr *editSFItem           (void);
 
-                  SFUInt32            *editSFAspect         (void);
-            const SFUInt32            *getSFAspect          (void) const;
+                  SFAspectId          *editSFAspect         (void);
+            const SFAspectId          *getSFAspect          (void) const;
 
 
                   OSGBaseItem * getItem           (void) const;
 
-                  UInt32              &editAspect         (void);
-                  UInt32               getAspect          (void) const;
+                  AspectId            &editAspect         (void);
+            const AspectId            &getAspect          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,7 +154,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemHandlerBase : public NodeCoreProducerParent
     /*! \{                                                                 */
 
             void setItem           (OSGBaseItem * const value);
-            void setAspect         (const UInt32 value);
+            void setAspect         (const AspectId &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -220,7 +220,7 @@ class OSG_VCORECSM_DLLMAPPING CSMItemHandlerBase : public NodeCoreProducerParent
     /*! \{                                                                 */
 
     SFUnrecChildOSGBaseItemPtr _sfItem;
-    SFUInt32          _sfAspect;
+    SFAspectId        _sfAspect;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -88,7 +88,7 @@ VCORE_IMPORT_NAMESPACE;
     
 */
 
-/*! \var UInt32          CSMItemHandlerBase::_sfAspect
+/*! \var AspectId        CSMItemHandlerBase::_sfAspect
     
 */
 
@@ -144,8 +144,8 @@ void CSMItemHandlerBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFUInt32::Description(
-        SFUInt32::getClassType(),
+    pDesc = new SFAspectId::Description(
+        SFAspectId::getClassType(),
         "aspect",
         "",
         AspectFieldId, AspectFieldMask,
@@ -199,7 +199,7 @@ CSMItemHandlerBase::TypeObject CSMItemHandlerBase::_type(
     "  </Field>\n"
     "  <Field\n"
     "      name=\"aspect\"\n"
-    "      type=\"UInt32\"\n"
+    "      type=\"AspectId\"\n"
     "      cardinality=\"single\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
@@ -243,14 +243,14 @@ SFUnrecChildOSGBaseItemPtr *CSMItemHandlerBase::editSFItem           (void)
     return &_sfItem;
 }
 
-SFUInt32 *CSMItemHandlerBase::editSFAspect(void)
+SFAspectId *CSMItemHandlerBase::editSFAspect(void)
 {
     editSField(AspectFieldMask);
 
     return &_sfAspect;
 }
 
-const SFUInt32 *CSMItemHandlerBase::getSFAspect(void) const
+const SFAspectId *CSMItemHandlerBase::getSFAspect(void) const
 {
     return &_sfAspect;
 }
@@ -436,7 +436,7 @@ CSMItemHandlerBase::CSMItemHandlerBase(void) :
     _sfItem                   (this,
                           ItemFieldId,
                           OSGBaseItem::ParentFieldId),
-    _sfAspect                 (UInt32(1))
+    _sfAspect                 (AspectId(1))
 {
 }
 
@@ -541,8 +541,8 @@ EditFieldHandlePtr CSMItemHandlerBase::editHandleItem           (void)
 
 GetFieldHandlePtr CSMItemHandlerBase::getHandleAspect          (void) const
 {
-    SFUInt32::GetHandlePtr returnValue(
-        new  SFUInt32::GetHandle(
+    SFAspectId::GetHandlePtr returnValue(
+        new  SFAspectId::GetHandle(
              &_sfAspect,
              this->getType().getFieldDesc(AspectFieldId),
              const_cast<CSMItemHandlerBase *>(this)));
@@ -552,8 +552,8 @@ GetFieldHandlePtr CSMItemHandlerBase::getHandleAspect          (void) const
 
 EditFieldHandlePtr CSMItemHandlerBase::editHandleAspect         (void)
 {
-    SFUInt32::EditHandlePtr returnValue(
-        new  SFUInt32::EditHandle(
+    SFAspectId::EditHandlePtr returnValue(
+        new  SFAspectId::EditHandle(
              &_sfAspect,
              this->getType().getFieldDesc(AspectFieldId),
              this));

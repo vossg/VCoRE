@@ -94,7 +94,7 @@ void CSMItemHandlerBase::setItem(OSGBaseItem * const value)
 //! Get the value of the CSMItemHandler::_sfAspect field.
 
 inline
-UInt32 &CSMItemHandlerBase::editAspect(void)
+AspectId &CSMItemHandlerBase::editAspect(void)
 {
     editSField(AspectFieldMask);
 
@@ -103,14 +103,14 @@ UInt32 &CSMItemHandlerBase::editAspect(void)
 
 //! Get the value of the CSMItemHandler::_sfAspect field.
 inline
-      UInt32  CSMItemHandlerBase::getAspect(void) const
+const AspectId &CSMItemHandlerBase::getAspect(void) const
 {
     return _sfAspect.getValue();
 }
 
 //! Set the value of the CSMItemHandler::_sfAspect field.
 inline
-void CSMItemHandlerBase::setAspect(const UInt32 value)
+void CSMItemHandlerBase::setAspect(const AspectId &value)
 {
     editSField(AspectFieldMask);
 

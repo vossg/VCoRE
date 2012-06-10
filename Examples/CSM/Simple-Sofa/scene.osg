@@ -26,7 +26,7 @@ Node
         {
           core CSMItemHandler
           {
-            aspect 2
+            aspect SofaAspect
 
             item DEF OSGTestItem SofaItem
             {
@@ -52,11 +52,11 @@ Node
               # SIMULATION
               #sofaSceneFile "Demos/liver.scn"
               #sofaSceneFile "Demos/liverConfiguration.scn"
-#              sofaSceneFile "Demos/caduceus.scn"
+              sofaSceneFile "Demos/caduceus.scn"
 #              sofaSceneFile "/home/gerrit/Projects/Inria/Packaged/Sofa.git/examples/Demos/caduceus.scn" 
               #sofaSceneFile "/home/gerrit/Projects/Inria/Packaged/Sofa.git/examples/Demos/chainHybrid.scn"
               #sofaSceneFile "Demos/caduceus_penalty.scn"
-              sofaSceneFile "Demos/chainHybrid.scn"
+#              sofaSceneFile "Demos/chainHybrid.scn"
               #sofaSceneFile "Demos/chainHybridNoGroup.scn"
               #sofaSceneFile "Demos/chainAll.scn"
               #sofaSceneFile "Demos/collisionMultiple.scn"
