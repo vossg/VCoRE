@@ -15,10 +15,10 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoREBase
                                 OSGEffectGroups OSGContribSOFA)
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT 
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB  
                                      VCoRECSM OSGFileIO OSGImageFileIO 
                                      OSGSystem OSGDrawable OSGGroup OSGState 
                                      OSGText OSGUtil OSGWindow OSGContribCSM)

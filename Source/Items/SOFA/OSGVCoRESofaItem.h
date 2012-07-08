@@ -117,10 +117,7 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem :
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    virtual bool init      (UInt32  uiInitPhase,
-                            App    *pApp       );
-
-    virtual bool initialize(void               );
+    virtual bool initialize(void);
 
     /*! \}                                                                 */
 
@@ -136,8 +133,6 @@ class OSG_VCOREITEMSOFA_DLLMAPPING SofaItem :
 
     typedef FileContextHandlerMixin<SofaItemBase, SofaItem>  Inherited;
 
-    static  PathHandler                                     _oPathHandler;
-    
     ComponentTransform                            *_pTransform;
     Real32                                         _fAngle;
 

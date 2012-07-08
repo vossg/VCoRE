@@ -37,7 +37,7 @@ Node
               # Demos and tutorials use a lot of relative paths in the scn files
               # themselves, so the sofa data path should be set to the directory
               # where the examples sub-directory resides in 
-              sofaDataPath "/home/gerrit/Projects/Inria/Packaged/Sofa.git"
+              sofaDataPath "/home/gerrit/Projects/Inria/gforge/SOFA"
 
               # Whether to ignore sofa lights in SCN, default is false
               # Load-time only, run-time change not supported

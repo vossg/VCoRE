@@ -16,18 +16,19 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoRESystem VCoREBase
-                                OSGEffectGroups)
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoREBase
+                                OSGEffectGroups VCoREItemTestOSGScene)
 
 IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_OSG_LIB VCoREItemSofa)
 ENDIF()
 
 
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoRENativeGLUT 
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB  
                                      VCoRECSM OSGFileIO OSGImageFileIO 
                                      OSGSystem OSGDrawable OSGGroup OSGState 
-                                     OSGText OSGUtil OSGWindow OSGContribCSM)
+                                     OSGText OSGUtil OSGWindow OSGContribCSM
+                                     VCoREItemTestOSGScene)
 
 IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREItemSofa)
@@ -65,11 +66,15 @@ SET(${PROJECT_NAME}_DEP_DEFS "QT_THREAD_SUPPORT"
 OSG_ADD_GLUTPACKAGE(TRUE)
 
 SET(${PROJECT_NAME}_NO_DOC TRUE)
+SET(${PROJECT_NAME}_NO_LIB TRUE)
 
 IF(NOT OSG_WITH_QT)
   SET(${PROJECT_NAME}_EXCL_FILES 
       ${CMAKE_CURRENT_SOURCE_DIR}/testThreadQT.cpp)
 ENDIF()
+
+SET(${PROJECT_NAME}_EXCL_FILES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/appVCore.cpp)
 
 OSG_STORE_PROJECT_DEPENDENCIES()
 

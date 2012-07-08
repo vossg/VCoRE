@@ -72,7 +72,6 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGImageFileHandler.h"
 #include "OSGContainerCollection.h"
-#include "OSGVCoRESystemDef.h"
 
 #include "OSGCSMWindow.h"
 #include "OSGLine.h"
@@ -91,8 +90,6 @@ OSG_IMPORT_NAMESPACE;
 // OSGVCoRESofaItemBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
-
-PathHandler SofaItem::_oPathHandler;
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
@@ -238,155 +235,7 @@ void SofaItem::postOSGLoading(FileContextAttachment * const pContext)
     fprintf(stderr, "SofaItem::postOSGLoading\n");
 
     Inherited::postOSGLoading(pContext);
-
-#if 0
-    UInt32 i = 0;
-
-    for(; i < _mfUrl.size(); ++i)
-    {
-        std::string szFilenameResolved = 
-            SceneFileHandler::the()->getPathHandler()->findFile(
-                _mfUrl[i].c_str());
-
-        fprintf(stderr, "got %s -> %s\n",
-                _mfUrl[i].c_str(),
-                szFilenameResolved.c_str());
-
-        if(szFilenameResolved.empty() == false)
-        {
-            setMatchedUrl(szFilenameResolved);
-
-            break;
-        }
-    }
-
-
-    for(; i < _mfGlobalUrl.size(); ++i)
-    {
-        std::string szFilenameResolved = 
-            SceneFileHandler::the()->getPathHandler()->findFile(
-                _mfGlobalUrl[i].c_str());
-
-        fprintf(stderr, "got %s -> %s\n",
-                _mfGlobalUrl[i].c_str(),
-                szFilenameResolved.c_str());
-
-        if(szFilenameResolved.empty() == false)
-        {
-            setMatchedGlobalUrl(szFilenameResolved);
-
-            break;
-        }
-    }
-#endif
 }
-
-bool SofaItem::init(UInt32 uiInitPhase, App *pApp)
-{
-    fprintf(stderr, "SofaItem::init %s (%x)\n",
-            getName(this),
-            uiInitPhase);
-
-#if 0
-    if(0x0000 != (uiInitPhase & InitPhase::LoadReferences))
-    {
-        if(_sfMatchedUrl.getValue().empty() == false)
-        {
-            fprintf(stderr, "Loading %s\n",
-                    _sfMatchedUrl.getValue().c_str());
-            
-            NodeUnrecPtr pRoot = SceneFileHandler::the()->read(
-                _sfMatchedUrl.getValue().c_str(),
-                NULL,
-                NULL,
-                false);
-            
-            fprintf(stderr, "got %p\n", pRoot.get());
-            
-            if(pRoot != NULL)
-            {
-                setRoot(pRoot);
-            }
-            else
-            {
-                fprintf(stderr, "  failed\n");
-            }
-        }
-
-
-        if(_sfMatchedGlobalUrl.getValue().empty() == false)
-        {
-            fprintf(stderr, "Loading global %s\n",
-                    _sfMatchedGlobalUrl.getValue().c_str());
-            
-            FieldContainerUnrecPtr pRes(NULL);
-
-            _oPathHandler.pushState();
-
-            _oPathHandler.setBaseFile(_sfMatchedGlobalUrl.getValue().c_str());
-
-            ImageFileHandler::the()->setPathHandler(&_oPathHandler);
-
-            fprintf(stderr, "loading osg file %s ...\n",
-                    _sfMatchedGlobalUrl.getValue().c_str());
-
-            pRes = OSG::OSGSceneFileType::the().readContainer(
-                _sfMatchedGlobalUrl.getValue().c_str(),
-                NULL);
-
-            ImageFileHandler::the()->setPathHandler(NULL);
-
-            _oPathHandler.popState();
-            
-            fprintf(stderr, "got global %p\n", pRes.get());
-            
-            if(pRes != NULL)
-            {
-                ContainerCollectionUnrecPtr pColl = 
-                    dynamic_pointer_cast<ContainerCollection>(pRes);
-
-                if(pColl != NULL)
-                {
-                    MFUnrecFieldContainerPtr::const_iterator fIt  = 
-                        pColl->getMFContainers()->begin();
-
-                    MFUnrecFieldContainerPtr::const_iterator fEnd = 
-                        pColl->getMFContainers()->end();
-
-                    while(fIt != fEnd)
-                    {
-                        this->pushToGlobals(*fIt);
-                        ++fIt;
-                    }   
-                }
-            }
-            else
-            {
-                fprintf(stderr, "  failed\n");
-            }
-
-            fprintf(stderr, "got %ld globals\n",
-                    _mfGlobals.size());
-
-            if(_sfActiveCamera.getValue().empty() == false)
-            {
-                FieldContainer *pCnt = findNamedComponent(
-                    _sfActiveCamera.getValue().c_str());
-
-                Camera *pCam = dynamic_cast<Camera *>(pCnt);
-
-                fprintf(stderr, "found camera %p\n",
-                        pCam);
-
-                setCamera(pCam);
-            }
-        }
-    }
-#endif
-
-    return true;
-}
-
 
 NodeTransitPtr SofaItem::buildSceneGraph(sofa::simulation::Node::SPtr pRoot)
 {
@@ -477,20 +326,6 @@ bool SofaItem::initialize(void)
     if(pItemRoot == NULL)
         return false;
 
-    sofa::helper::BackTrace::autodump();
-
-    _loadPolicy.load();
-
-    sofa::core::ExecParams::defaultInstance()->setAspectID(0);
-
-    sofa::simulation::setSimulation(
-        new sofa::simulation::tree::TreeSimulation());
-
-    sofa::component::init();
-
-    sofa::simulation::xml::initXml();
-
-
     if (_sfSofaDataPath.getValue().empty() == false)
     {
         sofa::helper::system::DataRepository.addFirstPath(
@@ -520,6 +355,20 @@ bool SofaItem::initialize(void)
     std::string fileName = 
         sofa::helper::system::DataRepository.getFile(
             _sfSofaSceneFile.getValue());
+
+    sofa::helper::BackTrace::autodump();
+
+    _loadPolicy.load();
+
+    sofa::core::ExecParams::defaultInstance()->setAspectID(0);
+
+    sofa::simulation::setSimulation(
+        new sofa::simulation::tree::TreeSimulation());
+
+    sofa::component::init();
+
+    sofa::simulation::xml::initXml();
+
 
     destroySofaSCN   ();
     destroySceneGraph();
