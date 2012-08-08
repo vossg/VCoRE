@@ -17,7 +17,7 @@ OSG_SELECT_PROJECT()
 
 # dependencies - OpenSG
 SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem VCoRECSM VCoREBase
-                                OSGEffectGroups VCoREItemTestOSGScene)
+                                OSGEffectGroups VCoREItemOSGTestScene)
 
 IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_OSG_LIB VCoREItemSofa)
@@ -28,7 +28,7 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB
                                      VCoRECSM OSGFileIO OSGImageFileIO 
                                      OSGSystem OSGDrawable OSGGroup OSGState 
                                      OSGText OSGUtil OSGWindow OSGContribCSM
-                                     VCoREItemTestOSGScene)
+                                     VCoREItemOSGTestScene)
 
 IF(OSGBUILD_VCoREItemSofa)
   LIST(APPEND ${PROJECT_NAME}_DEP_TEST_OSG_LIB VCoREItemSofa)
@@ -61,6 +61,8 @@ SET(${PROJECT_NAME}_DEP_DEFS "QT_THREAD_SUPPORT"
                              "QT_CORE_LIB"
                              "QT_GUI_LIB"
                              "QT_OPENGL_LIB")
+
+LIST(APPEND ${PROJECT_NAME}_DEP_TEST_LIB    SOFA_LIBRARIES)
 
 
 OSG_ADD_GLUTPACKAGE(TRUE)
