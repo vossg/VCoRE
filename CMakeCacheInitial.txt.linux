@@ -29,8 +29,13 @@ SET(CMAKE_INSTALL_PREFIX
 
 # If SOFA should be included
 
-SET(SOFA_ROOT "/home/gerrit/Projects/Inria/Packaged/Sofa.git"
+SET(SOFA_ROOT "/home/gerrit/Projects/Inria/gforge/SOFA"
               CACHE PATH "" FORCE                           )
+
+# Inria VCoRE base
+
+SET(INRIA_VCORE_DIR "/home/gerrit/Projects/Inria/gforge/vcore" 
+                    CACHE PATH "" FORCE)
 
 # AddOns
 
