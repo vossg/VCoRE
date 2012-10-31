@@ -22,7 +22,7 @@ ContainerCollection
     DEF StartAnimateSensor KeySensor
     {
       key "a"
-      stateFlipFlop FALSE
+      stateFlipFlop TRUE
     }       
     DEF ResetAnimateSensor KeySensor
     {

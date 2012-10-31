@@ -1,0 +1,71 @@
+#OSG V1.0 
+
+ContainerCollection
+{
+  containers
+  [
+    DEF MouseTrackball CSMTrackball
+    {
+        modifierMask 1
+  
+        translationScaleFactor 1.0
+    }
+
+
+    DEF Trackball CSMMTouchTrackball
+    {
+	   modifierMask 1
+
+	   translationScaleFactor 1.0
+
+           scaleThreshold 0.2
+    }
+
+    DEF ScenePara CSMSceneParameter
+    {
+      sceneDiag 0.57735 0.57735 0.57735
+	  sceneRef USE ModelRoot
+	  distScale 1.5
+    }
+
+    DEF LinuxSensor MTouchDataInterfaceSensor
+    {
+        interfaceName "LinuxMTouchEventInterface"
+        options LinuxEventOptions
+        {
+            device "/dev/input/by-id/usb-Quanta_Computer_Inc._Optical_Touch_Screen-event-if00"
+            #device "/dev/input/event10"
+            bufferSize 64
+        }
+    }
+
+    DEF ResetKey KeySensor
+    {
+      key "q"
+      stateFlipFlop FALSE
+    }       
+
+  ]
+}
+
+ROUTE ScenePara.sceneDiag   TO Trackball.worldDiag
+ROUTE ScenePara.initViewPos TO Trackball.referencePosition
+ROUTE ScenePara.sceneCenter TO Trackball.transformCenter
+
+#ROUTE ScenePara.sceneNear   TO PerspCamGL.near
+#ROUTE ScenePara.sceneFar    TO PerspCamGL.far
+
+ROUTE ScenePara.sceneDiag   TO MouseTrackball.worldDiag
+ROUTE ScenePara.initViewPos TO MouseTrackball.referencePosition
+ROUTE ScenePara.sceneCenter TO MouseTrackball.transformCenter
+
+ROUTE LinuxSensor.MTouchData  TO MainWindow.MTouchData
+
+ROUTE Trackball.matrixResult TO CameraRoot.matrix
+
+#ROUTE MainWindow.MTouchData   TO Trackball.MTouchData
+ROUTE MainWindow.mouseData   TO MouseTrackball.mouseData
+ROUTE MouseTrackball.matrixResult TO CameraRoot.matrix
+
+ROUTE ResetKey.signalPressed TO ScenePara.reset
+ROUTE ResetKey.signalPressed TO Trackball.reset

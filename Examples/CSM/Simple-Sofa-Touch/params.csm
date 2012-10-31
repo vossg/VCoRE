@@ -1,0 +1,11 @@
+--global ../Common/default-setup.osg
+#--system ../Common/system-native.osg
+--system ./system-native-viewport1.osg
+#--system ../Common/system-native-stereo.osg
+#--data   ../Models/tie.wrl
+--global ../Simple-Sofa/keys.osg
+--data ../Simple-Sofa/scene.osg
+#--global ../Common/simple_mouse.osg
+#--global ./sofa_tuio_remote.osg
+--global ./sofa_tuio_table.osg
+#--global ./linux_sensor.osg

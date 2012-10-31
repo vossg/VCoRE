@@ -1,0 +1,77 @@
+#OSG V1.0 
+
+ContainerCollection
+{
+  containers
+  [
+    DEF MouseTrackball CSMTrackball
+    {
+        modifierMask 1
+  
+        translationScaleFactor 1.0
+    }
+
+
+    DEF Trackball CSMMTouchTrackball
+    {
+	   modifierMask 1
+
+	   translationScaleFactor 1.0
+
+           scaleThreshold 0.2
+    }
+
+    DEF ScenePara CSMSceneParameter
+    {
+      sceneDiag 0.57735 0.57735 0.57735
+	  sceneRef USE ModelRoot
+	  distScale 1.5
+    }
+
+    DEF TuioSensor MTouchDataInterfaceSensor
+    {
+        interfaceName "TuioInterface"
+        #interfaceName "TuioOSCInterface"
+
+        options TuioOptions
+        {
+            port 3333
+
+            bufferSize 64
+        
+            # For touch control from external tablet
+            # Map TUIO coordinates first to window    
+            mTouchCoordSys 0x0010
+        }
+    }
+    DEF ResetKey KeySensor
+    {
+      key "q"
+      stateFlipFlop FALSE
+    }       
+
+  ]
+}
+
+ROUTE ScenePara.sceneDiag   TO Trackball.worldDiag
+ROUTE ScenePara.initViewPos TO Trackball.referencePosition
+ROUTE ScenePara.sceneCenter TO Trackball.transformCenter
+
+#ROUTE ScenePara.sceneNear   TO PerspCamGL.near
+#ROUTE ScenePara.sceneFar    TO PerspCamGL.far
+
+ROUTE ScenePara.sceneDiag   TO MouseTrackball.worldDiag
+ROUTE ScenePara.initViewPos TO MouseTrackball.referencePosition
+ROUTE ScenePara.sceneCenter TO MouseTrackball.transformCenter
+
+#ROUTE TuioSensor.MTouchData  TO Trackball.MTouchData
+ROUTE TuioSensor.MTouchData  TO MainWindow.MTouchData
+#ROUTE TuioSensor.MTouchData  TO OSGTestItem.MTouchData
+
+ROUTE Trackball.matrixResult TO CameraRoot.matrix
+
+ROUTE MainWindow.mouseData   TO MouseTrackball.mouseData
+ROUTE MouseTrackball.matrixResult TO CameraRoot.matrix
+
+ROUTE ResetKey.signalPressed TO ScenePara.reset
+ROUTE ResetKey.signalPressed TO Trackball.reset
