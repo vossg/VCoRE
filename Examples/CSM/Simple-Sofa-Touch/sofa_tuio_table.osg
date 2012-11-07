@@ -4,6 +4,11 @@ ContainerCollection
 {
   containers
   [
+
+    DEF SofaInteractor SofaInteractionController 
+    {
+    }
+
     DEF MouseTrackball CSMTrackball
     {
         modifierMask 1
@@ -17,8 +22,10 @@ ContainerCollection
 	   modifierMask 1
 
 	   translationScaleFactor 1.0
-
-           scaleThreshold 0.2
+       scaleThreshold 0.2
+       scaleOp false
+       translateOp false
+       rotateOp true
     }
 
     DEF ScenePara CSMSceneParameter
@@ -30,8 +37,8 @@ ContainerCollection
 
     DEF TuioSensor MTouchDataInterfaceSensor
     {
-        interfaceName "TuioInterface"
-        #interfaceName "TuioOSCInterface"
+        #interfaceName "TuioInterface"
+        interfaceName "TuioOSCInterface"
 
         options TuioOptions
         {
@@ -66,12 +73,18 @@ ROUTE ScenePara.sceneCenter TO MouseTrackball.transformCenter
 
 #ROUTE TuioSensor.MTouchData  TO Trackball.MTouchData
 ROUTE TuioSensor.MTouchData  TO MainWindow.MTouchData
-#ROUTE TuioSensor.MTouchData  TO OSGTestItem.MTouchData
 
-ROUTE Trackball.matrixResult TO CameraRoot.matrix
+#ROUTE ViewP1.MTouchDataVC  TO SofaInteractor.MTouchData
+#ROUTE Trackball.matrixResult  TO SofaInteractor.matrixResult
+#ROUTE SofaInteractor.MTouchData  TO Trackball.MTouchData
+#ROUTE SofaInteractor.matrixResult  TO CameraRoot.matrix
+
+ROUTE ViewP1.MTouchDataVC  TO Trackball.MTouchData
 
 ROUTE MainWindow.mouseData   TO MouseTrackball.mouseData
-ROUTE MouseTrackball.matrixResult TO CameraRoot.matrix
+ROUTE Trackball.matrixResult TO CameraRoot.matrix
+
+#ROUTE MouseTrackball.matrixResult TO CameraRoot.matrix
 
 ROUTE ResetKey.signalPressed TO ScenePara.reset
 ROUTE ResetKey.signalPressed TO Trackball.reset
