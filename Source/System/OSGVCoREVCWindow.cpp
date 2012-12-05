@@ -297,7 +297,7 @@ bool VCWindow::init(UInt32 uiInitPhase, App *pApp)
         (*vIt)->init(uiInitPhase, pApp);
     }
 
-    if(0x0000 != (uiInitPhase & InitPhase::ResolveReferences))
+    if(0x0000 != (uiInitPhase & ::OSG::InitPhase::ResolveReferences))
     {
         fprintf(stderr, "Got osg win : %p\n", _pOSGWin.get());
 

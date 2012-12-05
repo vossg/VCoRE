@@ -122,7 +122,7 @@ bool VCNativeWindow::init(UInt32 uiInitPhase, App *pApp)
     fprintf(stderr, "VCNativeWindow::init %s (%d)\n", 
             getName(this), uiInitPhase);
 
-    if(0x0000 != (uiInitPhase & InitPhase::LoadReferences))
+    if(0x0000 != (uiInitPhase & ::OSG::InitPhase::LoadReferences))
     {
         VCWindowDesc oWinDesc;
 

@@ -175,7 +175,7 @@ bool OSGSceneItem::init(UInt32 uiInitPhase, App *pApp)
             getName(this),
             uiInitPhase);
 
-    if(0x0000 != (uiInitPhase & InitPhase::LoadReferences))
+    if(0x0000 != (uiInitPhase & ::OSG::InitPhase::LoadReferences))
     {
         if(_sfMatchedUrl.getValue().empty() == false)
         {

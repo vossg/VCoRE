@@ -135,7 +135,7 @@ bool VCViewarea::init(UInt32  uiInitPhase,
     fprintf(stderr, "VCViewarea::init %s (%d)\n", 
             getName(this), uiInitPhase);
 
-    if(0x0000 != (uiInitPhase & InitPhase::ResolveReferences))
+    if(0x0000 != (uiInitPhase & ::OSG::InitPhase::ResolveReferences))
     {
         if(_sfRendererRef.getValue().empty() == false)
         {

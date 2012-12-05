@@ -160,7 +160,7 @@ bool App::init(void)
 
     for(; aIt != aEnd; ++aIt)
     {
-        (*aIt)->init(InitPhase::LoadReferences, this);
+        (*aIt)->init(::OSG::InitPhase::LoadReferences, this);
     }
 
     fprintf(stderr, "App::init (ResolveReferences)\n");
@@ -169,7 +169,7 @@ bool App::init(void)
 
     for(; aIt != aEnd; ++aIt)
     {
-        (*aIt)->init(InitPhase::ResolveReferences, this);
+        (*aIt)->init(::OSG::InitPhase::ResolveReferences, this);
     }
 
     return true;

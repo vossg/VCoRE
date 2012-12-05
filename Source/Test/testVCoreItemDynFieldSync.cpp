@@ -154,7 +154,7 @@ void setPtrMField(ValueT         *aVals,
 void testValField(void)
 {
     fprintf(stderr, "sharing\n===============================\n\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
+    fprintf(stderr, "%" PRIUSize "\n", sizeof(VCoRE::Item));
 
     VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
@@ -280,7 +280,7 @@ void testValField(void)
 void testPtrField(void)
 {
     fprintf(stderr, "sharing\n===============================\n\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
+    fprintf(stderr, "%" PRIUSize "\n", sizeof(VCoRE::Item));
 
     VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
@@ -421,7 +421,7 @@ void testPtrField(void)
 void testCreate(void)
 {
     fprintf(stderr, "create\n");
-    fprintf(stderr, "%"PRIUSize"\n", sizeof(VCoRE::Item));
+    fprintf(stderr, "%" PRIUSize "\n", sizeof(VCoRE::Item));
 
     VCoRE::ItemRecPtr pTestFC = VCoRE::Item::create();
 
