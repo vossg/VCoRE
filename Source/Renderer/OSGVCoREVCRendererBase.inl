@@ -76,19 +76,7 @@ OSG::UInt16 VCRendererBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the VCRenderer::_mfWindows field.
-inline
-Window * VCRendererBase::getWindows(const UInt32 index) const
-{
-    return _mfWindows[index];
-}
 
-//! Get the value of the \a index element the VCRenderer::_mfRenderTasks field.
-inline
-VCRenderTask * VCRendererBase::getRenderTasks(const UInt32 index) const
-{
-    return _mfRenderTasks[index];
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

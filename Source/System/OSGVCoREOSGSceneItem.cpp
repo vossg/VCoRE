@@ -47,6 +47,7 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGImageFileHandler.h"
 #include "OSGContainerCollection.h"
+#include "OSGCamera.h"
 
 VCORE_BEGIN_NAMESPACE
 

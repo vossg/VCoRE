@@ -230,6 +230,21 @@ SFUnrecCameraPtr    *VCTestStageBase::editSFCamera         (void)
     return &_sfCamera;
 }
 
+//! Get the value of the VCTestStage::_sfCamera field.
+Camera * VCTestStageBase::getCamera(void) const
+{
+    return _sfCamera.getValue();
+}
+
+//! Set the value of the VCTestStage::_sfCamera field.
+void VCTestStageBase::setCamera(Camera * const value)
+{
+    editSField(CameraFieldMask);
+
+    _sfCamera.setValue(value);
+}
+
+
 //! Get the VCTestStage::_sfBackground field.
 const SFUnrecBackgroundPtr *VCTestStageBase::getSFBackground(void) const
 {
@@ -242,6 +257,21 @@ SFUnrecBackgroundPtr *VCTestStageBase::editSFBackground     (void)
 
     return &_sfBackground;
 }
+
+//! Get the value of the VCTestStage::_sfBackground field.
+Background * VCTestStageBase::getBackground(void) const
+{
+    return _sfBackground.getValue();
+}
+
+//! Set the value of the VCTestStage::_sfBackground field.
+void VCTestStageBase::setBackground(Background * const value)
+{
+    editSField(BackgroundFieldMask);
+
+    _sfBackground.setValue(value);
+}
+
 
 
 

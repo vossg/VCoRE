@@ -75,38 +75,6 @@ OSG::UInt16 VCTestStageBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the VCTestStage::_sfCamera field.
-inline
-Camera * VCTestStageBase::getCamera(void) const
-{
-    return _sfCamera.getValue();
-}
-
-//! Set the value of the VCTestStage::_sfCamera field.
-inline
-void VCTestStageBase::setCamera(Camera * const value)
-{
-    editSField(CameraFieldMask);
-
-    _sfCamera.setValue(value);
-}
-
-//! Get the value of the VCTestStage::_sfBackground field.
-inline
-Background * VCTestStageBase::getBackground(void) const
-{
-    return _sfBackground.getValue();
-}
-
-//! Set the value of the VCTestStage::_sfBackground field.
-inline
-void VCTestStageBase::setBackground(Background * const value)
-{
-    editSField(BackgroundFieldMask);
-
-    _sfBackground.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

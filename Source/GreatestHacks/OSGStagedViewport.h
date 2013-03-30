@@ -43,7 +43,6 @@
 #endif
 
 #include "OSGStagedViewportBase.h"
-#include "OSGStage.h"
 #include "OSGVisitSubTree.h"
 
 OSG_BEGIN_NAMESPACE
@@ -52,7 +51,8 @@ OSG_BEGIN_NAMESPACE
            PageVCoreGreatestHacksStagedViewport for a description.
 */
 
-class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : public StagedViewportBase
+class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewport : 
+    public StagedViewportBase
 {
   protected:
 

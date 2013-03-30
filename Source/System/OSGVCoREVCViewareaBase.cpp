@@ -379,6 +379,21 @@ SFUnrecNodePtr      *VCViewareaBase::editSFRoot           (void)
     return &_sfRoot;
 }
 
+//! Get the value of the VCViewarea::_sfRoot field.
+Node * VCViewareaBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the VCViewarea::_sfRoot field.
+void VCViewareaBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
+
+
 //! Get the VCViewarea::_sfRenderer field.
 const SFUnrecRendererItemPtr *VCViewareaBase::getSFRenderer(void) const
 {
@@ -392,6 +407,21 @@ SFUnrecRendererItemPtr *VCViewareaBase::editSFRenderer       (void)
     return &_sfRenderer;
 }
 
+//! Get the value of the VCViewarea::_sfRenderer field.
+RendererItem * VCViewareaBase::getRenderer(void) const
+{
+    return _sfRenderer.getValue();
+}
+
+//! Set the value of the VCViewarea::_sfRenderer field.
+void VCViewareaBase::setRenderer(RendererItem * const value)
+{
+    editSField(RendererFieldMask);
+
+    _sfRenderer.setValue(value);
+}
+
+
 //! Get the VCViewarea::_sfCamera field.
 const SFUnrecCameraPtr *VCViewareaBase::getSFCamera(void) const
 {
@@ -404,6 +434,21 @@ SFUnrecCameraPtr    *VCViewareaBase::editSFCamera         (void)
 
     return &_sfCamera;
 }
+
+//! Get the value of the VCViewarea::_sfCamera field.
+Camera * VCViewareaBase::getCamera(void) const
+{
+    return _sfCamera.getValue();
+}
+
+//! Set the value of the VCViewarea::_sfCamera field.
+void VCViewareaBase::setCamera(Camera * const value)
+{
+    editSField(CameraFieldMask);
+
+    _sfCamera.setValue(value);
+}
+
 
 
 

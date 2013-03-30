@@ -260,6 +260,10 @@ MFUnrecChildWorkerPtr *ArenaBase::editMFWorker         (void)
 
     return &_mfWorker;
 }
+Worker * ArenaBase::getWorker(const UInt32 index) const
+{
+    return _mfWorker[index];
+}
 
 //! Get the Arena::_mfItems field.
 const MFUnrecChildItemPtr *ArenaBase::getMFItems(void) const
@@ -272,6 +276,10 @@ MFUnrecChildItemPtr *ArenaBase::editMFItems          (void)
     editMField(ItemsFieldMask, _mfItems);
 
     return &_mfItems;
+}
+Item * ArenaBase::getItems(const UInt32 index) const
+{
+    return _mfItems[index];
 }
 
 

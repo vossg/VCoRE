@@ -151,54 +151,6 @@ void VCViewareaBase::setCameraRef(const std::string &value)
     _sfCameraRef.setValue(value);
 }
 
-//! Get the value of the VCViewarea::_sfRoot field.
-inline
-Node * VCViewareaBase::getRoot(void) const
-{
-    return _sfRoot.getValue();
-}
-
-//! Set the value of the VCViewarea::_sfRoot field.
-inline
-void VCViewareaBase::setRoot(Node * const value)
-{
-    editSField(RootFieldMask);
-
-    _sfRoot.setValue(value);
-}
-
-//! Get the value of the VCViewarea::_sfRenderer field.
-inline
-RendererItem * VCViewareaBase::getRenderer(void) const
-{
-    return _sfRenderer.getValue();
-}
-
-//! Set the value of the VCViewarea::_sfRenderer field.
-inline
-void VCViewareaBase::setRenderer(RendererItem * const value)
-{
-    editSField(RendererFieldMask);
-
-    _sfRenderer.setValue(value);
-}
-
-//! Get the value of the VCViewarea::_sfCamera field.
-inline
-Camera * VCViewareaBase::getCamera(void) const
-{
-    return _sfCamera.getValue();
-}
-
-//! Set the value of the VCViewarea::_sfCamera field.
-inline
-void VCViewareaBase::setCamera(Camera * const value)
-{
-    editSField(CameraFieldMask);
-
-    _sfCamera.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

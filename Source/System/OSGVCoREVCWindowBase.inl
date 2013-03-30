@@ -76,12 +76,6 @@ OSG::UInt16 VCWindowBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the VCWindow::_mfViews field.
-inline
-VCViewarea * VCWindowBase::getViews(const UInt32 index) const
-{
-    return _mfViews[index];
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

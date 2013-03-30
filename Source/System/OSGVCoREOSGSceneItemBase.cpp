@@ -416,6 +416,21 @@ SFUnrecNodePtr      *OSGSceneItemBase::editSFRoot           (void)
     return &_sfRoot;
 }
 
+//! Get the value of the OSGSceneItem::_sfRoot field.
+Node * OSGSceneItemBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the OSGSceneItem::_sfRoot field.
+void OSGSceneItemBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
+
+
 //! Get the OSGSceneItem::_mfGlobals field.
 const MFRecFieldContainerPtr *OSGSceneItemBase::getMFGlobals(void) const
 {
@@ -427,6 +442,10 @@ MFRecFieldContainerPtr *OSGSceneItemBase::editMFGlobals        (void)
     editMField(GlobalsFieldMask, _mfGlobals);
 
     return &_mfGlobals;
+}
+FieldContainer * OSGSceneItemBase::getGlobals(const UInt32 index) const
+{
+    return _mfGlobals[index];
 }
 
 MFString *OSGSceneItemBase::editMFGlobalUrl(void)
@@ -467,6 +486,21 @@ SFUnrecCameraPtr    *OSGSceneItemBase::editSFCamera         (void)
 
     return &_sfCamera;
 }
+
+//! Get the value of the OSGSceneItem::_sfCamera field.
+Camera * OSGSceneItemBase::getCamera(void) const
+{
+    return _sfCamera.getValue();
+}
+
+//! Set the value of the OSGSceneItem::_sfCamera field.
+void OSGSceneItemBase::setCamera(Camera * const value)
+{
+    editSField(CameraFieldMask);
+
+    _sfCamera.setValue(value);
+}
+
 
 SFString *OSGSceneItemBase::editSFActiveCamera(void)
 {

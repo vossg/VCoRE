@@ -42,12 +42,8 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
 #include "OSGPathHandler.h"
 #include "OSGVCoREAppBase.h"
-#include "OSGVCoRERepository.h"
-#include "OSGVCoREArena.h"
-
 #include "OSGVCoREVCNativeWindowHandler.h"
 
 #include <boost/function.hpp>

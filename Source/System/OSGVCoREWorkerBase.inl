@@ -76,12 +76,6 @@ OSG::UInt16 WorkerBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the Worker::_mfItems field.
-inline
-Item * WorkerBase::getItems(const UInt32 index) const
-{
-    return _mfItems[index];
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

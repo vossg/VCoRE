@@ -238,6 +238,10 @@ MFUnrecRepositoryPtr *AppBase::editMFRepositories   (void)
 
     return &_mfRepositories;
 }
+Repository * AppBase::getRepositories(const UInt32 index) const
+{
+    return _mfRepositories[index];
+}
 
 //! Get the App::_mfArenas field.
 const MFUnrecArenaPtr *AppBase::getMFArenas(void) const
@@ -250,6 +254,10 @@ MFUnrecArenaPtr     *AppBase::editMFArenas         (void)
     editMField(ArenasFieldMask, _mfArenas);
 
     return &_mfArenas;
+}
+Arena * AppBase::getArenas(const UInt32 index) const
+{
+    return _mfArenas[index];
 }
 
 

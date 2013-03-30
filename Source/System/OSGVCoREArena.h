@@ -42,10 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
 #include "OSGVCoREArenaBase.h"
-#include "OSGVCoREWorker.h"
-#include "OSGVCoREItem.h"
 
 VCORE_BEGIN_NAMESPACE
 

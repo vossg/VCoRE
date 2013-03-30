@@ -75,22 +75,6 @@ OSG::UInt16 VCRenderTaskBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-
-//! Get the value of the VCRenderTask::_sfViewport field.
-inline
-Viewport * VCRenderTaskBase::getViewport(void) const
-{
-    return _sfViewport.getValue();
-}
-
-//! Set the value of the VCRenderTask::_sfViewport field.
-inline
-void VCRenderTaskBase::setViewport(Viewport * const value)
-{
-    editSField(ViewportFieldMask);
-
-    _sfViewport.setValue(value);
-}
 //! Get the value of the VCRenderTask::_sfDone field.
 
 inline

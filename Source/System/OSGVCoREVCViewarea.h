@@ -43,8 +43,6 @@
 #endif
 
 #include "OSGVCoREVCViewareaBase.h"
-#include "OSGNode.h"
-#include "OSGVCoRERendererItem.h"
 #include "OSGViewport.h"
 
 VCORE_BEGIN_NAMESPACE

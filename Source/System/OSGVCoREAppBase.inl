@@ -76,19 +76,7 @@ OSG::UInt16 AppBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the App::_mfRepositories field.
-inline
-Repository * AppBase::getRepositories(const UInt32 index) const
-{
-    return _mfRepositories[index];
-}
 
-//! Get the value of the \a index element the App::_mfArenas field.
-inline
-Arena * AppBase::getArenas(const UInt32 index) const
-{
-    return _mfArenas[index];
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

@@ -211,6 +211,10 @@ MFUnrecVCViewareaPtr *VCWindowBase::editMFViews          (void)
 
     return &_mfViews;
 }
+VCViewarea * VCWindowBase::getViews(const UInt32 index) const
+{
+    return _mfViews[index];
+}
 
 
 

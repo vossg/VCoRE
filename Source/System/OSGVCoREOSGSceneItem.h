@@ -39,10 +39,8 @@
 #ifndef _OSGVCOREOSGSCENEITEM_H_
 #define _OSGVCOREOSGSCENEITEM_H_
 
-#include "OSGConfig.h"
 #include "OSGVCoREOSGSceneItemBase.h"
 #include "OSGPathHandler.h"
-#include "OSGCamera.h"
 #include "OSGFileContextHandlerMixin.h"
 
 

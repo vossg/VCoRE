@@ -258,11 +258,19 @@ const MFUnrecWindowPtr *VCRendererBase::getMFWindows(void) const
 {
     return &_mfWindows;
 }
+Window * VCRendererBase::getWindows(const UInt32 index) const
+{
+    return _mfWindows[index];
+}
 
 //! Get the VCRenderer::_mfRenderTasks field.
 const MFUnrecVCRenderTaskPtr *VCRendererBase::getMFRenderTasks(void) const
 {
     return &_mfRenderTasks;
+}
+VCRenderTask * VCRendererBase::getRenderTasks(const UInt32 index) const
+{
+    return _mfRenderTasks[index];
 }
 
 

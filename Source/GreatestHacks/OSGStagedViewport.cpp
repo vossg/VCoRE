@@ -48,6 +48,8 @@
 #include "OSGStagedViewport.h"
 #include "OSGTextureBuffer.h"
 #include "OSGTextureObjChunk.h"
+#include "OSGStage.h"
+#include "OSGFrameBufferObject.h"
 
 OSG_BEGIN_NAMESPACE
 

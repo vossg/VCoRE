@@ -46,8 +46,12 @@
 #include "OSGFieldContainerUtils.h"
 
 #include "OSGSolidBackground.h"
+#include "OSGNode.h"
+#include "OSGCamera.h"
 
 #include "OSGVCoREApp.h"
+#include "OSGVCoREVCViewarea.h"
+#include "OSGVCoRERendererItem.h"
 
 VCORE_BEGIN_NAMESPACE
 

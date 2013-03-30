@@ -76,19 +76,7 @@ OSG::UInt16 ArenaBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the \a index element the Arena::_mfWorker field.
-inline
-Worker * ArenaBase::getWorker(const UInt32 index) const
-{
-    return _mfWorker[index];
-}
 
-//! Get the value of the \a index element the Arena::_mfItems field.
-inline
-Item * ArenaBase::getItems(const UInt32 index) const
-{
-    return _mfItems[index];
-}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

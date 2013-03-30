@@ -258,6 +258,10 @@ MFUnrecItemPtr      *WorkerBase::editMFItems          (void)
 
     return &_mfItems;
 }
+Item * WorkerBase::getItems(const UInt32 index) const
+{
+    return _mfItems[index];
+}
 
 
 

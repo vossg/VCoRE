@@ -100,22 +100,6 @@ void OSGSceneItemBase::setMatchedUrl(const std::string &value)
 
     _sfMatchedUrl.setValue(value);
 }
-
-//! Get the value of the OSGSceneItem::_sfRoot field.
-inline
-Node * OSGSceneItemBase::getRoot(void) const
-{
-    return _sfRoot.getValue();
-}
-
-//! Set the value of the OSGSceneItem::_sfRoot field.
-inline
-void OSGSceneItemBase::setRoot(Node * const value)
-{
-    editSField(RootFieldMask);
-
-    _sfRoot.setValue(value);
-}
 //! Get the value of the OSGSceneItem::_sfMatchedGlobalUrl field.
 
 inline
@@ -140,22 +124,6 @@ void OSGSceneItemBase::setMatchedGlobalUrl(const std::string &value)
     editSField(MatchedGlobalUrlFieldMask);
 
     _sfMatchedGlobalUrl.setValue(value);
-}
-
-//! Get the value of the OSGSceneItem::_sfCamera field.
-inline
-Camera * OSGSceneItemBase::getCamera(void) const
-{
-    return _sfCamera.getValue();
-}
-
-//! Set the value of the OSGSceneItem::_sfCamera field.
-inline
-void OSGSceneItemBase::setCamera(Camera * const value)
-{
-    editSField(CameraFieldMask);
-
-    _sfCamera.setValue(value);
 }
 //! Get the value of the OSGSceneItem::_sfActiveCamera field.
 
@@ -199,13 +167,6 @@ std::string &OSGSceneItemBase::editUrl(const UInt32 index)
 }
 
 
-//! Get the value of the \a index element the OSGSceneItem::_mfGlobals field.
-inline
-FieldContainer * OSGSceneItemBase::getGlobals(const UInt32 index) const
-{
-    return _mfGlobals[index];
-}
-
 //! Get the value of the \a index element the OSGSceneItem::_mfGlobalUrl field.
 inline
 const std::string &OSGSceneItemBase::getGlobalUrl(const UInt32 index) const
@@ -220,7 +181,6 @@ std::string &OSGSceneItemBase::editGlobalUrl(const UInt32 index)
 
     return _mfGlobalUrl[index];
 }
-
 
 
 #ifdef OSG_MT_CPTR_ASPECT

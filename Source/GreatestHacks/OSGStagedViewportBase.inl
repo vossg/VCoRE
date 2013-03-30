@@ -75,22 +75,6 @@ OSG::UInt16 StagedViewportBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the StagedViewport::_sfStage field.
-inline
-Stage * StagedViewportBase::getStage(void) const
-{
-    return _sfStage.getValue();
-}
-
-//! Set the value of the StagedViewport::_sfStage field.
-inline
-void StagedViewportBase::setStage(Stage * const value)
-{
-    editSField(StageFieldMask);
-
-    _sfStage.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

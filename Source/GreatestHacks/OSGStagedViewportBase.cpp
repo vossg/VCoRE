@@ -204,6 +204,21 @@ SFUnrecStagePtr     *StagedViewportBase::editSFStage          (void)
     return &_sfStage;
 }
 
+//! Get the value of the StagedViewport::_sfStage field.
+Stage * StagedViewportBase::getStage(void) const
+{
+    return _sfStage.getValue();
+}
+
+//! Set the value of the StagedViewport::_sfStage field.
+void StagedViewportBase::setStage(Stage * const value)
+{
+    editSField(StageFieldMask);
+
+    _sfStage.setValue(value);
+}
+
+
 
 
 

@@ -42,6 +42,8 @@
 #include "OSGConfig.h"
 
 #include "OSGVCoREWorker.h"
+#include "OSGVCoREItem.h"
+
 #include "OSGNameAttachment.h"
 
 VCORE_BEGIN_NAMESPACE

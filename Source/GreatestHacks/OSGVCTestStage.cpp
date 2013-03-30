@@ -47,6 +47,8 @@
 
 #include "OSGVCTestStage.h"
 #include "OSGRenderAction.h"
+#include "OSGFrameBufferObject.h"
+#include "OSGCamera.h"
 
 OSG_BEGIN_NAMESPACE
 

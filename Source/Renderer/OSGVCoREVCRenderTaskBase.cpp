@@ -242,6 +242,21 @@ SFUnrecViewportPtr  *VCRenderTaskBase::editSFViewport       (void)
     return &_sfViewport;
 }
 
+//! Get the value of the VCRenderTask::_sfViewport field.
+Viewport * VCRenderTaskBase::getViewport(void) const
+{
+    return _sfViewport.getValue();
+}
+
+//! Set the value of the VCRenderTask::_sfViewport field.
+void VCRenderTaskBase::setViewport(Viewport * const value)
+{
+    editSField(ViewportFieldMask);
+
+    _sfViewport.setValue(value);
+}
+
+
 SFBool *VCRenderTaskBase::editSFDone(void)
 {
     editSField(DoneFieldMask);
