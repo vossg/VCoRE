@@ -1,0 +1,2 @@
+#ifndef _VCORECONFIGURED_H_
+#define _VCORECONFIGURED_H_
