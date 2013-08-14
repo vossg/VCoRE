@@ -32,3 +32,5 @@ IF(Boost_FOUND)
   # so if we get here Boost_FOUND was true in the first place
   SET(Boost_FOUND TRUE)
 ENDIF()
+
+MESSAGE(STATUS "")
