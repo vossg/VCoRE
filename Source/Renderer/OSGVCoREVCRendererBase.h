@@ -273,10 +273,10 @@ class OSG_VCORERENDERER_DLLMAPPING VCRendererBase : public Item
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleWindows         (void) const;
-    EditFieldHandlePtr editHandleWindows        (void);
-    GetFieldHandlePtr  getHandleRenderTasks     (void) const;
-    EditFieldHandlePtr editHandleRenderTasks    (void);
+     GetFieldHandlePtr  getHandleWindows         (void) const;
+     EditFieldHandlePtr editHandleWindows        (void);
+     GetFieldHandlePtr  getHandleRenderTasks     (void) const;
+     EditFieldHandlePtr editHandleRenderTasks    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

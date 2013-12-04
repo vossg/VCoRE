@@ -293,18 +293,18 @@ class OSG_VCORESYSTEM_DLLMAPPING VCViewareaBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleRendererRef     (void) const;
-    EditFieldHandlePtr editHandleRendererRef    (void);
-    GetFieldHandlePtr  getHandleRootRef         (void) const;
-    EditFieldHandlePtr editHandleRootRef        (void);
-    GetFieldHandlePtr  getHandleCameraRef       (void) const;
-    EditFieldHandlePtr editHandleCameraRef      (void);
-    GetFieldHandlePtr  getHandleRoot            (void) const;
-    EditFieldHandlePtr editHandleRoot           (void);
-    GetFieldHandlePtr  getHandleRenderer        (void) const;
-    EditFieldHandlePtr editHandleRenderer       (void);
-    GetFieldHandlePtr  getHandleCamera          (void) const;
-    EditFieldHandlePtr editHandleCamera         (void);
+     GetFieldHandlePtr  getHandleRendererRef     (void) const;
+     EditFieldHandlePtr editHandleRendererRef    (void);
+     GetFieldHandlePtr  getHandleRootRef         (void) const;
+     EditFieldHandlePtr editHandleRootRef        (void);
+     GetFieldHandlePtr  getHandleCameraRef       (void) const;
+     EditFieldHandlePtr editHandleCameraRef      (void);
+     GetFieldHandlePtr  getHandleRoot            (void) const;
+     EditFieldHandlePtr editHandleRoot           (void);
+     GetFieldHandlePtr  getHandleRenderer        (void) const;
+     EditFieldHandlePtr editHandleRenderer       (void);
+     GetFieldHandlePtr  getHandleCamera          (void) const;
+     EditFieldHandlePtr editHandleCamera         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -256,10 +256,10 @@ class OSG_VCORESYSTEM_DLLMAPPING WorkerBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleParent          (void) const;
-    EditFieldHandlePtr editHandleParent         (void);
-    GetFieldHandlePtr  getHandleItems           (void) const;
-    EditFieldHandlePtr editHandleItems          (void);
+     GetFieldHandlePtr  getHandleParent          (void) const;
+     EditFieldHandlePtr editHandleParent         (void);
+     GetFieldHandlePtr  getHandleItems           (void) const;
+     EditFieldHandlePtr editHandleItems          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

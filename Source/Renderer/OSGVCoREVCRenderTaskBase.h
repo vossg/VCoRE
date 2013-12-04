@@ -247,10 +247,10 @@ class OSG_VCORERENDERER_DLLMAPPING VCRenderTaskBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleViewport        (void) const;
-    EditFieldHandlePtr editHandleViewport       (void);
-    GetFieldHandlePtr  getHandleDone            (void) const;
-    EditFieldHandlePtr editHandleDone           (void);
+     GetFieldHandlePtr  getHandleViewport        (void) const;
+     EditFieldHandlePtr editHandleViewport       (void);
+     GetFieldHandlePtr  getHandleDone            (void) const;
+     EditFieldHandlePtr editHandleDone           (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

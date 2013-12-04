@@ -320,22 +320,22 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public Item
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleUrl             (void) const;
-    EditFieldHandlePtr editHandleUrl            (void);
-    GetFieldHandlePtr  getHandleMatchedUrl      (void) const;
-    EditFieldHandlePtr editHandleMatchedUrl     (void);
-    GetFieldHandlePtr  getHandleRoot            (void) const;
-    EditFieldHandlePtr editHandleRoot           (void);
-    GetFieldHandlePtr  getHandleGlobals         (void) const;
-    EditFieldHandlePtr editHandleGlobals        (void);
-    GetFieldHandlePtr  getHandleGlobalUrl       (void) const;
-    EditFieldHandlePtr editHandleGlobalUrl      (void);
-    GetFieldHandlePtr  getHandleMatchedGlobalUrl (void) const;
-    EditFieldHandlePtr editHandleMatchedGlobalUrl(void);
-    GetFieldHandlePtr  getHandleCamera          (void) const;
-    EditFieldHandlePtr editHandleCamera         (void);
-    GetFieldHandlePtr  getHandleActiveCamera    (void) const;
-    EditFieldHandlePtr editHandleActiveCamera   (void);
+     GetFieldHandlePtr  getHandleUrl             (void) const;
+     EditFieldHandlePtr editHandleUrl            (void);
+     GetFieldHandlePtr  getHandleMatchedUrl      (void) const;
+     EditFieldHandlePtr editHandleMatchedUrl     (void);
+     GetFieldHandlePtr  getHandleRoot            (void) const;
+     EditFieldHandlePtr editHandleRoot           (void);
+     GetFieldHandlePtr  getHandleGlobals         (void) const;
+     EditFieldHandlePtr editHandleGlobals        (void);
+     GetFieldHandlePtr  getHandleGlobalUrl       (void) const;
+     EditFieldHandlePtr editHandleGlobalUrl      (void);
+     GetFieldHandlePtr  getHandleMatchedGlobalUrl (void) const;
+     EditFieldHandlePtr editHandleMatchedGlobalUrl(void);
+     GetFieldHandlePtr  getHandleCamera          (void) const;
+     EditFieldHandlePtr editHandleCamera         (void);
+     GetFieldHandlePtr  getHandleActiveCamera    (void) const;
+     EditFieldHandlePtr editHandleActiveCamera   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

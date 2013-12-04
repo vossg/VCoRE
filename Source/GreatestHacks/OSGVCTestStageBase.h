@@ -244,10 +244,10 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING VCTestStageBase : public Stage
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleCamera          (void) const;
-    EditFieldHandlePtr editHandleCamera         (void);
-    GetFieldHandlePtr  getHandleBackground      (void) const;
-    EditFieldHandlePtr editHandleBackground     (void);
+     GetFieldHandlePtr  getHandleCamera          (void) const;
+     EditFieldHandlePtr editHandleCamera         (void);
+     GetFieldHandlePtr  getHandleBackground      (void) const;
+     EditFieldHandlePtr editHandleBackground     (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

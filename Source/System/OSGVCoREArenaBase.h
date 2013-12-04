@@ -263,10 +263,10 @@ class OSG_VCORESYSTEM_DLLMAPPING ArenaBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleWorker          (void) const;
-    EditFieldHandlePtr editHandleWorker         (void);
-    GetFieldHandlePtr  getHandleItems           (void) const;
-    EditFieldHandlePtr editHandleItems          (void);
+     GetFieldHandlePtr  getHandleWorker          (void) const;
+     EditFieldHandlePtr editHandleWorker         (void);
+     GetFieldHandlePtr  getHandleItems           (void) const;
+     EditFieldHandlePtr editHandleItems          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

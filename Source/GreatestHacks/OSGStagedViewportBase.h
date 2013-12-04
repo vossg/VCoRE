@@ -233,8 +233,8 @@ class OSG_VCOREGREATESTHACKS_DLLMAPPING StagedViewportBase : public FBOViewport
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleStage           (void) const;
-    EditFieldHandlePtr editHandleStage          (void);
+     GetFieldHandlePtr  getHandleStage           (void) const;
+     EditFieldHandlePtr editHandleStage          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

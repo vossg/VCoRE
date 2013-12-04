@@ -96,8 +96,9 @@ int init(int argc, char **argv)
     
         int argcTmp = 6;
         
-        OSG::ComplexSceneManager::the()->init(argcTmp, 
-                                              const_cast<char **>(argvTmp));
+        OSG::ComplexSceneManager::the()->startFrom(
+            argcTmp, 
+            const_cast<char **>(argvTmp));
         
         OSG::ComplexSceneManager::the()->run();
     }

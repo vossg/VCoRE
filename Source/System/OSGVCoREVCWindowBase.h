@@ -239,8 +239,8 @@ class OSG_VCORESYSTEM_DLLMAPPING VCWindowBase : public Item
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleViews           (void) const;
-    EditFieldHandlePtr editHandleViews          (void);
+     GetFieldHandlePtr  getHandleViews           (void) const;
+     EditFieldHandlePtr editHandleViews          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

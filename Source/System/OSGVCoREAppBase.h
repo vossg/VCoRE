@@ -255,10 +255,10 @@ class OSG_VCORESYSTEM_DLLMAPPING AppBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleRepositories    (void) const;
-    EditFieldHandlePtr editHandleRepositories   (void);
-    GetFieldHandlePtr  getHandleArenas          (void) const;
-    EditFieldHandlePtr editHandleArenas         (void);
+     GetFieldHandlePtr  getHandleRepositories    (void) const;
+     EditFieldHandlePtr editHandleRepositories   (void);
+     GetFieldHandlePtr  getHandleArenas          (void) const;
+     EditFieldHandlePtr editHandleArenas         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
