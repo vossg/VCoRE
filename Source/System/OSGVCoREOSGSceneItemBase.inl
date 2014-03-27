@@ -159,7 +159,7 @@ const std::string &OSGSceneItemBase::getUrl(const UInt32 index) const
 }
 
 inline
-std::string &OSGSceneItemBase::editUrl(const UInt32 index)
+MFString           ::reference OSGSceneItemBase::editUrl(const UInt32 index)
 {
     editMField(UrlFieldMask, _mfUrl);
 
@@ -175,7 +175,7 @@ const std::string &OSGSceneItemBase::getGlobalUrl(const UInt32 index) const
 }
 
 inline
-std::string &OSGSceneItemBase::editGlobalUrl(const UInt32 index)
+MFString           ::reference OSGSceneItemBase::editGlobalUrl(const UInt32 index)
 {
     editMField(GlobalUrlFieldMask, _mfGlobalUrl);
 

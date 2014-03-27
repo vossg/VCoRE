@@ -183,7 +183,7 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public Item
             const SFString            *getSFActiveCamera    (void) const;
 
 
-                  std::string         &editUrl            (const UInt32 index);
+            MFString           ::reference       editUrl            (const UInt32 index);
             const std::string         &getUrl             (const UInt32 index) const;
 
                   std::string         &editMatchedUrl     (void);
@@ -193,7 +193,7 @@ class OSG_VCORESYSTEM_DLLMAPPING OSGSceneItemBase : public Item
 
                   FieldContainer * getGlobals        (const UInt32 index) const;
 
-                  std::string         &editGlobalUrl      (const UInt32 index);
+            MFString           ::reference       editGlobalUrl      (const UInt32 index);
             const std::string         &getGlobalUrl       (const UInt32 index) const;
 
                   std::string         &editMatchedGlobalUrl(void);
